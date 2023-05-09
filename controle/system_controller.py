@@ -2,6 +2,7 @@ from system_view import SystemView
 from game_list_controller import GameListController
 from bet_controller import BetController
 from user_controller import UserController
+from general_register_controller import GeneralRegisterController
 
 class SystemController:
 
@@ -10,17 +11,7 @@ class SystemController:
         self.__game_list_controller = GameListController(self)
         self.__bet_controller = BetController(self)
         self.__user_controller = UserController(self)
-
-        self.__player_controller = PlayerController(self)
-        self.__game_controller = GameController(self)
-        
-    @property
-    def controlador_amigos(self):
-        return self.__controlador_amigos
-
-    @property
-    def controlador_livros(self):
-        return self.__controlador_livros
+        self.__general_register_controller = GeneralRegisterController(self)
 
     def initialize_system(self):
         self.display_screen()
@@ -34,27 +25,17 @@ class SystemController:
     def user_status(self):
         self.__user_controller.display_screen()
 
+    def register(self):
+        self.__general_register_controller.display_screen()
 
-
-    def cadastra_livros(self):
-        self.__controlador_livros.abre_tela()
-
-    def cadastra_amigos(self):
-        # Chama o controlador de Amigos
-        self.__controlador_amigos.abre_tela()
-
-    def cadastra_emprestimos(self):
-        self.__controlador_emprestimos.abre_tela()
-        # Chama o controlador de Emprestimos
-
-    def encerra_sistema(self):
+    def kill_system(self):
         exit(0)
 
     def display_screen(self):
-        lista_opcoes = {1: self.cadastra_livros, 2: self.cadastra_amigos, 3: self.cadastra_emprestimos,
-                        0: self.encerra_sistema}
+        option_list = {1: self.list_games, 2: self.place_bet, 3: self.user_status,
+                        0: self.kill_system}
 
         while True:
-            opcao_escolhida = self.__tela_sistema.tela_opcoes()
-            funcao_escolhida = lista_opcoes[opcao_escolhida]
-            funcao_escolhida()
+            option = self.__system_view.display_options()
+            selected_function = option_list[option]
+            selected_function()

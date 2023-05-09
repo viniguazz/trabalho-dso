@@ -3,7 +3,9 @@ import os
 class SystemView:
     
     def display_options(self):
+        
         os.system('cls')
+
         print("============ HELL BETS ============")
         print()
         print("Choose your destiny:")

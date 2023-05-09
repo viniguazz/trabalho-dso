@@ -1,5 +1,5 @@
-from controle.controlador_sistema import ControladorSistema
+from system_controller import SystemController
 
 if __name__ == "__main__":
-  ControladorSistema().inicializa_sistema()
+  SystemController().initialize_system()
 
