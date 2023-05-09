@@ -4,9 +4,9 @@ import Player from player
 
 class Odds():
     def __init__(self, player1 : Player, 
-                 player2 : Player, 
-                 bet_vict_player1 : float, 
-                 bet_vict_player2 : float):
+                player2 : Player, 
+                bet_vict_player1 : float, 
+                bet_vict_player2 : float):
         if not (isinstance( player1, Player)):
             raise
         if not (isinstance( player2, Player)):
