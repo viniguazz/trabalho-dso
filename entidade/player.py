@@ -7,7 +7,7 @@ from stats import Stats
 
 
 class Player(Person):
-    def __init__(self, stats):
+    def __init__(self, stats : Stats):
         self.__stats = stats
     
     @property
@@ -18,4 +18,13 @@ class Player(Person):
     def stats(self, stats):
         if isinstance(stats, Stats):
             self.__stats = Stats
+    
+    def change_stats(self, outcome : str):
+        if outcome == 'victory':
+            self.__stats.add_victory()
+        elif outcome == 'loss':
+            self.__stats.add_loss()
+        else:
+            self.__stats.add_draw()
+
 
