@@ -1,6 +1,6 @@
 #Luan
 
-import Player from player
+from player import Player
 
 class Odds():
     def __init__(self, player1 : Player, 
