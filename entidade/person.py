@@ -1,13 +1,16 @@
 # vini
 from abc import ABC, abstractmethod
+from tipo_errado_exception import TipoErradoException
 
 class Person(ABC):
     @abstractmethod
     def __init__(self, name : str, id : int):
-        if isinstance(name, str):
-            self.__name = name
-        if isinstance(id, int):
-            self.__id = id
+        if not isinstance(name, str):
+            raise TipoErradoException
+        if not isinstance(id, int):
+            raise TipoErradoException
+        self.__name = name
+        self.__id = id
     
     @property
     def name(self):
@@ -18,11 +21,12 @@ class Person(ABC):
     
     @name.setter
     def name(self, name):
-        if isinstance(name, str):
-            self.__name = name
+        if not isinstance(name, str):
+            raise TipoErradoException
+        self.__name = name    
+            
     @id.setter
     def id(self, id):
-        if isinstance(id, int):
-            self.__id = id
-
-
+        if not isinstance(id, int):
+            raise TipoErradoException
+        self.__id = id

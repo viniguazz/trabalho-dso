@@ -2,12 +2,16 @@
 
 from person import Person
 from stats import Stats
+from tipo_errado_exception import TipoErradoException
 
 # O Player tem um atributo stats em formato de lista. Não precisamos mais de um dicionário, porque só há um esporte.
 
 
 class Player(Person):
-    def __init__(self, stats : Stats):
+    def __init__(self, name : str, id: int, stats : Stats):
+        super().__init__(self, name, id)
+        if not isinstance(stats, Stats):
+            raise TipoErradoException
         self.__stats = stats
     
     @property
@@ -16,8 +20,9 @@ class Player(Person):
 
     @stats.setter
     def stats(self, stats):
-        if isinstance(stats, Stats):
-            self.__stats = Stats
+        if not isinstance(stats, Stats):
+            raise TipoErradoException
+        self.__stats = Stats
     
     def change_stats(self, outcome : str):
         if outcome == 'victory':

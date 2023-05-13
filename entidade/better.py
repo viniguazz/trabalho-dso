@@ -2,6 +2,7 @@
 
 from person import Person
 from bet import Bet
+from tipo_errado_exception import TipoErradoException
 
 # is_premium foi retirado pois estava envolvido com o marketplace, que não sera mais implementado
 # wallet, foi reduzido de escopo de objeto para um simples float por enquanto ?
@@ -10,13 +11,13 @@ from bet import Bet
 class Better(Person):
     def __init__(self, nick : str, wallet : float, cpf: str):
         if not isinstance(nick, str):
-            raise
+            raise TipoErradoException
         if not isinstance(wallet,float):
-            raise
+            raise TipoErradoException
         if not isinstance(cpf, str):
-            raise
+            raise TipoErradoException
         if not isinstance(wallet, float):
-            raise
+            raise TipoErradoException
         
         self.__bets = []
         self.__wallet = wallet
@@ -55,12 +56,16 @@ class Better(Person):
 
     def add_bet(self, bet):
         if not isinstance(bet, Bet):
-            raise
+            raise TipoErradoException
         if bet not in self.__bets:
             self.__bets.append(bet)
+        else:
+            print("Bet já presente")
             
     def remove_bet(self, bet):
         if not isinstance(bet, Bet):
-            return
+            raise TipoErradoException
         if bet in self.__bets:
             self.__bets.remove(bet)
+        else:
+            print("Bet não existe")
