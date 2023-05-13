@@ -9,7 +9,8 @@ from tipo_errado_exception import TipoErradoException
 # Para clareza de leitura em add_funds e remove_funds funds foi substituido por money
 
 class Better(Person):
-    def __init__(self, nick : str, wallet : float, cpf: str):
+    def __init__(self, name : str, id: int, nick : 
+                str, wallet : float, cpf: str):
         if not isinstance(nick, str):
             raise TipoErradoException
         if not isinstance(wallet,float):
@@ -18,7 +19,7 @@ class Better(Person):
             raise TipoErradoException
         if not isinstance(wallet, float):
             raise TipoErradoException
-        
+        super().__init__(self, name, id)        
         self.__bets = []
         self.__wallet = wallet
         self.__nick = nick

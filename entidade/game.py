@@ -42,7 +42,7 @@ class Game():
         self.__pool_vict2 = 0.0
         self.__result = None
         self.__odds = None
-        self.__bets = list(Bet)
+        self.__bets = []
         self.__name = name
 
     @property
