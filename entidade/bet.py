@@ -1,6 +1,9 @@
 # vini
 from result import Result
 
+# {Luan falando} Precisa implementar um float chamado Odd que puxa o Odd do
+# game quando instanciado
+
 class Bet():
 
     id = 0

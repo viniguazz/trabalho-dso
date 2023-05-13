@@ -5,11 +5,13 @@
 from player import Player
 
 class Odds():
-    def __init__(self, player1 : Player, 
+    def __init__(self, 
+                player1 : Player, 
                 player2 : Player, 
                 bet_vict_player1 : float, 
                 bet_vict_player2 : float,
-                bet_draw: float):
+                bet_draw: float
+                ):
         if not (isinstance( player1, Player)):
             raise
         if not (isinstance( player2, Player)):
@@ -26,21 +28,23 @@ class Odds():
         self.__bet_vict_player1 = bet_vict_player1
         self.__bet_vict_player2 = bet_vict_player2
         self.__bet_draw = bet_draw
-        self.__odd_vict1 = float()
-        self.__odd_vict2 = float()
-        self.__odd_draw = float()
+        self.__odd_vict1 = 0.0
+        self.__odd_vict2 = 0.0
+        self.__odd_draw = 0.0
+        self.calcular_odds()
     
     @property
     def player1(self):
         return self.__player1
     
-    @property
-    def bet_draw(self):
-        return self.__bet_draw
     
     @property
     def player2(self):
         return self.__player2
+    
+    @property
+    def bet_draw(self):
+        return self.__bet_draw
     
     @property
     def bet_vict_player1(self):
@@ -49,6 +53,18 @@ class Odds():
     @property
     def bet_vict_player2(self):
         return self.__bet_vict_player2
+    
+    @property
+    def odd_vict1(self):
+        return self.__odd_vict1
+    
+    @property
+    def odd_vict2(self):
+        return self.__odd_vict2
+    
+    @property
+    def odd_draw(self):
+        return self.__odd_draw
 
     @player1.setter
     def player1(self, player1):

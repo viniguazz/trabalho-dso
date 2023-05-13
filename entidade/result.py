@@ -1,30 +1,30 @@
 #Luan
 
-#outome vai receber uma string informando qual foi o resultado; Vai ser apenas "Draw" ou "Victory"
+#outcome vai receber uma string informando qual foi o resultado; Vai ser apenas "Draw" ou "Victory"
 
 from player import Player
 
 class Result():
     def __init__(self, outcome : str, player : Player):
-        if not isinstance(outome, str):
+        if not isinstance(outcome, str):
             raise
         if not isinstance(player, Player):
             raise
-        self.__outome = outome
+        self.__outcome = outcome
         if player == None and outcome == "Draw":
             self.__player = None
         else:
             self.__player = player
             
         @property
-        def outome(self):
-            return self.__outome
+        def outcome(self):
+            return self.__outcome
         
-        @outome.setter
-        def outome(self, outome):
-            if not isinstance(outome, str):
+        @outcome.setter
+        def outcome(self, outcome):
+            if not isinstance(outcome, str):
                 raise    
-            self.__outome = outome
+            self.__outcome = outcome
         
         @property
         def player(self):

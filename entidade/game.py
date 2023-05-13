@@ -9,12 +9,14 @@
 
 #pool foi desmenbrado para os três casos, ou seja, quanto é apostado na vitória do player1
 #quanto é apostado no player2 e quanto é apostado no empate
+#status foi retirado, pode ser feito a verificação através de game.__result == None
 
 #contestants foi transformado em player1 e player2
 
 from bet import Bet
 from player import Player
 from odds import Odds
+from result import Result
 
 class Game():
 
@@ -32,7 +34,8 @@ class Game():
         
         self.__id = id
         id += 1
-        self.__status = True
+        self.__player1 = player1
+        self.__player2 = player2
         self.__pool_draw = 0.0
         self.__pool_vict1 = 0.0
         self.__pool_vict2 = 0.0
@@ -40,6 +43,26 @@ class Game():
         self.__odds = None
         self.__bets = list(Bet)
         self.__name = name
+
+    @property
+    def odds(self):
+        return self.__odds
+    
+    @property
+    def pool_draw(self):
+        return self.__pool_draw
+    
+    @property
+    def pool_vict1(self):
+        return self.__pool_vict1
+    
+    @property
+    def pool_vict2(self):
+        return self.__pool_vict2
+
+    @property
+    def bets(self):
+        return self.__bets
 
     @property
     def name(self):
@@ -56,14 +79,14 @@ class Game():
     @player1.setter
     def player1(self, player1):
         self.__player1 = player1
-
+        
     @property
-    def status(self):
-        return self.__status
+    def player2(self):
+        return self.__player2
 
-    @status.setter
-    def status(self, status):
-        self.__status = status
+    @player2.setter
+    def player2(self, player2):
+        self.__player2 = player2
 
     @property
     def result(self):
@@ -71,17 +94,44 @@ class Game():
 
     @result.setter
     def result(self, result):
-        !!!!
+        if not (isinstance(result, Result)):
+            raise
         self.__result = result
-
-    @property
-    def odds(self):
-        return self.__odds
-
-    @odds.setter
-    def odds(self, odds):
-        self.__odds = odds
-
-    @property
-    def bets(self):
-        return self.__bets
+        self.encerrar_jogo()
+        
+    def add_bet(self, bet):
+        if not (isinstance(bet, Bet)):
+            raise
+        self.__bets.append(bet)
+        self.update_pools()
+        self.update_odds()
+        
+    def remove_bet(self,bet):
+        if not (isinstance(bet,Bet)):
+            raise
+        self.__bets.remove(bet)
+        self.update_pools()
+        self.update_odds()
+        
+    def update_pools(self):
+        self.__pool_draw = 0.0
+        self.__pool_vict1 = 0.0
+        self.__pool_vict2 = 0.0
+        for i in self.__bets:
+            if i.result.outcome == "Draw":
+                self.__pool_draw += i.price
+            else:
+                if i.result.player == self.__player1:
+                    self.__pool_vict1 += i.price
+                else:
+                    self.__pool_vict2 += i.price
+    
+    def update_odds(self):
+        self.odds = Odds(self.__player1, self.__player2, 
+                         self.__pool_vict1, self.__pool_vict2, 
+                         self.__pool_draw)
+        
+    def encerrar_jogo(self):             
+        for bet in self.__bets:
+            if bet.__result == self.__result:
+                bet.__better.__add_money((bet.__price + bet.__price*bet.__odd))
