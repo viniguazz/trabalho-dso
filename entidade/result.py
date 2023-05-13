@@ -3,13 +3,14 @@
 #outcome vai receber uma string informando qual foi o resultado; Vai ser apenas "Draw" ou "Victory"
 
 from player import Player
+from tipo_errado_exception import TipoErradoException
 
 class Result():
     def __init__(self, outcome : str, player : Player = None):
         if not isinstance(outcome, str):
-            raise
+            raise TipoErradoException
         if not (isinstance(player, Player) or None):
-            raise
+            raise TipoErradoException
         self.__outcome = outcome
         if player == None and outcome == "Draw":
             self.__player = None
@@ -23,7 +24,7 @@ class Result():
         @outcome.setter
         def outcome(self, outcome):
             if not isinstance(outcome, str):
-                raise    
+                raise TipoErradoException    
             self.__outcome = outcome
         
         @property
@@ -33,5 +34,5 @@ class Result():
         @player.setter
         def player(self, player):
             if not isinstance(player, Player):
-                raise
+                raise TipoErradoException
             self.__player = player

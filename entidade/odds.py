@@ -3,6 +3,7 @@
 #
 
 from player import Player
+from tipo_errado_exception import TipoErradoException
 
 class Odds():
     def __init__(self, 
@@ -13,15 +14,15 @@ class Odds():
                 bet_draw: float
                 ):
         if not (isinstance( player1, Player)):
-            raise
+            raise TipoErradoException
         if not (isinstance( player2, Player)):
-            raise
+            raise TipoErradoException
         if not (isinstance(bet_vict_player1, float)):
-            raise
+            raise TipoErradoException
         if not (isinstance(bet_vict_player2, float)):
-            raise
+            raise TipoErradoException
         if not (isinstance(bet_draw, float)):
-            raise
+            raise TipoErradoException
             
         self.__player1 = player1
         self.__player2 = player2
@@ -37,22 +38,52 @@ class Odds():
     def player1(self):
         return self.__player1
     
+    @player1.setter
+    def player1(self, player1):
+        if not (isinstance(player1, Player)):
+            raise TipoErradoException
+        self.__player1 = player1
     
     @property
     def player2(self):
         return self.__player2
     
+    @player2.setter
+    def player2(self, player2):
+        if not (isinstance(player2, TipoErradoException)):
+            raise TipoErradoException
+        self.__player2 = player2
+    
     @property
     def bet_draw(self):
         return self.__bet_draw
+    
+    # @bet_draw.setter
+    # def bet_draw(self, bet_draw):
+    #     if not (isinstance(bet_draw, float)):
+    #         raise TipoErradoException
+    #     self.__bet_draw = bet_draw 
     
     @property
     def bet_vict_player1(self):
         return self.__bet_vict_player1
     
+    
+    # @bet_vict_player1.setter
+    # def bet_vict_player1(self, bet_vict_player1):
+    #     if not (isinstance(bet_vict_player1, float)):
+    #         raise TipoErradoException
+    #     self.__bet_vict_player1 = bet_vict_player1
+    
     @property
     def bet_vict_player2(self):
         return self.__bet_vict_player2
+    
+    # @bet_vict_player2.setter
+    # def bet_vict_player2(self, bet_vict_player2):
+    #     if not (isinstance(bet_vict_player2, float)):
+    #         raise TipoErradoException
+    #     self.__bet_vict_player2 = bet_vict_player2
     
     @property
     def odd_vict1(self):
@@ -65,26 +96,6 @@ class Odds():
     @property
     def odd_draw(self):
         return self.__odd_draw
-
-    @player1.setter
-    def player1(self, player1):
-        self.__player1 = player1
-    
-    @player2.setter
-    def player2(self, player2):
-        self.__player2 = player2
-
-    @bet_vict_player1.setter
-    def bet_vict_player1(self, bet_vict_player1):
-        self.__bet_vict_player1 = bet_vict_player1
-    
-    @bet_vict_player2.setter
-    def bet_vict_player2(self, bet_vict_player2):
-        self.__bet_vict_player2 = bet_vict_player2
-
-    @bet_draw.setter
-    def bet_draw(self, bet_draw):
-        self.__bet_draw = bet_draw
 
     def calcular_odds(self):
         total = self.__bet_draw + self.__bet_vict_player1 + self.__bet_vict_player2

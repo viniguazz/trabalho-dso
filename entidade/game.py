@@ -17,6 +17,7 @@ from bet import Bet
 from player import Player
 from odds import Odds
 from result import Result
+from tipo_errado_exception import TipoErradoException
 
 class Game():
 
@@ -24,13 +25,13 @@ class Game():
 
     def __init__(self, name : str, player1 : Player, player2 : Player):
         if not isinstance(name, str):
-            raise
+            raise TipoErradoException
 
         if not isinstance(player1 , Player):
-            raise
+            raise TipoErradoException
 
         if not isinstance(player2 , Player):
-            raise
+            raise TipoErradoException
         
         self.__id = id
         id += 1
@@ -99,20 +100,20 @@ class Game():
     @result.setter
     def result(self, result):
         if not (isinstance(result, Result)):
-            raise
+            raise TipoErradoException
         self.__result = result
         self.encerrar_jogo()
         
     def add_bet(self, bet):
         if not (isinstance(bet, Bet)):
-            raise
+            raise TipoErradoException
         self.__bets.append(bet)
         self.update_pools()
         self.update_odds()
         
     def remove_bet(self,bet):
         if not (isinstance(bet,Bet)):
-            raise
+            raise TipoErradoException
         self.__bets.remove(bet)
         self.update_pools()
         self.update_odds()

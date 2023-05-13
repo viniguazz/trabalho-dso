@@ -1,13 +1,18 @@
 # vini
 
+from tipo_errado_exception import TipoErradoException
+
 class Stats():
     def __init__(self, victories : int, losses : int, draws : int):
-        if isinstance(victories, int):
-            self.__victories = victories
-        if isinstance(losses, int):
-            self.__losses = losses
-        if isinstance(draws, int):
-            self.__draws = draws
+        if not isinstance(victories, int):
+            raise TipoErradoException
+        if not isinstance(losses, int):
+            raise TipoErradoException
+        if not isinstance(draws, int):
+            raise TipoErradoException
+        self.__losses = losses
+        self.__draws = draws
+        self.__victories = victories
 
 
     @property
@@ -19,7 +24,6 @@ class Stats():
     @property
     def draws(self):
         return self.__draws
-
 
     def add_victory(self):
         self.__victories += 1
