@@ -7,7 +7,7 @@ class BetController():
         bets = []
         currentId = 0
         self.__system_controller = system_controller
-        self.__bet_view = bet_view
+        self.__bet_view = bet_view()
     
     def get_bet_by_id(self, id : int):
         for bet in bets:

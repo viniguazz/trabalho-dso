@@ -13,7 +13,7 @@ class SystemView:
         print("1) View Games")
         print("2) Place Bet")
         print("3) Check Bets and Balance")
-        print("4) Register Players and Games")
+        print("4) Register/Update/Exclude Players, Users, Bets and Games")
 
         while True:
             try {
