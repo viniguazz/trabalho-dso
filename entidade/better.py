@@ -26,7 +26,7 @@ class Better(Person):
     @property
     def nick(self):
         return self.__nick
- 
+
     @nick.setter
     def nick(self, nick):
         self.__nick =nick
