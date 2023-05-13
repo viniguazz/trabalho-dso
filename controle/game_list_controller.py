@@ -2,9 +2,9 @@ from game_list_view import GameListView
 from game import Game
 
 class GameListController():
-    def __init__(self, system_controller):
-        games = []
+    def __init__(self, system_controller, game_controller):
         self.__system_controller = system_controller
+        self.__game_controller = game_controller
         self.__game_list_view = GameListView()
     
     def backtrack(self):
@@ -17,7 +17,7 @@ class GameListController():
         return None
     
     def list_games(self):
-        for game in games:
+        for game in self.__game_controller.games:
             self.__game_list_view.display_game(game)
         input('Press any key to exit list')
         backtrack()

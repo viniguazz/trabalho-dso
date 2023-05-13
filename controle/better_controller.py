@@ -18,6 +18,17 @@ class BetterControler():
             else:
                 print('Invalid user!')
 
+
+
+
+
+
+
+
+
+
+
+
     def display_screen(self):
         option_list = {1: self.check_better, 2: self.backtrack}
 

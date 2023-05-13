@@ -2,13 +2,16 @@
 from abc import ABC, abstractmethod
 
 class Person(ABC):
+    
+    id = 0
+    
     @abstractmethod
-    def __init__(self, name : str, id : int):
+    def __init__(self, name : str):
         if isinstance(name, str):
             self.__name = name
-        if isinstance(id, int):
-            self.__id = id
-    
+        self.__id = id
+        id += 1
+
     @property
     def name(self):
         return self.__name
