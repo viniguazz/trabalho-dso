@@ -1,31 +1,30 @@
 #Luan
 
-#win declara se houve vitória ou foi um empate, em caso de vitória também há a necessidade
-#de declarar o vencedor
+#outome vai receber uma string informando qual foi o resultado; Vai ser apenas "Draw" ou "Victory"
 
 from player import Player
 
 class Result():
-    def __init__(self, win : bool, player : Player):
-        if not isinstance(win, bool):
+    def __init__(self, outcome : str, player : Player):
+        if not isinstance(outome, str):
             raise
         if not isinstance(player, Player):
             raise
-        self.__win = win
-        if player == None:
+        self.__outome = outome
+        if player == None and outcome == "Draw":
             self.__player = None
         else:
             self.__player = player
             
         @property
-        def win(self):
-            return self.__win
+        def outome(self):
+            return self.__outome
         
-        @win.setter
-        def win(self, win):
-            if not isinstance(win, bool):
+        @outome.setter
+        def outome(self, outome):
+            if not isinstance(outome, str):
                 raise    
-            self.__win = win
+            self.__outome = outome
         
         @property
         def player(self):
