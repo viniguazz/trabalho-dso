@@ -1,20 +1,26 @@
 # vini
+from result import Result
 
 class Bet():
-    def __init__(self, id: int, status : bool, price : float, game : Game, better: Better, result: str):
-        if isinstance(id, int):
-            self.__id = id
-        if isinstance(status, bool):
-            self.__status = status
+
+    id = 0
+
+    def __init__(self, price : float, game : Game, better: Better, result: Result):
+        
+
         if isinstance(price, float):
             self.__price = price
         if isinstance(game, Game):
             self.__game = game
         if isinstance(better, Better):
             self.__better = better
-        if isinstance(result, str):
+        if isinstance(result, Result):
             self.__result = result
-    
+        self.__id = id
+        id += 1
+        self.__status = True
+
+
     @property
     def id(self):
         return self.__id
@@ -56,5 +62,5 @@ class Bet():
             self.__better = better
     @result.setter
     def result(self, return):
-        if isinstance(result, str):
+        if isinstance(result, Return):
             self.__result = result

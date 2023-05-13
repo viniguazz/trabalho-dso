@@ -17,7 +17,7 @@ class SystemView:
 
         while True:
             try {
-                opcao = int(input("Escolha a opcao:"))
+                opcao = int(input())
                 return opcao
                 
             } except {
