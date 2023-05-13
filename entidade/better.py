@@ -8,7 +8,7 @@ from bet import Bet
 # Para clareza de leitura em add_funds e remove_funds funds foi substituido por money
 
 class Better(Person):
-    def __init__(self, nick : str, wallet : float, bets : list(Bet), cpf: str):
+    def __init__(self, nick : str, wallet : float, cpf: str):
         if not isinstance(nick, str):
             raise
         if not isinstance(wallet,float):
