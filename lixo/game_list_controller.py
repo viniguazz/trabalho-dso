@@ -2,7 +2,7 @@ from game_list_view import GameListView
 from game import Game
 
 class GameListController():
-    def __init__(self, system_controller, game_controller):
+    def __init__(self, system_controller):
         self.__system_controller = system_controller
         self.__game_controller = game_controller
         self.__game_list_view = GameListView()

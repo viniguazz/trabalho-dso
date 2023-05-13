@@ -1,10 +1,10 @@
-
 from game_view import GameView
 from game import Game
 
 class GameController():
 
-    def __init__(self, admin_controller, player_controller):
+    def __init__(self, system_controller):
+        self.__system_controller = system_controller
         self.__admin_controller = admin_controller
         self.__player_controller = player_controller
         self.__game_view = GameView()
@@ -56,6 +56,10 @@ class GameController():
     def backtrack(self):
         self.__admin_controller.display_screen()
 
+
+    def list_display(self):
+        self.list_games()
+        self.__system_controller.display_screen()
 
     def display_screen(self):
         option_list = {1: self.add_game, 

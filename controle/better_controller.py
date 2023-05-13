@@ -95,7 +95,7 @@ class BetterControler():
         6: self.backtrack}
 
         while True:
-            option = self.__player_view.display_options()
+            option = self.__better_view.display_options()
             selected_function = option_list[option]
             selected_function()
 
