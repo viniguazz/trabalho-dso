@@ -7,14 +7,6 @@ class Person(ABC):
     id = 0
     
     @abstractmethod
-<<<<<<< HEAD
-    def __init__(self, name : str):
-        if isinstance(name, str):
-            self.__name = name
-        self.__id = id
-        id += 1
-
-=======
     def __init__(self, name : str, id : int):
         if not isinstance(name, str):
             raise TipoErradoException
@@ -23,7 +15,6 @@ class Person(ABC):
         self.__name = name
         self.__id = id
     
->>>>>>> 3bd7befde95dd119262c0ed31511eb7b64218f4e
     @property
     def name(self):
         return self.__name

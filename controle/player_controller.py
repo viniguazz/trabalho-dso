@@ -40,19 +40,21 @@ class PlayerController():
             if player.name == player_name:
                 unique = False
         if unique:
-            players.append(new_player)
+            self.__players.append(new_player)
             print(f'New player create succesfully! ID:{new_player.id}')
         else:
             print('Player already in the database! Process failed!')
     
     def read_player(self):
-        player_id = self.__player_view.get_bet_by_id()
+        player_id = self.__player_view.get_by_id()
         for player in self.__players:
             if game['id'] == game_id:
                 os.system('cls')
-                print(f'Name: {game['name']}')
-                print(f'Name: {game['player1']}')
-                print(f'Name: {game['player2']}')
+                print(f'ID: {player['id']}')
+                print(f'Name: {player['name']}')
+                print(f'victories: {player['victories']}')
+                print(f'losses: {player['losses']}')
+                print(f'draws: {player['draws']}')
                 input('Press any key to return')
                 return
         print('Player not found!')
@@ -75,7 +77,7 @@ class PlayerController():
         input('Press any key to return')
 
     def backtrack(self):
-        self.__admin_controller.display_screen
+        self.__admin_controller.display_screen()
 
     def display_screen(self):
         option_list = {1: self.add_player, 

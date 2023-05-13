@@ -15,6 +15,17 @@ class BetterView:
                 raise Exception('f*** off. gimme some real f******* numbers')
             }
     
+    def get_better_info(self):
+        os.system('cls')
+        print()
+        print('Inform the better data:')
+        name = input('Name:')
+        nick = input('Nick:')
+        wallet = input('Funds:')
+        cpf = input('CPF:')
+        return {'name': name, 'nick': nick, 'wallet': wallet, 'cpf': cpf}
+    
+    
     def get_better(self):
         os.system('cls')
         print()

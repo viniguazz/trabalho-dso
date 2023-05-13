@@ -29,9 +29,10 @@ class GameController():
         for game in self.__games:
             if game['id'] == game_id:
                 os.system('cls')
+                print(f'ID: {game['id']}')
                 print(f'Name: {game['name']}')
-                print(f'Name: {game['player1']}')
-                print(f'Name: {game['player2']}')
+                print(f'Player1: {game['player1']}')
+                print(f'Player2: {game['player2']}')
                 input('Press any key to return')
                 return
         print('Game not found!')
@@ -46,14 +47,14 @@ class GameController():
         game_id = self.__game_view.get_bet_by_id()
         for game in self.__games:
             if game['id'] == game_id:
-                games.remove(game)
+                self.__games.remove(game)
                 input('Game deleted succesfully!')
                 return
         print('Game not found!')
         input('Press any key to return')
 
     def backtrack(self):
-        self.__admin_controller.display_screen
+        self.__admin_controller.display_screen()
 
 
     def display_screen(self):
