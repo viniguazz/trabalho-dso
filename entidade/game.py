@@ -45,6 +45,10 @@ class Game():
         self.__name = name
 
     @property
+    def id(self):
+        return self.__id
+        
+    @property
     def odds(self):
         return self.__odds
     
@@ -133,5 +137,6 @@ class Game():
         
     def encerrar_jogo(self):             
         for bet in self.__bets:
+            bet.__status(False)
             if bet.__result == self.__result:
                 bet.__better.__add_money((bet.__price + bet.__price*bet.__odd))

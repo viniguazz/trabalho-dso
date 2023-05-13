@@ -5,10 +5,10 @@
 from player import Player
 
 class Result():
-    def __init__(self, outcome : str, player : Player):
+    def __init__(self, outcome : str, player : Player = None):
         if not isinstance(outcome, str):
             raise
-        if not isinstance(player, Player):
+        if not (isinstance(player, Player) or None):
             raise
         self.__outcome = outcome
         if player == None and outcome == "Draw":
