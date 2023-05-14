@@ -3,25 +3,26 @@ import os
 class SystemView:
     
     def display_options(self):
-        
         os.system('cls')
-
-        print("============ HELL BETS ============")
+        print("====================== HELL BETS ======================")
         print()
         print("Choose your destiny:")
         print()
-        print("1) View Games")
+        print("1) View Current Games")
         print("2) Place Bet")
         print("3) Check Bets and Balance")
         print("4) Admin - CRUD Players, Users, Bets and Games")
+        print("5) Exit")
+        print()
+        print('=======================================================')
 
         while True:
             try {
-                opcao = int(input())
-                return opcao
+                option = int(input('>>> '))
+                return option
                 
             } except {
-                raise Exception('f*** off. gimme some real f******* numbers')
+                raise Exception('C\'mon... Gimme some real numbers')
             }
         
 

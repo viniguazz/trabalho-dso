@@ -1,8 +1,8 @@
 # Luan
 
-from person import Person
-from bet import Bet
-from tipo_errado_exception import TipoErradoException
+from model.person import Person
+from model.bet import Bet
+from model.tipo_errado_exception import TipoErradoException
 
 # is_premium foi retirado pois estava envolvido com o marketplace, que não sera mais implementado
 # wallet, foi reduzido de escopo de objeto para um simples float por enquanto ?

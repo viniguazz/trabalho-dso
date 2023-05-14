@@ -1,6 +1,6 @@
 # vini
 from abc import ABC, abstractmethod
-from tipo_errado_exception import TipoErradoException
+from model.tipo_errado_exception import TipoErradoException
 
 class Person(ABC):
     

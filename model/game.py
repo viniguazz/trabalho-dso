@@ -13,11 +13,11 @@
 
 #contestants foi transformado em player1 e player2
 
-from bet import Bet
-from player import Player
-from odds import Odds
-from result import Result
-from tipo_errado_exception import TipoErradoException
+from model.bet import Bet
+from model.player import Player
+from model.odds import Odds
+from model.result import Result
+from model.tipo_errado_exception import TipoErradoException
 
 class Game():
 

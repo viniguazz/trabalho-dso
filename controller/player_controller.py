@@ -1,6 +1,6 @@
-from player import Player
-from stats import Stats
-from player_view import PlayerView
+from model.player import Player
+from model.stats import Stats
+from view.player_view import PlayerView
 
 class PlayerController():
 

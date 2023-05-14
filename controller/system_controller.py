@@ -1,9 +1,9 @@
-from system_view import SystemView
-from admin_controller import AdminController
-from player_controller import PlayerController
-from better_controller import BetterController
-from game_controller import GameController
-from bet_controller import BetController
+from view.system_view import SystemView
+from controller.admin_controller import AdminController
+from controller.player_controller import PlayerController
+from controller.better_controller import BetterController
+from controller.game_controller import GameController
+from controller.bet_controller import BetController
 
 class SystemController:
 
@@ -24,18 +24,21 @@ class SystemController:
     def place_bet(self):
         self.__bet_controller.display_screen()
 
-    def user_status(self):
+    def better_status(self):
         self.__user_controller.display_screen()
 
-    def register(self):
-        self.__general_register_controller.display_screen()
+    def admin_menu(self):
+        self.__admin_controller.display_screen()
 
     def kill_system(self):
         exit(0)
 
     def display_screen(self):
-        option_list = {1: self.list_games, 2: self.place_bet, 3: self.user_status,
-                        0: self.kill_system}
+        option_list = {1: self.list_games, 
+        2: self.place_bet, 
+        3: self.better_status, 
+        4: self.admin_menu, 
+        5: self.kill_system}
 
         while True:
             option = self.__system_view.display_options()

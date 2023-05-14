@@ -1,8 +1,8 @@
 # vini
 
-from person import Person
-from stats import Stats
-from tipo_errado_exception import TipoErradoException
+from model.person import Person
+from model.stats import Stats
+from model.tipo_errado_exception import TipoErradoException
 
 # O Player tem um atributo stats em formato de lista. Não precisamos mais de um dicionário, porque só há um esporte.
 

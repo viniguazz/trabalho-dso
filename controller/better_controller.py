@@ -1,5 +1,5 @@
-from better_view import BetterView
-from better import Better
+from view.better_view import BetterView
+from model.better import Better
 
 class BetterControler():
     def __init__(self, system_controller):

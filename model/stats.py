@@ -1,6 +1,6 @@
 # vini
 
-from tipo_errado_exception import TipoErradoException
+from model.tipo_errado_exception import TipoErradoException
 
 class Stats():
     def __init__(self, victories : int, losses : int, draws : int):

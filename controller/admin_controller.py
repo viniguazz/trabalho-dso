@@ -1,4 +1,4 @@
-from admin_view import AdminView
+from view.admin_view import AdminView
 import os
 
 class AdminController():
@@ -34,14 +34,14 @@ class AdminController():
                 os.system('cls')
                 print()
                 print('**********************************************')
-                print('GOD MODE ENABLED! Press any key to continue...')
+                print('GOD MODE ENABLED! Press any key to rule\'em all...')
                 print('**********************************************')
                 print()
                 input()
             else:
                 print()
                 print('******************************************************')
-                input('Wrong password! PRO TIP: He\'ll never let you down...')
+                input('Wrong password! PRO TIP: He\'ll never give you up...')
                 print('******************************************************')
                 print()
                 input()
