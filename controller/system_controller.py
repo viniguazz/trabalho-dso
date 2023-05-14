@@ -8,7 +8,7 @@ from controller.bet_controller import BetController
 class SystemController:
 
     def __init__(self):
-        self.__system_view = SystemView(self)
+        self.__system_view = SystemView
         self.__admin_controller = AdminController(self)
         self.__player_controller = PlayerController(self)
         self.__better_controller = BetterController(self)

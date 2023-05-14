@@ -1,7 +1,7 @@
 from view.better_view import BetterView
 from model.better import Better
 
-class BetterControler():
+class BetterController():
     def __init__(self, system_controller):
         self.__betters = []
         self.__system_controller = system_controller

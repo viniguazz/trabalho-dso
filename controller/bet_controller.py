@@ -1,7 +1,6 @@
 from view.bet_view import BetView
 from model.bet import Bet
 from time import sleep
-import os
 
 class BetController():
     def __init__(self, system_controller):

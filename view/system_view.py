@@ -2,7 +2,7 @@ import os
 
 class SystemView:
     
-    def display_options(self):
+    def display_options():
         os.system('cls')
         print("====================== HELL BETS ======================")
         print()
@@ -22,3 +22,4 @@ class SystemView:
                 return option
             except:
                 raise Exception('C\'mon... Gimme some real numbers')
+            

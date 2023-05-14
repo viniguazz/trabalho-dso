@@ -1,5 +1,6 @@
 from view.game_view import GameView
 from model.game import Game
+from controller.player_controller import PlayerController
 
 class GameController():
 
@@ -7,7 +8,7 @@ class GameController():
         self.__system_controller = system_controller
         #????
         # self.__admin_controller = admin_controller
-        # self.__player_controller = player_controller
+        self.__player_controller = PlayerController
         #????
         self.__game_view = GameView()
         self.__games = []

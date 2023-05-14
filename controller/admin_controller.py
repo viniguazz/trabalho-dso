@@ -6,7 +6,7 @@ class AdminController():
     def __init__(self, system_controller):
         self.__system_controller = system_controller
         self.__admin_view = AdminView()
-        self.__password = rickastley
+        self.__password = 'rickastley'
         self.__god_mode_enabled = False
     
     def crud_players(self):
