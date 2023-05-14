@@ -3,15 +3,14 @@ import os
 class BetterView:
 
     def display_options(self):
-        print("============ STATS ============")
-        print("1) Check bets and Funds")
-        print("2) Return")
-        while True:
-            try:
-                option = int(input())
-                return option
-            except:
-                raise Exception('f*** off. gimme some real f******* numbers')
+        os.system('cls')
+        print("============ CRUD Better ============")
+        print('1) CREATE')
+        print('2) READ')
+        print('3) UPDATE')
+        print('4) DELETE')
+        print('5) LIST')
+        print('6) Return')
     
     def get_better_info(self):
         os.system('cls')
@@ -23,23 +22,13 @@ class BetterView:
         cpf = input('CPF:')
         return {'name': name, 'nick': nick, 'wallet': wallet, 'cpf': cpf}
     
+    def get_by_id(self):
+        print('Inform the ID:')
+        id = input(id)
+        return id
     
-    def get_better(self):
+    def display_message(message):
+        print(message)
+    
+    def clear_screen():
         os.system('cls')
-        print()
-        better_id = input('Inform the better\'s ID:')
-        return better_id
-
-    def display_better_data(self, better):
-        os.system('cls')
-        print()
-        print('Bets')
-        print()
-        for bet in better["bets"]:
-            print(f'| Price: {bet["price"]}   | Game: {bet["game"]}  | result: {bet["result"]}       ')
-        print()
-        print('Balance:')
-        print()
-        print(better['wallet'])
-        print()
-        input('Press any key to ')

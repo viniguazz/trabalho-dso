@@ -2,6 +2,12 @@ import os
 
 class BetView():
 
+    def display_message(message):
+        print(message)
+
+    def clear_screen(self):
+        os.system('cls')
+
     def display_options(self):
         os.system('cls')
         print("============ TIME TO LOSE MONEY! ============")
@@ -69,3 +75,18 @@ class BetView():
         print(better['wallet'])
         print()
         input('Press any key to ')
+
+    
+    def get_by_id(self):
+        print('Inform the ID:')
+        id = input(id)
+        return id
+    
+    def get_game_info(self):
+        os.system('cls')
+        print()
+        print('Inform the game data:')
+        name = input('Name:')
+        player1_id = input('Player 1\'s ID:')
+        player2_id = input('Player 2\'s ID:')
+        return {'name': name, 'player1_id': player1_id, 'player2_id': player2_id}

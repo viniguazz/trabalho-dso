@@ -29,3 +29,5 @@ class GameView():
         id = input(id)
         return id
     
+    def clear_screen():
+        os.system('cls')

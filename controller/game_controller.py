@@ -1,6 +1,5 @@
 from view.game_view import GameView
 from model.game import Game
-import os
 
 class GameController():
 
@@ -24,14 +23,15 @@ class GameController():
         player1 = self.__player_controller.get_player_by_id(game_data['player1'])
         player2 = self.__player_controller.get_player_by_id(game_data['player2'])
         new_game = Game(id, game_name, player1, player2)
-        self.__games.append(new_game)
+        if new_game not in self.__games:
+            self.__games.append(new_game)           
         self.__game_view.display_message(f'New game create succesfully! ID:{new_game.id}')
     
     def read_game(self):
         game_id = self.__game_view.get_by_id()
         for game in self.__games:
             if game['id'] == game_id:
-                os.system('cls')
+                self.__game_view.clear_screen()
                 print(f'ID: {game.id()}')
                 print(f'Name: {game.name()}')
                 print(f'Player1: {game.player1()}')
@@ -42,7 +42,7 @@ class GameController():
         input(self.__game_view.display_message('Press any key to return...'))
     
     def update_game(self):
-        game_id = self.__game_view.get_bet_by_id()
+        game_id = self.__game_view.get_by_id()
         for game in self.__games:
             if game['id'] == game_id:
                 new_data_game = self.__game_view.get_game_info()

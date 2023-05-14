@@ -1,3 +1,4 @@
+import os
 
 class PlayerView():
 
@@ -28,3 +29,6 @@ class PlayerView():
         print('Inform the ID:')
         id = input(id)
         return id
+    
+    def clear_screen():
+        os.system('cls')
