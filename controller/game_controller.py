@@ -15,7 +15,7 @@ class GameController():
 
     def list_games(self):
         for game in self.__games:
-            self.__game_view.display_message(f'id: {game.id}, name: {game.name}, result: {game.result}')
+            self.__game_view.display_message(f'id: {game["id"]}, name: {game["name"]}, result: {game["result"]}')
         self.__game_view.display_message('Press any key to return...')
     
     def add_game(self):
@@ -84,3 +84,10 @@ class GameController():
             option = self.__game_view.display_options()
             selected_function = option_list[option]
             selected_function()
+
+    def get_by_id(self, id):
+        for game in self.__games:
+            if game.id == id:
+                return game
+        self.__game_view.display_message("Game not Found")
+        return None

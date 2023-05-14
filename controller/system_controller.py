@@ -19,7 +19,7 @@ class SystemController:
         self.display_screen()
     
     def list_games(self):
-        self.__game_controller.display_screen()
+        self.__game_controller.list_games()
 
     def place_bet(self):
         self.__bet_controller.display_screen()

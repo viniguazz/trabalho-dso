@@ -22,7 +22,6 @@ class BetView():
             except:
                 raise Exception('f*** off. gimme some real f******* numbers')
 
-
     def place_bet(self):
         self.clear_screen()
         print()
@@ -53,7 +52,8 @@ class BetView():
         price = input('Price: ')
         result = self.get_result_info()
         cpf = input('CPF: ')
-        return {'Game ID': game_id, 'Price': price, 'Result': result, 'CPF': cpf}
+        #better
+        return {'game_id': game_id, 'price': price, 'result': result, 'cpf': cpf}
     
     
     def get_better(self):
@@ -99,7 +99,7 @@ class BetView():
         print('Inform the Result data:')
         outcome = self.get_outcome()
         player = self.get_player()
-        return {'Outcome' : outcome, 'Player' : player}
+        return {'outcome' : outcome, 'player' : player}
 
 
     def get_outcome(self):

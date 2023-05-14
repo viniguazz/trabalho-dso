@@ -18,3 +18,4 @@ class AdminView():
 
         option = input('>>> ')
         return option
+    #FAZER

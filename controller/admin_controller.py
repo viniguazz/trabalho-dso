@@ -45,7 +45,7 @@ class AdminController():
                 print('******************************************************')
                 print()
                 input()
-                backtrack()
+                self.backtrack()
         
         while True:
             option = self.__game_view.display_options()
