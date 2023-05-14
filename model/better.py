@@ -1,7 +1,6 @@
 # Luan
 
 from model.person import Person
-from model.bet import Bet
 from model.tipo_errado_exception import TipoErradoException
 
 # is_premium foi retirado pois estava envolvido com o marketplace, que não sera mais implementado
@@ -56,6 +55,7 @@ class Better(Person):
         self.__wallet -= remove
 
     def add_bet(self, bet):
+        from model.bet import Bet
         if not isinstance(bet, Bet):
             raise TipoErradoException
         if bet not in self.__bets:
@@ -64,6 +64,7 @@ class Better(Person):
             print("Bet já presente")
             
     def remove_bet(self, bet):
+        from model.bet import Bet
         if not isinstance(bet, Bet):
             raise TipoErradoException
         if bet in self.__bets:

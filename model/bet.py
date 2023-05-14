@@ -1,7 +1,7 @@
 # vini
 
-from model.result import Result
 from model.game import Game
+from model.result import Result
 from model.better import Better
 from model.tipo_errado_exception import TipoErradoException
 

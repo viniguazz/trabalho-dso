@@ -13,7 +13,6 @@
 
 #contestants foi transformado em player1 e player2
 
-from model.bet import Bet
 from model.player import Player
 from model.odds import Odds
 from model.result import Result
@@ -24,6 +23,7 @@ class Game():
     id = 0
 
     def __init__(self, name : str, player1 : Player, player2 : Player):
+
         if not isinstance(name, str):
             raise TipoErradoException
 
@@ -105,6 +105,7 @@ class Game():
         self.encerrar_jogo()
         
     def add_bet(self, bet):
+        from model.bet import Bet
         if not (isinstance(bet, Bet)):
             raise TipoErradoException
         self.__bets.append(bet)
@@ -112,6 +113,7 @@ class Game():
         self.update_odds()
         
     def remove_bet(self,bet):
+        from model.bet import Bet
         if not (isinstance(bet,Bet)):
             raise TipoErradoException
         self.__bets.remove(bet)
