@@ -8,7 +8,7 @@ class BetView():
     def clear_screen(self):
         os.system('cls')
 
-    def display_options(self):
+    def display_add_bet(self):
         self.clear_screen()
         print("============ TIME TO LOSE MONEY! ============")
         print()
@@ -22,18 +22,7 @@ class BetView():
             except:
                 raise Exception('f*** off. gimme some real f******* numbers')
 
-    def place_bet(self):
-        self.clear_screen()
-        print()
-        print('Inform the bet data:')
-        better_id = input('Better Id:')
-        game_id = input('Game id:')
-        price = input('Price:')
-        result = input('')
-        
-        return {"game_id": game_id, "price": price, "result": result, "better_id": better_id}
-
-    def display_options(self):
+    def display_stats(self):
         print("============ STATS ============")
         print("1) Check bets and Funds")
         print("2) Return")
@@ -51,10 +40,9 @@ class BetView():
         game_id = input('Game ID:')
         price = input('Price: ')
         result = self.get_result_info()
-        cpf = input('CPF: ')
-        #better
-        return {'game_id': game_id, 'price': price, 'result': result, 'cpf': cpf}
-    
+        better_id = input('Id: ')
+        return {'game_id': game_id, 'price': price, 'result': result, 'better_id': better_id}
+
     
     def get_better(self):
         os.system('cls')
@@ -137,3 +125,22 @@ class BetView():
             return 'Player1'
         else:
             return 'Player2'
+        
+    def display_options(self):
+        os.system('cls')
+        print("============ CRD BET ============")
+        print('1) CREATE')
+        print('2) READ')
+        print('3) DELETE')
+        print('4) LIST')
+        print('5) Return')
+    
+        while True:
+            try:
+                option = int(input('>>> '))
+                if option in (1,2,3,4,5):
+                    return option
+                else: 
+                    print("Let's Try again, shall we?")
+            except:
+                raise Exception('C\'mon... Gimme some real numbers')

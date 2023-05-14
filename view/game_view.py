@@ -11,6 +11,17 @@ class GameView():
         print('4) DELETE')
         print('5) LIST')
         print('6) Return')
+        while True:
+            try:
+                option = int(input('>>> '))
+                if option in (1,2,3,4,5,6):
+                    return option
+                else: 
+                    print("Let's Try again, shall we?")
+            except:
+                raise Exception('C\'mon... Gimme some real numbers')
+            
+
 
     def display_message(message):
         print(message)

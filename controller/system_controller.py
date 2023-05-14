@@ -22,10 +22,10 @@ class SystemController:
         self.__game_controller.list_games()
 
     def place_bet(self):
-        self.__bet_controller.display_screen()
+        self.__bet_controller.display_place_bet()
 
     def better_status(self):
-        self.__user_controller.display_screen()
+        self.__better_controller.display_balance_and_bets()
 
     def admin_menu(self):
         self.__admin_controller.display_screen()

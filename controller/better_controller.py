@@ -1,22 +1,14 @@
 from view.better_view import BetterView
 from model.better import Better
 
-class BetterControler():
+class BetterController():
     def __init__(self, system_controller):
         self.__betters = []
         self.__system_controller = system_controller
         self.__better_view = BetterView()
     
     def backtrack(self):
-        self.__system_controller.display_screen
-    
-    # def check_better(self):
-    #     better_id = self.__better_view.get_better()
-    #     for better in self.__betters:
-    #         if better_id == better["id"]:
-    #             self.__better_view.display_better_data(better)
-    #         else:
-    #             self.__better_view.display_message('Invalid user!')
+        self.__system_controller.display_screen()
 
     def get_better_by_id(self, id):
         for better in self.__betters:
@@ -96,12 +88,18 @@ class BetterControler():
             selected_function = option_list[option]
             selected_function()
 
-""" 
-
-    def display_screen(self):
-        option_list = {1: self.check_better, 2: self.backtrack}
-
-        while True:
-            option = self.__better_view.display_options()
-            selected_function = option_list[option]
-            selected_function() """
+    def display_balance_and_bets(self):
+        better_id = self.__better_view.get_by_id
+        better = self.get_better_by_id(better_id)
+        if better == None:
+            self.__better_view.display_message("Better not found!!")    
+            input()
+            return
+        self.__better_view.display_message("Balance:")
+        self.__better_view.display_message(f" {better.wallet} ")
+        self.__better_view.display_message()
+        self.__better_view.display_message()
+        for bet in better.bets:
+            self.__better_view.display_message(bet)
+        input()
+        return

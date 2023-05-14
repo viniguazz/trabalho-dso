@@ -14,7 +14,7 @@ from model.tipo_errado_exception import TipoErradoException
 class Bet():
 
     id = 0
-
+    
     def __init__(self, price: float, game: Game, better: Better, result: Result):
         if not isinstance(price, float):
             raise TipoErradoException

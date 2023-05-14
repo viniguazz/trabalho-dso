@@ -15,7 +15,12 @@ class AdminView():
         print('3) CRUD Games')
         print('4) CRUD Bets')
         print('5) Return')
-
-        option = input('>>> ')
-        return option
-    #FAZER
+        while True:
+            try:
+                option = int(input('>>> '))
+                if option in (1,2,3,4,5):
+                    return option
+                else: 
+                    print("Let's Try again, shall we?")
+            except:
+                raise Exception('C\'mon... Gimme some real numbers')

@@ -5,7 +5,6 @@ from view.player_view import PlayerView
 class PlayerController():
 
     def __init__(self, system_controller):
-        # self.__admin_controller = admin_controller
         self.__player_view = PlayerView()
         self.__players = []
 

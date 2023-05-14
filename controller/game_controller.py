@@ -1,15 +1,10 @@
 from view.game_view import GameView
 from model.game import Game
-from controller.player_controller import PlayerController
 
 class GameController():
 
     def __init__(self, system_controller):
         self.__system_controller = system_controller
-        #????
-        # self.__admin_controller = admin_controller
-        self.__player_controller = PlayerController
-        #????
         self.__game_view = GameView()
         self.__games = []
 
@@ -21,8 +16,8 @@ class GameController():
     def add_game(self):
         game_data = self.__game_view.get_game_info()
         game_name = game_data['name']
-        player1 = self.__player_controller.get_player_by_id(game_data['player1'])
-        player2 = self.__player_controller.get_player_by_id(game_data['player2'])
+        player1 = self.__system_controller.player_controller.get_player_by_id(game_data['player1'])
+        player2 = self.__system_controller.player_controller.get_player_by_id(game_data['player2'])
         new_game = Game(id, game_name, player1, player2)
         if new_game not in self.__games:
             self.__games.append(new_game)           
@@ -46,13 +41,12 @@ class GameController():
         game_id = self.__game_view.get_by_id()
         for game in self.__games:
             if game['id'] == game_id:
-                new_data_game = self.__game_view.get_game_info()
-                game.__id = new_data_game["id"]
-                game.__name = new_data_game["name"]
-                game.__player1 = new_data_game["player1"]
-                game.__player2 = new_data_game["player2"]
+                game.encerrar_jogo()
+                self.__game_view.display_message(f'Game {game_id} Ended!')
+                input()
             else:
                 self.__game_view.display_message('Game not found!')
+                input()
 
     def delete_game(self):
         game_id = self.__game_view.get_by_id()
