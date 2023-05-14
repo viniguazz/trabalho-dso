@@ -17,14 +17,8 @@ class SystemView:
         print('=======================================================')
 
         while True:
-            try {
+            try:
                 option = int(input('>>> '))
                 return option
-                
-            } except {
+            except:
                 raise Exception('C\'mon... Gimme some real numbers')
-            }
-        
-
-
-        

@@ -7,13 +7,11 @@ class BetterView:
         print("1) Check bets and Funds")
         print("2) Return")
         while True:
-            try {
+            try:
                 option = int(input())
                 return option
-                
-            } except {
+            except:
                 raise Exception('f*** off. gimme some real f******* numbers')
-            }
     
     def get_better_info(self):
         os.system('cls')
@@ -32,13 +30,13 @@ class BetterView:
         better_id = input('Inform the better\'s ID:')
         return better_id
 
-    def display_better_data(self, better : Better):
+    def display_better_data(self, better):
         os.system('cls')
         print()
         print('Bets')
         print()
         for bet in better["bets"]:
-            print(f'| Price: {bet['price']}   | Game: {bet['game']}  | result: {bet['result']}       ')
+            print(f'| Price: {bet["price"]}   | Game: {bet["game"]}  | result: {bet["result"]}       ')
         print()
         print('Balance:')
         print()

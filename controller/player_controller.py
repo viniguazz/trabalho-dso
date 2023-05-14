@@ -19,11 +19,7 @@ class PlayerController():
     def list_players(self):
         for player in self.__player:
             print('===========================================')
-            self.__player_view.display_message(f'ID: {player.id}, 
-            Name: {player.name}, 
-            Victories: {player.stats.victories},
-            Losses: {player.stats.losses},
-            Draws: {player.stats.draws}')
+            self.__player_view.display_message(f'ID: {player.id}, Name: {player.name}, Victories: {player.stats.victories}, Losses: {player.stats.losses}, Draws: {player.stats.draws}')
             print('===========================================')
         input('Press any key to return...')
     
@@ -50,11 +46,11 @@ class PlayerController():
         for player in self.__players:
             if game['id'] == game_id:
                 os.system('cls')
-                print(f'ID: {player['id']}')
-                print(f'Name: {player['name']}')
-                print(f'victories: {player['victories']}')
-                print(f'losses: {player['losses']}')
-                print(f'draws: {player['draws']}')
+                print(f'ID: {player["id"]}')
+                print(f'Name: {player["name"]}')
+                print(f'victories: {player["victories"]}')
+                print(f'losses: {player["losses"]}')
+                print(f'draws: {player["draws"]}')
                 input('Press any key to return')
                 return
         print('Player not found!')
@@ -63,8 +59,8 @@ class PlayerController():
     #incompleto assim como o de game
     def update_player(self):
         player_id = self.__game_view.get_bet_by_id()
-        for game in self.__games:
-            if game['id'] == game_id:
+        #for game in self.__games:
+            #if game['id'] == game_id
 
     def delete_player(self):
         player_id = self.__player_view.get_bet_by_id()

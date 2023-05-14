@@ -28,10 +28,7 @@ class BetterControler():
     def list_betters(self):
         for better in self.__betters:
             print('===========================================')
-            self.__better_view.display_message(f'ID: {better.id}, 
-            Nick: {better.nick}, 
-            CPF: {better.cpf},
-            Funds: {better.wallet}')
+            self.__better_view.display_message(f'ID: {better.id}, Nick: {better.nick}, CPF: {better.cpf}, Funds: {better.wallet}')
             print('===========================================')
         input('Press any key to return...')
     
@@ -57,11 +54,11 @@ class BetterControler():
         for better in self.__betters:
             if better['id'] == better_id:
                 os.system('cls')
-                print(f'ID: {better['id']}')
-                print(f'Name: {better['name']}')
-                print(f'Nick: {better['nick']}')
-                print(f'CPF: {better['cpf']}')
-                print(f'Funds: {better['wallet']}')
+                print(f'ID: {better["id"]}')
+                print(f'Name: {better["name"]}')
+                print(f'Nick: {better["nick"]}')
+                print(f'CPF: {better["cpf"]}')
+                print(f'Funds: {better["wallet"]}')
                 input('Press any key to return')
                 return
         print('Better not found!')
@@ -70,8 +67,8 @@ class BetterControler():
     #incompleto assim como o de game
     def update_better(self):
         player_id = self.__game_view.get_bet_by_id()
-        for game in self.__games:
-            if game['id'] == game_id:
+        #for game in self.__games:
+        #    if game['id'] == game_id:
 
     def delete_better(self):
         better_id = self.__better_view.get_by_id()

@@ -4,55 +4,15 @@ from time import sleep
 
 class BetController():
     def __init__(self, system_controller):
-        bets = []
+        self.__system_controller = system_controller
+        self.__bet_view = BetView()
+        self.__bets = []
         currentId = 0
-        self.__system_controller = system_controller
-        self.__bet_view = bet_view()
-    
-"""     def get_bet_by_id(self, id : int):
-        for bet in bets:
-            if bet.id == id:
-                return bet
-        return None
-
-    def backtrack(self):
-        self.__system_controller.display_screen
-    
-    def add_bet(self):
-        bet_data = self.__bet_view.place_bet()
-        if get_bet_by_id(bet_data["bet_id"]) != None:
-            bets.append(Bet(bet_data["price"], bet_data["game_id"], bet_data["better_id"], Result(bet_data["outcome"], bet_data["player"])))
-            print('Bet placed successfuly! Be ready to lose, bitch!')
-            sleep(1)
-        self.__display_screen()
-
-    def display_screen(self):
-        option_list = {1: self.add_bet, 2: self.backtrack}
-
-        while True:
-            option = self.__bet_view.display_options()
-            selected_function = option_list[option]
-            selected_function() """
 
 
-
-
-
-from game_view import GameView
-from game import Game
-
-class GameController():
-
-    def __init__(self, admin_controller, player_controller, system_controller):
-        self.__system_controller = system_controller
-        self.__admin_controller = admin_controller
-        self.__player_controller = player_controller
-        self.__game_view = GameView()
-        self.__games = []
-
-    def list_games(self):
-        for game in self.__games:
-            self.__game_view.display_message(f'id: {game.id}, name: {game.name}, result: {game.result}')
+    def list_bets(self):
+        for bet in self.__bets:
+            self.__bet_view.display_message(f'id: {game.id}, name: {game.name}, result: {game.result}')
         input('Press any key to return...')
     
     def add_game(self):
@@ -113,3 +73,45 @@ class GameController():
             option = self.__game_view.display_options()
             selected_function = option_list[option]
             selected_function()
+
+    
+"""     def get_bet_by_id(self, id : int):
+        for bet in bets:
+            if bet.id == id:
+                return bet
+        return None
+
+    def backtrack(self):
+        self.__system_controller.display_screen
+    
+    def add_bet(self):
+        bet_data = self.__bet_view.place_bet()
+        if get_bet_by_id(bet_data["bet_id"]) != None:
+            bets.append(Bet(bet_data["price"], bet_data["game_id"], bet_data["better_id"], Result(bet_data["outcome"], bet_data["player"])))
+            print('Bet placed successfuly! Be ready to lose, bitch!')
+            sleep(1)
+        self.__display_screen()
+
+    def display_screen(self):
+        option_list = {1: self.add_bet, 2: self.backtrack}
+
+        while True:
+            option = self.__bet_view.display_options()
+            selected_function = option_list[option]
+            selected_function() """
+
+
+
+
+
+from game_view import GameView
+from game import Game
+
+class GameController():
+
+    def __init__(self, admin_controller, player_controller, system_controller):
+        self.__system_controller = system_controller
+        self.__admin_controller = admin_controller
+        self.__player_controller = player_controller
+        self.__game_view = GameView()
+        self.__games = []
