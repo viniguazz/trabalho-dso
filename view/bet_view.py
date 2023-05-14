@@ -9,13 +9,12 @@ class BetView():
         print("1) Place bet")
         print("2) Return")
         while True:
-            try {
+            try :
                 opcao = int(input())
                 return opcao
                 
-            } except {
+            except:
                 raise Exception('f*** off. gimme some real f******* numbers')
-            }
 
 
     def place_bet():
@@ -27,7 +26,7 @@ class BetView():
         price = input('Price:')
         result = input('')
         
-        return {"game_id": game_id, "price": price, "result": result, "better_id": better}
+        return {"game_id": game_id, "price": price, "result": result, "better_id": better_id}
 
     def display_options(self):
         print("============ STATS ============")

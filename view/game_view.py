@@ -1,4 +1,4 @@
-
+import os
 
 class GameView():
 
@@ -28,3 +28,4 @@ class GameView():
         print('Inform the ID:')
         id = input(id)
         return id
+    

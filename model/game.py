@@ -34,7 +34,7 @@ class Game():
             raise TipoErradoException
         
         self.__id = id
-        id += 1
+        Game.id += 1
         self.__player1 = player1
         self.__player2 = player2
         self.__pool_draw = 0.0
@@ -138,8 +138,16 @@ class Game():
                          self.__pool_vict1, self.__pool_vict2, 
                          self.__pool_draw)
         
+#Testar qual versão funciona
+
     def encerrar_jogo(self):             
         for bet in self.__bets:
             bet.__status(False)
             if bet.__result == self.__result:
                 bet.__better.__add_money((bet.__price + bet.__price*bet.__odd))
+
+    # def encerrar_jogo(self):             
+    #     for bet in self.__bets:
+    #         bet.__status(False)
+    #         if bet.result() == self.__result:
+    #             bet.better().add_money((bet.price() + bet.price()*bet.odd()))

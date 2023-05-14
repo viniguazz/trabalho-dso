@@ -12,7 +12,7 @@ class BetterControler():
     
     def check_better(self):
         better_id = self.__better_view.get_better()
-        for better in betters:
+        for better in self.__betters:
             if better_id == better["id"]:
                 self.__better_view.display_better_data(better)
             else:
@@ -33,7 +33,7 @@ class BetterControler():
         input('Press any key to return...')
     
     def add_better(self):
-        better_data = get_better_info()
+        better_data = BetterView.get_better_info()
         better_name = better_data['name']
         better_nick = better_data['nick']
         better_cpf = better_data['cpf']
@@ -44,7 +44,7 @@ class BetterControler():
             if better.cpf == better_cpf:
                 unique = False
         if unique:
-            self.__betters.append(new_player)
+            self.__betters.append(new_better)
             print(f'New better create succesfully! ID:{new_better.id}')
         else:
             print('Better already in the database! Process failed!')
