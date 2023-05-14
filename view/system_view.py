@@ -15,11 +15,14 @@ class SystemView:
         print("5) Exit")
         print()
         print('=======================================================')
-
+        
         while True:
             try:
                 option = int(input('>>> '))
-                return option
+                if option in (1,2,3,4,5):
+                    return option
+                else: 
+                    print("Let's Try again, shall we?")
             except:
                 raise Exception('C\'mon... Gimme some real numbers')
             
