@@ -123,9 +123,10 @@ class Game():
 
     def encerrar_jogo(self):             
         for bet in self.__bets:
-            bet.__status(False)
-            if bet.__result == self.__result:
-                bet.__better.__add_money((bet.__price + bet.__price*bet.__odd))
+            if bet.status == True:
+                bet.status = False
+                if (bet.result.outcome == self.__result.outcome) and (bet.result.player == self.__result.player):
+                    bet.better.add_money((bet.price + bet.price*bet.odd))
 
     # def encerrar_jogo(self):             
     #     for bet in self.__bets:

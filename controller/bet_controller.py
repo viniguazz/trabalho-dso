@@ -12,7 +12,7 @@ class BetController():
 
     def list_bets(self):
         for bet in self.__bets:
-            self.__bet_view.display_message(f'id: {bet.id}, name: {bet.name}, result: {bet.result}')
+            self.__bet_view.display_message(f'id: {bet.id}, game: {bet.game.name}, Outcome: {bet.result.outcome}, Player: {bet.result.player}')
         if len(self.__bets) == 0:
             self.__bet_view.display_message("No bets Found")
         input(self.__bet_view.display_message('Press any key to return...'))
@@ -30,13 +30,14 @@ class BetController():
                             player = game.player1
                         elif bet_data["result"]["player"] == 'player2':
                             player = game.player2               
-                        bet = Bet(self.__id, bet_data["price"], game, better, Result(bet_data["result"]["outcome"], player))
+                        bet = Bet(self.__id, bet_data["price"], game, better, Result(bet_data["result"]["outcome"], player), bet_data['odd'])
                         better.add_bet(bet)
                         game.add_bet(bet)
                         self.__bets.append(bet)
                         self.id_plus()
                         self.__bet_view.display_message("Bet Created!")
                         input()
+                        return
                     else:
                         self.__bet_view.display_message("Better not found")
                         input()

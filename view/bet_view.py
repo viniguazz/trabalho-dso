@@ -41,7 +41,8 @@ class BetView():
         price = float(input('Price: '))
         result = self.get_result_info()
         better_id = int(input('Better Id: '))
-        return {'game_id': game_id, 'price': price, 'result': result, 'better_id': better_id}
+        odd = int(input('Odds: '))
+        return {'game_id': game_id, 'price': price, 'result': result, 'better_id': better_id, 'odd' : odd}
 
     
     def get_better(self):

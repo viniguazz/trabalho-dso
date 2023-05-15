@@ -1,5 +1,6 @@
 from view.game_view import GameView
 from model.game import Game
+from model.result import Result
 
 class GameController():
 
@@ -53,9 +54,15 @@ class GameController():
     
     def update_game(self):
         game_id = self.__game_view.get_by_id()
+        player = None
         for game in self.__games:
             if game.id == game_id:
-                game.encerrar_jogo()
+                result_data = self.__game_view.get_result_info()
+                if result_data["player"] == 'player1':
+                    player = game.player1
+                elif result_data["player"] == 'player2':
+                    player = game.player2
+                game.result = Result(result_data["outcome"], player)
                 self.__game_view.display_message(f'Game {game_id} Ended!')
                 input()
             else:
@@ -102,3 +109,5 @@ class GameController():
     
     def id_plus(self):
         self.__id +=1
+
+    
