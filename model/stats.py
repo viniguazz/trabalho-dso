@@ -18,12 +18,26 @@ class Stats():
     @property
     def victories(self):
         return self.__victories
+    
+    @victories.setter
+    def victories(self,victories):
+        self.__victories = victories
+    
     @property
     def losses(self):
         return self.__losses
+    
+    @losses.setter
+    def losses(self, losses):
+        self.__losses = losses
+    
     @property
     def draws(self):
         return self.__draws
+    
+    @draws.setter
+    def draws(self, draws):
+        self.__draws = draws
 
     def add_victory(self):
         self.__victories += 1

@@ -33,12 +33,13 @@ class BetterView:
         return {'name': name, 'nick': nick, 'wallet': wallet, 'cpf': cpf}
     
     def get_by_id(self):
+        self.clear_screen()
         print('Inform the ID:')
-        id = input(id)
+        id = int(input(">>>"))
         return id
     
-    def display_message(message):
+    def display_message(self, message):
         print(message)
     
-    def clear_screen():
+    def clear_screen(self):
         os.system('cls')

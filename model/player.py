@@ -8,11 +8,13 @@ from model.tipo_errado_exception import TipoErradoException
 
 
 class Player(Person):
-    def __init__(self, name : str, id: int, stats : Stats):
-        super().__init__(self, name, id)
+
+    def __init__(self, id : int, name : str, stats : Stats):
+        super().__init__(name)
         if not isinstance(stats, Stats):
             raise TipoErradoException
         self.__stats = stats
+        self.__id = id
     
     @property
     def stats(self):
@@ -23,6 +25,17 @@ class Player(Person):
         if not isinstance(stats, Stats):
             raise TipoErradoException
         self.__stats = Stats
+
+    @property
+    def id(self):
+        return self.__id
+
+    @id.setter
+    def id(self, id):
+        if not isinstance(id, int):
+            raise TipoErradoException
+        self.__id = id
+    
     
     def change_stats(self, outcome : str):
         if outcome == 'victory':
@@ -31,5 +44,3 @@ class Player(Person):
             self.__stats.add_loss()
         else:
             self.__stats.add_draw()
-
-

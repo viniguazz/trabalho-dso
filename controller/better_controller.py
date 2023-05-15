@@ -14,7 +14,7 @@ class BetterController():
         for better in self.__betters:
             if id == better.id:
                 return better
-        self.__better_view.display_message('Invalid player!')
+        self.__better_view.display_message('Invalid Better!')
         return None
     
     def list_betters(self):
@@ -73,7 +73,7 @@ class BetterController():
         input(self.__better_view.display_message('Press any key to return'))
 
     def backtrack(self):
-        self.__admin_controller.display_screen()
+        self.__system_controller.admin_controller.display_screen()
 
     def display_screen(self):
         option_list = {1: self.add_better, 
@@ -89,7 +89,7 @@ class BetterController():
             selected_function()
 
     def display_balance_and_bets(self):
-        better_id = self.__better_view.get_by_id
+        better_id = self.__better_view.get_by_id()
         better = self.get_better_by_id(better_id)
         if better == None:
             self.__better_view.display_message("Better not found!!")    

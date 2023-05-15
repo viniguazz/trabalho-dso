@@ -21,12 +21,11 @@ class AdminController():
         self.__system_controller.display_screen()
 
     def display_screen(self):
-        option_list = {1: self.add_game, 
+        option_list = {1: self.crud_games, 
         2: self.crud_players, 
         3: self.crud_betters, 
-        4: self.crud_games, 
-        5: self.crud_bets, 
-        6: self.backtrack}
+        4: self.crud_bets, 
+        5: self.backtrack}
         
         if (not self.__god_mode_enabled):
             if (self.__admin_view.login() == self.__password):
@@ -48,6 +47,6 @@ class AdminController():
                 self.backtrack()
         
         while True:
-            option = self.__game_view.display_options()
+            option = self.__admin_view.display_options()
             selected_function = option_list[option]
             selected_function()

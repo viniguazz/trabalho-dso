@@ -23,7 +23,7 @@ class GameView():
             
 
 
-    def display_message(message):
+    def display_message(self, message):
         print(message)
     
     def get_game_info(self):
@@ -31,14 +31,14 @@ class GameView():
         print()
         print('Inform the game data:')
         name = input('Name:')
-        player1_id = input('Player 1\'s ID:')
-        player2_id = input('Player 2\'s ID:')
+        player1_id = int(input('Player 1\'s ID:'))
+        player2_id = int(input('Player 2\'s ID:'))
         return {'name': name, 'player1_id': player1_id, 'player2_id': player2_id}
 
     def get_by_id(self):
         print('Inform the ID:')
-        id = input(id)
+        id = int(input(">>>"))
         return id
     
-    def clear_screen():
+    def clear_screen(self):
         os.system('cls')

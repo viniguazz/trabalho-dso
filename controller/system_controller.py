@@ -15,6 +15,27 @@ class SystemController:
         self.__game_controller = GameController(self)
         self.__bet_controller = BetController(self)
 
+    @property
+    def admin_controller(self):
+        return self.__admin_controller
+    
+    @property
+    def better_controller(self):
+        return self.__better_controller
+    
+    @property
+    def game_controller(self):
+        return self.__game_controller
+    
+    @property
+    def bet_controller(self):
+        return self.__bet_controller
+    
+    @property
+    def player_controller(self):
+        return self.__player_controller
+    
+
     def initialize_system(self):
         self.display_screen()
     

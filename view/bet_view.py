@@ -2,7 +2,7 @@ import os
 
 class BetView():
 
-    def display_message(message):
+    def display_message(self, message):
         print(message)
 
     def clear_screen(self):
@@ -37,17 +37,17 @@ class BetView():
         os.system('cls')
         print()
         print('Inform the bet data:')
-        game_id = input('Game ID:')
+        game_id = int(input('Game ID:'))
         price = input('Price: ')
         result = self.get_result_info()
-        better_id = input('Id: ')
+        better_id = int(input('Id: '))
         return {'game_id': game_id, 'price': price, 'result': result, 'better_id': better_id}
 
     
     def get_better(self):
         os.system('cls')
         print()
-        better_id = input('Inform the better\'s ID:')
+        better_id = int(input('Inform the better\'s ID:'))
         return better_id
     
 
@@ -69,7 +69,7 @@ class BetView():
     
     def get_by_id(self):
         print('Inform the ID:')
-        id = input(id)
+        id = int(input(">>>"))
         return id
     
     def get_game_info(self):
@@ -77,8 +77,8 @@ class BetView():
         print()
         print('Inform the game data:')
         name = input('Name:')
-        player1_id = input('Player 1\'s ID:')
-        player2_id = input('Player 2\'s ID:')
+        player1_id = int(input('Player 1\'s ID:'))
+        player2_id = int(input('Player 2\'s ID:'))
         return {'name': name, 'player1_id': player1_id, 'player2_id': player2_id}
     
     def get_result_info(self):

@@ -65,7 +65,10 @@ class BetController():
         return
 
     def backtrack(self):
-        self.__admin_controller.display_screen()
+        self.__system_controller.admin_controller.display_screen()
+
+    def backtrack_system(self):
+        self.__system_controller.display_screen()
 
 
     def list_display(self):
@@ -75,11 +78,9 @@ class BetController():
     def display_place_bet(self):
         option = self.__bet_view.display_add_bet()
         if option == 2:
-            self.backtrack()
+            self.backtrack_system()
         elif option == 1:
             self.add_bet()
-
-        
 
     def display_screen(self):
         option_list = {1: self.add_bet, 
@@ -92,6 +93,3 @@ class BetController():
             option = self.__bet_view.display_options()
             selected_function = option_list[option]
             selected_function()
-
-    def backtrack(self):
-        self.__system_controller.display_screen()

@@ -12,6 +12,7 @@ class GameController():
         for game in self.__games:
             self.__game_view.display_message(f'id: {game["id"]}, name: {game["name"]}, result: {game["result"]}')
         self.__game_view.display_message('Press any key to return...')
+        input()
     
     def add_game(self):
         game_data = self.__game_view.get_game_info()
@@ -59,7 +60,7 @@ class GameController():
         input(self.__game_view.display_message('Press any key to return'))
 
     def backtrack(self):
-        self.__admin_controller.display_screen()
+        self.__system_controller.admin_controller.display_screen()
 
 
     def list_display(self):

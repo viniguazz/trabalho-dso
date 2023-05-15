@@ -21,7 +21,7 @@ class PlayerView():
             except:
                 raise Exception('C\'mon... Gimme some real numbers')
 
-    def display_message(message):
+    def display_message(self, message):
         print(message)
     
     def get_player_info(self):
@@ -29,15 +29,15 @@ class PlayerView():
         print()
         print('Inform the PLAYER data:')
         name = input('Name:')
-        victories = input('Number of victories:')
-        losses = input('Number of losses:')
-        draws = input('Number of draws:')
+        victories = int(input('Number of victories:'))
+        losses = int(input('Number of losses:'))
+        draws = int(input('Number of draws:'))
         return {'name': name, 'victories': victories, 'losses': losses, 'draws': draws}
 
     def get_by_id(self):
         print('Inform the ID:')
-        id = input(id)
+        id = int(input(">>>"))
         return id
     
-    def clear_screen():
+    def clear_screen(self):
         os.system('cls')
