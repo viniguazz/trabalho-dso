@@ -6,8 +6,12 @@ class GameController():
     def __init__(self, system_controller):
         self.__system_controller = system_controller
         self.__game_view = GameView()
-        self.__games = []
-        self.__id = 0
+        self.__games = [Game(0, 'final_virjoes', self.__system_controller.player_controller.get_player_by_id(0), self.__system_controller.player_controller.get_player_by_id(1))]
+        self.__id = 1
+
+    @property
+    def games(self):
+        return self.__games
 
     def list_games(self):
         for game in self.__games:
@@ -20,8 +24,8 @@ class GameController():
     def add_game(self):
         game_data = self.__game_view.get_game_info()
         game_name = game_data['name']
-        player1 = self.__system_controller.player_controller.get_player_by_id(game_data['player1'])
-        player2 = self.__system_controller.player_controller.get_player_by_id(game_data['player2'])
+        player1 = self.__system_controller.player_controller.get_player_by_id(game_data['player1_id'])
+        player2 = self.__system_controller.player_controller.get_player_by_id(game_data['player2_id'])
         new_game = Game(self.__id, game_name, player1, player2)
         self.id_plus()
         if new_game not in self.__games:
@@ -40,8 +44,8 @@ class GameController():
                 self.__game_view.clear_screen()
                 print(f'ID: {game.id}')
                 print(f'Name: {game.name}')
-                print(f'Player1: {game.player1}')
-                print(f'Player2: {game.player2}')
+                print(f'Player1: {game.player1.name}')
+                print(f'Player2: {game.player2.name}')
                 input(self.__game_view.display_message('Press any key to return...'))
                 return
         self.__game_view.display_message('Game not found!')

@@ -7,8 +7,8 @@ class PlayerController():
     def __init__(self, system_controller):
         self.__system_controller = system_controller
         self.__player_view = PlayerView()
-        self.__players = []
-        self.__id = 0
+        self.__players = [Player(0,'jack',Stats(5,5,5)), Player(1,'josh',Stats(4,3,2))]
+        self.__id = 2
 
     @property
     def id(self):

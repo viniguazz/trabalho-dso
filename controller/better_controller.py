@@ -3,11 +3,15 @@ from model.better import Better
 
 class BetterController():
     def __init__(self, system_controller):
-        self.__betters = []
+        self.__betters = [Better(0, 'josh', 'cabramacho', 500.00, '080'), Better(1, 'ricardo', 'boneca', 750.00, '090')]
         self.__system_controller = system_controller
         self.__better_view = BetterView()
-        self.__id = 0
+        self.__id = 2
     
+    @property
+    def betters(self):
+        return self.__betters
+
     def backtrack(self):
         self.__system_controller.display_screen()
 

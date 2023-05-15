@@ -38,9 +38,9 @@ class BetView():
         print()
         print('Inform the bet data:')
         game_id = int(input('Game ID:'))
-        price = input('Price: ')
+        price = float(input('Price: '))
         result = self.get_result_info()
-        better_id = int(input('Id: '))
+        better_id = int(input('Better Id: '))
         return {'game_id': game_id, 'price': price, 'result': result, 'better_id': better_id}
 
     
@@ -86,6 +86,9 @@ class BetView():
         print()
         print('Inform the Result data:')
         outcome = self.get_outcome()
+        if outcome == 'Draw':
+            player = None
+            return {'outcome' : outcome, 'player' : player}
         player = self.get_player()
         return {'outcome' : outcome, 'player' : player}
 
@@ -122,9 +125,9 @@ class BetView():
             player = int(input())
 
         if player == 1:
-            return 'Player1'
+            return 'player1'
         else:
-            return 'Player2'
+            return 'player2'
         
     def display_options(self):
         os.system('cls')
