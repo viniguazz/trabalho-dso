@@ -66,7 +66,6 @@ class PlayerController():
         self.__player_view.display_message('Player not found!')
         input(self.__player_view.display_message('Press any key to return'))
     
-    #incompleto assim como o de game
     def update_player(self):
         player_id = self.__player_view.get_by_id()
         for player in self.__players:

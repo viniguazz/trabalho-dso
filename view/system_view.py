@@ -25,6 +25,3 @@ class SystemView:
                     print("Let's Try again, shall we?")
             except:
                 print("Please insert a number!")
-        # except:
-        #     raise Exception('C\'mon... Gimme some real numbers')
-        

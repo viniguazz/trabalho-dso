@@ -1,7 +1,3 @@
-#Luan
-
-#outcome vai receber uma string informando qual foi o resultado; Vai ser apenas "Draw" ou "Victory"
-
 from model.player import Player
 from exception.tipo_errado_exception import TipoErradoException
 

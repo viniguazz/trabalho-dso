@@ -1,5 +1,3 @@
-# Luan
-
 from model.person import Person
 from exception.tipo_errado_exception import TipoErradoException
 

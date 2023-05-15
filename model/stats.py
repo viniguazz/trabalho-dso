@@ -1,5 +1,3 @@
-# vini
-
 from exception.tipo_errado_exception import TipoErradoException
 
 class Stats():
@@ -13,7 +11,6 @@ class Stats():
         self.__losses = losses
         self.__draws = draws
         self.__victories = victories
-
 
     @property
     def victories(self):

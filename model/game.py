@@ -1,5 +1,4 @@
 from model.player import Player
-from model.odds import Odds
 from model.result import Result
 from exception.tipo_errado_exception import TipoErradoException
 
@@ -19,7 +18,6 @@ class Game():
         self.__player1 = player1
         self.__player2 = player2
         self.__result = None
-        self.__odds = None
         self.__bets = []
         self.__name = name
 
@@ -27,9 +25,6 @@ class Game():
     def id(self):
         return self.__id
         
-    @property
-    def odds(self):
-        return self.__odds
 
     @property
     def bets(self):
