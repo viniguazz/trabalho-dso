@@ -20,7 +20,7 @@ class BetterView:
                 else: 
                     print("Let's Try again, shall we?")
             except:
-                raise Exception('C\'mon... Gimme some real numbers')
+                print("Please insert a number!")
     
     def get_better_info(self):
         os.system('cls')
@@ -34,7 +34,7 @@ class BetterView:
     
     def get_by_id(self):
         self.clear_screen()
-        print('Inform the ID:')
+        print('Inform the Better ID:')
         id = int(input(">>>"))
         return id
     

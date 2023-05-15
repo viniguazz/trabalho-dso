@@ -7,8 +7,9 @@ class GameController():
     def __init__(self, system_controller):
         self.__system_controller = system_controller
         self.__game_view = GameView()
-        self.__games = [Game(0, 'final_virjoes', self.__system_controller.player_controller.get_player_by_id(0), self.__system_controller.player_controller.get_player_by_id(1))]
-        self.__id = 1
+        self.__games = [Game(0, 'final_virjoes', self.__system_controller.player_controller.get_player_by_id(0), self.__system_controller.player_controller.get_player_by_id(1)),
+                        Game(1, 'final_virjonas', self.__system_controller.player_controller.get_player_by_id(2), self.__system_controller.player_controller.get_player_by_id(3))]
+        self.__id = 2
 
     @property
     def games(self):
@@ -16,7 +17,13 @@ class GameController():
 
     def list_games(self):
         for game in self.__games:
-            self.__game_view.display_message(f'id: {game.id}, name: {game.name}, result: {game.result}')
+            if not game.result == None:
+                if not game.result.outcome == 'Draw':
+                    self.__game_view.display_message(f'id: {game.id}, name: {game.name}, Outcome: {game.result.outcome}, Player: {game.result.player}')
+                else:
+                    self.__game_view.display_message(f'id: {game.id}, name: {game.name}, Outcome: {game.result.outcome}')
+            else:
+                self.__game_view.display_message(f'id: {game.id}, name: {game.name}, Result: {game.result}')
         if len(self.__games) == 0:
             self.__game_view.display_message("No games found")
         self.__game_view.display_message('Press any key to return...')
@@ -49,7 +56,8 @@ class GameController():
                 print(f'Player2: {game.player2.name}')
                 input(self.__game_view.display_message('Press any key to return...'))
                 return
-        self.__game_view.display_message('Game not found!')
+            else:
+                self.__game_view.display_message('Game not found!')
         input(self.__game_view.display_message('Press any key to return...'))
     
     def update_game(self):
@@ -57,22 +65,31 @@ class GameController():
         player = None
         for game in self.__games:
             if game.id == game_id:
-                result_data = self.__game_view.get_result_info()
-                if result_data["player"] == 'player1':
-                    player = game.player1
-                elif result_data["player"] == 'player2':
-                    player = game.player2
-                game.result = Result(result_data["outcome"], player)
-                self.__game_view.display_message(f'Game {game_id} Ended!')
-                input()
-            else:
-                self.__game_view.display_message('Game not found!')
-                input()
+                if game.result == None:
+                    result_data = self.__game_view.get_result_info()
+                    if result_data["player"] == 'player1':
+                        player = game.player1
+                    elif result_data["player"] == 'player2':
+                        player = game.player2
+                    game.result = Result(result_data["outcome"], player)
+                    self.__game_view.display_message(f'Game {game_id} Ended!')
+                    input()
+                    return
+                else:
+                    self.__game_view.display_message('Game already ended!')
+                    input()
+                    return
+        else:
+            self.__game_view.display_message('Game not found!')
+            input()
+            return
 
     def delete_game(self):
         game_id = self.__game_view.get_by_id()
         for game in self.__games:
             if game.id == game_id:
+                for bet in game.bets:
+                    self.__system_controller.bet_controller.delete_bet_by_id(bet.id)
                 self.__games.remove(game)
                 input(self.__game_view.display_message('Game deleted succesfully!'))
                 return

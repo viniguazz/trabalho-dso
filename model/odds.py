@@ -3,7 +3,7 @@
 #
 
 from model.player import Player
-from model.tipo_errado_exception import TipoErradoException
+from exception.tipo_errado_exception import TipoErradoException
 
 class Odds():
     def __init__(self, 

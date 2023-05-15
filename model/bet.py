@@ -3,7 +3,7 @@
 from model.game import Game
 from model.result import Result
 from model.better import Better
-from model.tipo_errado_exception import TipoErradoException
+from exception.tipo_errado_exception import TipoErradoException
 
 # {Luan falando} Precisa implementar um float chamado Odd que puxa o Odd do
 # game quando instanciado

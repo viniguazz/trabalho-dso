@@ -49,7 +49,7 @@ class BetterController():
     def read_better(self):
         better_id = self.__better_view.get_by_id()
         for better in self.__betters:
-            if better['id'] == better_id:
+            if better.id == better_id:
                 self.__better_view.clear_screen()
                 self.__better_view.display_message(f'ID: {better.id}')
                 self.__better_view.display_message(f'Name: {better.name}')
@@ -77,6 +77,8 @@ class BetterController():
         better_id = self.__better_view.get_by_id()
         for better in self.__betters:
             if better.id == better_id:
+                for bet in better.bets:
+                    self.__system_controller.bet_controller.delete_bet_by_id(bet.id)
                 self.__betters.remove(better)
                 input(self.__better_view.display_message('Better deleted succesfully!'))
                 return
@@ -106,12 +108,16 @@ class BetterController():
             self.__better_view.display_message("Better not found!!")    
             input()
             return
+        self.__better_view.display_message(f' {better.name}')
         self.__better_view.display_message("Balance:")
-        self.__better_view.display_message(f" {better.wallet} ")
-        self.__better_view.display_message()
-        self.__better_view.display_message()
+        self.__better_view.display_message(f" {better.wallet} ")   
         for bet in better.bets:
-            self.__better_view.display_message(bet)
+            self.__better_view.display_message(f'Bet ID: {bet.id}')
+            self.__better_view.display_message(f'Bet Game: {bet.game.name}')
+            self.__better_view.display_message(f'Bet Price: {bet.price}')
+            self.__better_view.display_message(f'Bet Outcome: {bet.result.outcome}')
+            if not bet.result.outcome == 'Draw':
+                self.__better_view.display_message(f'Bet Player: {bet.result.player.name}')
         input()
         return
     

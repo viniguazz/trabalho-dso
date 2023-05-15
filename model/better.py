@@ -1,7 +1,7 @@
 # Luan
 
 from model.person import Person
-from model.tipo_errado_exception import TipoErradoException
+from exception.tipo_errado_exception import TipoErradoException
 
 class Better(Person):
 

@@ -19,7 +19,7 @@ class PlayerView():
                 else: 
                     print("Let's Try again, shall we?")
             except:
-                raise Exception('C\'mon... Gimme some real numbers')
+                print("Please insert a number!")
 
     def display_message(self, message):
         print(message)

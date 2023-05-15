@@ -16,22 +16,27 @@ class BetView():
         print("2) Return")
         while True:
             try :
-                opcao = int(input())
-                return opcao
-                
+                option = int(input('>>>'))
+                if option in (1,2):
+                    return option
+                else: 
+                    print("Let's Try again, shall we?")
             except:
-                raise Exception('f*** off. gimme some real f******* numbers')
+                print("Please insert a number!")
 
     def display_stats(self):
         print("============ STATS ============")
         print("1) Check bets and Funds")
         print("2) Return")
         while True:
-            try:
-                option = int(input())
-                return option
+            try :
+                option = int(input('>>>'))
+                if option in (1,2):
+                    return option
+                else: 
+                    print("Let's Try again, shall we?")
             except:
-                raise Exception('f*** off. gimme some real f******* numbers')
+                print("Please insert a number!")
     
     def get_bet_info(self):
         os.system('cls')
@@ -69,9 +74,13 @@ class BetView():
 
     
     def get_by_id(self):
-        print('Inform the ID:')
-        id = int(input(">>>"))
-        return id
+        while True:
+            try:
+                print('Inform the ID:')
+                id = int(input(">>>"))
+                return id
+            except:
+                print("Please insert a number!")
     
     def get_game_info(self):
         os.system('cls')
@@ -147,4 +156,4 @@ class BetView():
                 else: 
                     print("Let's Try again, shall we?")
             except:
-                raise Exception('C\'mon... Gimme some real numbers')
+                print("Please insert a number!")

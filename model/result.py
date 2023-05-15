@@ -3,7 +3,7 @@
 #outcome vai receber uma string informando qual foi o resultado; Vai ser apenas "Draw" ou "Victory"
 
 from model.player import Player
-from model.tipo_errado_exception import TipoErradoException
+from exception.tipo_errado_exception import TipoErradoException
 
 class Result():
     def __init__(self, outcome : str, player : Player = None):
