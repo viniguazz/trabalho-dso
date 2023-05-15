@@ -5,9 +5,7 @@ from model.tipo_errado_exception import TipoErradoException
 
 class Better(Person):
 
-    id = 0
-
-    def __init__(self, name : str, nick : 
+    def __init__(self, id: int , name : str, nick : 
                 str, wallet : float, cpf: str):
         if not isinstance(nick, str):
             raise TipoErradoException
@@ -20,7 +18,6 @@ class Better(Person):
         super().__init__(name)        
         self.__bets = []
         self.__id = id
-        id +=1
         self.__wallet = wallet
         self.__nick = nick
         self.__cpf = cpf
@@ -28,6 +25,14 @@ class Better(Person):
     @property
     def nick(self):
         return self.__nick
+    
+    @property
+    def id(self):
+        return self.__id
+    
+    @id.setter
+    def id(self, id):
+        self.__id = id
 
     @nick.setter
     def nick(self, nick):
@@ -36,6 +41,10 @@ class Better(Person):
     @property
     def wallet(self):
         return self.__wallet
+    
+    @wallet.setter
+    def wallet(self, wallet):
+        self.__wallet = wallet
     
     @property
     def bets(self):

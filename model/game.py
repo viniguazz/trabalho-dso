@@ -1,28 +1,10 @@
-# Luan
-
-#isTraded foi retirado por não termos mais marketplace
-#Como é xadrez 1x1 foi retirado n_contestant por enquanto e sport
-#Sentiu-se a necessidade de criar uma classe chamada Result
-#Ira analisar se fica melhor implementar o odds como dict ou como uma classe própria
-#status começa como verdade para indicar que é um jogo em andamento
-#accept_bet foi retirado pois ele estava sendo mapeado para uma feature de usuários premium
-
-#pool foi desmenbrado para os três casos, ou seja, quanto é apostado na vitória do player1
-#quanto é apostado no player2 e quanto é apostado no empate
-#status foi retirado, pode ser feito a verificação através de game.__result == None
-
-#contestants foi transformado em player1 e player2
-
 from model.player import Player
 from model.odds import Odds
 from model.result import Result
 from model.tipo_errado_exception import TipoErradoException
 
 class Game():
-
-    id = 0
-
-    def __init__(self, name : str, player1 : Player, player2 : Player):
+    def __init__(self,id : int, name : str, player1 : Player, player2 : Player):
 
         if not isinstance(name, str):
             raise TipoErradoException
@@ -34,7 +16,6 @@ class Game():
             raise TipoErradoException
         
         self.__id = id
-        Game.id += 1
         self.__player1 = player1
         self.__player2 = player2
         self.__pool_draw = 0.0

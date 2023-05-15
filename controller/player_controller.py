@@ -45,8 +45,10 @@ class PlayerController():
         if new_player not in self.__players:
             self.__players.append(new_player)
             self.__player_view.display_message(f'New player create succesfully! ID:{new_player.id}')
+            input()
         else:
             self.__player_view.display_message('Player already in the database! Process failed!')
+            input()
     
     def read_player(self):
         player_id = self.__player_view.get_by_id()

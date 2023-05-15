@@ -28,7 +28,7 @@ class BetterView:
         print('Inform the better data:')
         name = input('Name:')
         nick = input('Nick:')
-        wallet = input('Funds:')
+        wallet = float(input('Funds:'))
         cpf = input('CPF:')
         return {'name': name, 'nick': nick, 'wallet': wallet, 'cpf': cpf}
     

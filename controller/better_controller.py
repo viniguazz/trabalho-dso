@@ -6,6 +6,7 @@ class BetterController():
         self.__betters = []
         self.__system_controller = system_controller
         self.__better_view = BetterView()
+        self.__id = 0
     
     def backtrack(self):
         self.__system_controller.display_screen()
@@ -20,31 +21,37 @@ class BetterController():
     def list_betters(self):
         for better in self.__betters:
             self.__better_view.display_message(f'name: {better.name}, nick: {better.nick}, wallet: {better.wallet}, cpf: {better.cpf}')
+        if len(self.__betters) == 0:
+            self.__better_view.display_message('No betters found')
         self.__better_view.display_message('Press any key to return...')
+        input()
     
     def add_better(self):
-        better_data = BetterView.get_better_info()
+        better_data = self.__better_view.get_better_info()
         better_name = better_data['name']
         better_nick = better_data['nick']
         better_cpf = better_data['cpf']
         better_funds = better_data['wallet']
-        new_better = Better(better_name, better_nick, better_funds, better_cpf)
+        new_better = Better(self.__id, better_name, better_nick, better_funds, better_cpf)
+        self.id_plus()
         if new_better not in self.__betters:
             self.__betters.append(new_better)
             self.__better_view.display_message(f'New better create succesfully! ID:{new_better.id}')
+            input()
         else:
             self.__better_view.display_message('Better already in the database! Process failed!')
+            input()
     
     def read_better(self):
         better_id = self.__better_view.get_by_id()
         for better in self.__betters:
             if better['id'] == better_id:
                 self.__better_view.clear_screen()
-                self.__better_view.display_message(f'ID: {better["id"]}')
-                self.__better_view.display_message(f'Name: {better["name"]}')
-                self.__better_view.display_message(f'Nick: {better["nick"]}')
-                self.__better_view.display_message(f'CPF: {better["cpf"]}')
-                self.__better_view.display_message(f'Funds: {better["wallet"]}')
+                self.__better_view.display_message(f'ID: {better.id}')
+                self.__better_view.display_message(f'Name: {better.name}')
+                self.__better_view.display_message(f'Nick: {better.nick}')
+                self.__better_view.display_message(f'CPF: {better.cpf}')
+                self.__better_view.display_message(f'Funds: {better.wallet}')
                 input(self.__better_view.display_message('Press any key to return'))
                 return
         self.__better_view.display_message('Better not found!')
@@ -53,19 +60,19 @@ class BetterController():
     def update_better(self):
         better_id = self.__better_view.get_by_id()
         for better in self.__betters:
-            if better['id'] == better_id:
+            if better.id == better_id:
                 new_data_better = self.__better_view.get_better_info()
-                better.__name = new_data_better["name"]
-                better.__nick = new_data_better["nick"]
-                better.__cpf = new_data_better["cpf"]
-                better.__wallet = new_data_better["wallet"]
+                better.name = new_data_better["name"]
+                better.nick = new_data_better["nick"]
+                better.cpf = new_data_better["cpf"]
+                better.wallet = new_data_better["wallet"]
             else:
                 self.__better_view.display_message('better not found!')
 
     def delete_better(self):
         better_id = self.__better_view.get_by_id()
         for better in self.__betters:
-            if better['id'] == better_id:
+            if better.id == better_id:
                 self.__betters.remove(better)
                 input(self.__better_view.display_message('Better deleted succesfully!'))
                 return
@@ -103,3 +110,6 @@ class BetterController():
             self.__better_view.display_message(bet)
         input()
         return
+    
+    def id_plus(self):
+        self.__id +=1
