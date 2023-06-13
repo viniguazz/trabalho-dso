@@ -1,21 +1,10 @@
-# vini
-
 from model.game import Game
 from model.result import Result
 from model.better import Better
-from model.tipo_errado_exception import TipoErradoException
+from exception.tipo_errado_exception import TipoErradoException
 
-# {Luan falando} Precisa implementar um float chamado Odd que puxa o Odd do
-# game quando instanciado
-# Como eu implementei game, result e better eu vou alinhar algumas questões
-# entre as classes
-
-
-class Bet():
-
-    id = 0
-
-    def __init__(self, price: float, game: Game, better: Better, result: Result):
+class Bet():   
+    def __init__(self, id : int, price: float, game: Game, better: Better, result: Result, odd : int):
         if not isinstance(price, float):
             raise TipoErradoException
         if not isinstance(game, Game):
@@ -24,14 +13,15 @@ class Bet():
             raise TipoErradoException
         if not isinstance(result, Result):
             raise TipoErradoException
+        if not isinstance(odd, int):
+            raise TipoErradoException
         self.__better = better
         self.__game = game
         self.__result = result
         self.__price = price
         self.__id = id
-        id += 1
         self.__status = True
-        self.__odd = self.get_odd()
+        self.__odd = odd
 
     @property
     def odd(self):
@@ -98,11 +88,7 @@ class Bet():
             raise TipoErradoException
         self.__result = result
 
-    def get_odd(self):
-        if self.__result.__outcome == 'Draw':
-            return self.__game.__odds.odd_draw()
-        else:
-            if self.__result__.player == self.__game.__odds.__player1:
-                return self.__game.__odds.odd_vict_1()
-            else:
-                return self.__game.__odds.odds_vict2()
+    @odd.setter
+    def odd(self, odd):
+        self.__odd = odd
+

@@ -1,117 +1,152 @@
 from view.bet_view import BetView
 from model.bet import Bet
 from time import sleep
+from model.result import Result
+from model.player import Player
 
 class BetController():
     def __init__(self, system_controller):
         self.__system_controller = system_controller
         self.__bet_view = BetView()
-        self.__bets = []
-        currentId = 0
+        self.__bets = [Bet(0, 500.00, self.__system_controller.game_controller.get_by_id(0), 
+                        self.__system_controller.better_controller.get_better_by_id(0),
+                        Result('Draw', None), 5),
+                        Bet(1, 2000.00, self.__system_controller.game_controller.get_by_id(1), 
+                        self.__system_controller.better_controller.get_better_by_id(1),
+                        Result('Victory', self.__system_controller.player_controller.get_player_by_id(2)), 5)]
+        game1 = self.__system_controller.game_controller.get_by_id(0)
+        game2 = self.__system_controller.game_controller.get_by_id(1)
+        game1.add_bet(self.__bets[0])
+        game2.add_bet(self.__bets[1])
+        better1 = self.__system_controller.better_controller.get_better_by_id(0)
+        better2 = self.__system_controller.better_controller.get_better_by_id(1)
+        better1.add_bet(self.__bets[0])
+        better2.add_bet(self.__bets[1])
 
+        self.__id = 2
 
     def list_bets(self):
         for bet in self.__bets:
-            self.__bet_view.display_message(f'id: {game.id}, name: {game.name}, result: {game.result}')
-        input('Press any key to return...')
-    
-    def add_game(self):
-        game_data = get_game_info()
-        game_name = game_data['name']
-        player1 = self.__player_controller.get_player_by_id(game_data['player1'])
-        player2 = self.__player_controller.get_player_by_id(game_data['player2'])
-        new_game = Game(id, game_name, player1, player2)
-        games.append(new_game)
-        print(f'New game create succesfully! ID:{new_game.id}')
-    
-    def read_game(self):
-        game_id = self.__game_view.get_bet_by_id()
-        for game in self.__games:
-            if game['id'] == game_id:
-                os.system('cls')
-                print(f'ID: {game['id']}')
-                print(f'Name: {game['name']}')
-                print(f'Player1: {game['player1']}')
-                print(f'Player2: {game['player2']}')
+            if not bet.result.outcome == 'Draw':
+                self.__bet_view.display_message(f'id: {bet.id}, game: {bet.game.name}, Outcome: {bet.result.outcome}, Player: {bet.result.player.name}')
+            else:
+                self.__bet_view.display_message(f'id: {bet.id}, game: {bet.game.name}, Outcome: {bet.result.outcome}')
+        if len(self.__bets) == 0:
+            self.__bet_view.display_message("No bets Found")
+        input(self.__bet_view.display_message('Press any key to return...'))
+
+    def add_bet(self):
+        bet_data = self.__bet_view.get_bet_info()
+        player = None
+        for game in self.__system_controller.game_controller.games:
+            if game.result == None:
+                if  game.id == bet_data["game_id"]:
+                    for better in self.__system_controller.better_controller.betters:
+                        if better.id == bet_data["better_id"]:
+                            game = self.__system_controller.game_controller.get_by_id(bet_data["game_id"])
+                            better = self.__system_controller.better_controller.get_better_by_id(bet_data["better_id"])
+                            better.remove_money(bet_data["price"])
+                            if  bet_data["result"]["player"] == 'player1':
+                                player = game.player1
+                            elif bet_data["result"]["player"] == 'player2':
+                                player = game.player2               
+                            bet = Bet(self.__id, bet_data["price"], game, better, Result(bet_data["result"]["outcome"], player), bet_data['odd'])
+                            better.add_bet(bet)
+                            game.add_bet(bet)
+                            self.__bets.append(bet)
+                            self.id_plus()
+                            self.__bet_view.display_message("Bet Created!")
+                            input()
+                            return
+                    else:
+                        self.__bet_view.display_message("Better not found")
+                        input()
+                        return
+            else:
+                self.__bet_view.display_message("Game already ended!")
+                input()
+        else:
+            self.__bet_view.display_message("Game not found")
+            input()
+            return
+
+    def read_bet(self):
+        bet_id = self.__bet_view.get_by_id()
+        for bet in self.__bets:
+            if bet['id'] == bet_id:
+                self.__bet_view.clear_screen()
+                self.__bet_view.display_message(f'ID: {bet.id()}')
+                self.__bet_view.display_message(f'Name: {bet.name()}')
+                self.__bet_view.display_message(f'Player1: {bet.player1()}')
+                self.__bet_view.display_message(f'Player2: {bet.player2()}')
                 input('Press any key to return')
                 return
-        print('Game not found!')
+        print('bet not found!')
         input('Press any key to return')
     
-    def update_game(self):
-        game_id = self.__game_view.get_bet_by_id()
-        for game in self.__games:
-            if game['id'] == game_id:
 
-    def delete_game(self):
-        game_id = self.__game_view.get_bet_by_id()
-        for game in self.__games:
-            if game['id'] == game_id:
-                self.__games.remove(game)
-                input('Game deleted succesfully!')
-                return
-        print('Game not found!')
+    def delete_bet(self):
+        bet_id = self.__bet_view.get_by_id()
+        for bet in self.__bets:
+            if bet.id == bet_id:
+                for game in self.__system_controller.game_controller.games:
+                    for game_bet in game.bets:
+                        if game_bet.id == bet.id:
+                            game.remove_bet(bet)
+                            bet.better.remove_bet(bet)
+                            self.__bets.remove(bet)
+                            self.__bet_view.display_message("Bet Deleted!")
+                            input('Press any key to return')
+                            return
+        self.__bet_view.display_message('bet not found!')
         input('Press any key to return')
+        return
+    
+    def delete_bet_by_id(self, id):
+        for bet in self.__bets:
+            if bet.id == id:
+                for game in self.__system_controller.game_controller.games:
+                    for game_bet in game.bets:
+                        if game_bet.id == bet.id:
+                            game.remove_bet(bet)
+                            bet.better.remove_bet(bet)
+                            self.__bets.remove(bet)
+                            self.__bet_view.display_message("Bet Deleted!")
+                            input('Press any key to return')
+                            return
+        self.__bet_view.display_message('bet not found!')
+        input('Press any key to return')
+        return
 
     def backtrack(self):
-        self.__admin_controller.display_screen()
+        self.__system_controller.admin_controller.display_screen()
+
+    def backtrack_system(self):
+        self.__system_controller.display_screen()
 
 
     def list_display(self):
-        self.list_games()
+        self.list_bets()
         self.__system_controller.display_screen()
 
-    def display_screen(self):
-        option_list = {1: self.add_game, 
-        2: self.read_game, 
-        3: self.update_game, 
-        4: self.delete_game, 
-        5: self.list_games, 
-        6: self.backtrack}
-
-        while True:
-            option = self.__game_view.display_options()
-            selected_function = option_list[option]
-            selected_function()
-
-    
-"""     def get_bet_by_id(self, id : int):
-        for bet in bets:
-            if bet.id == id:
-                return bet
-        return None
-
-    def backtrack(self):
-        self.__system_controller.display_screen
-    
-    def add_bet(self):
-        bet_data = self.__bet_view.place_bet()
-        if get_bet_by_id(bet_data["bet_id"]) != None:
-            bets.append(Bet(bet_data["price"], bet_data["game_id"], bet_data["better_id"], Result(bet_data["outcome"], bet_data["player"])))
-            print('Bet placed successfuly! Be ready to lose, bitch!')
-            sleep(1)
-        self.__display_screen()
+    def display_place_bet(self):
+        option = self.__bet_view.display_add_bet()
+        if option == 2:
+            self.backtrack_system()
+        elif option == 1:
+            self.add_bet()
 
     def display_screen(self):
-        option_list = {1: self.add_bet, 2: self.backtrack}
+        option_list = {1: self.add_bet, 
+        2: self.read_bet, 
+        3: self.delete_bet, 
+        4: self.list_bets, 
+        5: self.backtrack}
 
         while True:
             option = self.__bet_view.display_options()
             selected_function = option_list[option]
-            selected_function() """
+            selected_function()
 
-
-
-
-
-from game_view import GameView
-from game import Game
-
-class GameController():
-
-    def __init__(self, admin_controller, player_controller, system_controller):
-        self.__system_controller = system_controller
-        self.__admin_controller = admin_controller
-        self.__player_controller = player_controller
-        self.__game_view = GameView()
-        self.__games = []
+    def id_plus(self):
+        self.__id +=1

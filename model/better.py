@@ -1,14 +1,9 @@
-# Luan
-
 from model.person import Person
-from model.tipo_errado_exception import TipoErradoException
-
-# is_premium foi retirado pois estava envolvido com o marketplace, que não sera mais implementado
-# wallet, foi reduzido de escopo de objeto para um simples float por enquanto ?
-# Para clareza de leitura em add_funds e remove_funds funds foi substituido por money
+from exception.tipo_errado_exception import TipoErradoException
 
 class Better(Person):
-    def __init__(self, name : str, id: int, nick : 
+
+    def __init__(self, id: int , name : str, nick : 
                 str, wallet : float, cpf: str):
         if not isinstance(nick, str):
             raise TipoErradoException
@@ -18,8 +13,9 @@ class Better(Person):
             raise TipoErradoException
         if not isinstance(wallet, float):
             raise TipoErradoException
-        super().__init__(self, name, id)        
+        super().__init__(name)        
         self.__bets = []
+        self.__id = id
         self.__wallet = wallet
         self.__nick = nick
         self.__cpf = cpf
@@ -27,6 +23,14 @@ class Better(Person):
     @property
     def nick(self):
         return self.__nick
+    
+    @property
+    def id(self):
+        return self.__id
+    
+    @id.setter
+    def id(self, id):
+        self.__id = id
 
     @nick.setter
     def nick(self, nick):
@@ -35,6 +39,10 @@ class Better(Person):
     @property
     def wallet(self):
         return self.__wallet
+    
+    @wallet.setter
+    def wallet(self, wallet):
+        self.__wallet = wallet
     
     @property
     def bets(self):

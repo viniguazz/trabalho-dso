@@ -1,3 +1,4 @@
+import os
 
 class PlayerView():
 
@@ -10,8 +11,17 @@ class PlayerView():
         print('4) DELETE')
         print('5) LIST')
         print('6) Return')
+        while True:
+            try:
+                option = int(input('>>> '))
+                if option in (1,2,3,4,5,6):
+                    return option
+                else: 
+                    print("Let's Try again, shall we?")
+            except:
+                print("Please insert a number!")
 
-    def display_message(message):
+    def display_message(self, message):
         print(message)
     
     def get_player_info(self):
@@ -19,12 +29,15 @@ class PlayerView():
         print()
         print('Inform the PLAYER data:')
         name = input('Name:')
-        victories = input('Number of victories:')
-        losses = input('Number of losses:')
-        draws = input('Number of draws:')
+        victories = int(input('Number of victories:'))
+        losses = int(input('Number of losses:'))
+        draws = int(input('Number of draws:'))
         return {'name': name, 'victories': victories, 'losses': losses, 'draws': draws}
 
     def get_by_id(self):
         print('Inform the ID:')
-        id = input(id)
+        id = int(input(">>>"))
         return id
+    
+    def clear_screen(self):
+        os.system('cls')

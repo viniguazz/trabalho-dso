@@ -8,24 +8,45 @@ from controller.bet_controller import BetController
 class SystemController:
 
     def __init__(self):
-        self.__system_view = SystemView(self)
+        self.__system_view = SystemView
         self.__admin_controller = AdminController(self)
         self.__player_controller = PlayerController(self)
         self.__better_controller = BetterController(self)
         self.__game_controller = GameController(self)
         self.__bet_controller = BetController(self)
 
+    @property
+    def admin_controller(self):
+        return self.__admin_controller
+    
+    @property
+    def better_controller(self):
+        return self.__better_controller
+    
+    @property
+    def game_controller(self):
+        return self.__game_controller
+    
+    @property
+    def bet_controller(self):
+        return self.__bet_controller
+    
+    @property
+    def player_controller(self):
+        return self.__player_controller
+    
+
     def initialize_system(self):
         self.display_screen()
     
     def list_games(self):
-        self.__game_controller.display_screen()
+        self.__game_controller.list_games()
 
     def place_bet(self):
-        self.__bet_controller.display_screen()
+        self.__bet_controller.display_place_bet()
 
     def better_status(self):
-        self.__user_controller.display_screen()
+        self.__better_controller.display_balance_and_bets()
 
     def admin_menu(self):
         self.__admin_controller.display_screen()

@@ -1,94 +1,99 @@
 from view.better_view import BetterView
 from model.better import Better
 
-class BetterControler():
+class BetterController():
     def __init__(self, system_controller):
-        self.__betters = []
+        self.__betters = [Better(0, 'josh', 'cabramacho', 500.00, '080'), Better(1, 'ricardo', 'boneca', 750.00, '090')]
         self.__system_controller = system_controller
         self.__better_view = BetterView()
+        self.__id = 2
     
+    @property
+    def betters(self):
+        return self.__betters
+
     def backtrack(self):
-        self.__system_controller.display_screen
-    
-    def check_better(self):
-        better_id = self.__better_view.get_better()
-        for better in betters:
-            if better_id == better["id"]:
-                self.__better_view.display_better_data(better)
-            else:
-                print('Invalid user!')
+        self.__system_controller.display_screen()
 
     def get_better_by_id(self, id):
         for better in self.__betters:
             if id == better.id:
                 return better
-        print('Invalid player!')
+        self.__better_view.display_message('Invalid Better!')
         return None
     
     def list_betters(self):
         for better in self.__betters:
-            print('===========================================')
-            self.__better_view.display_message(f'ID: {better.id}, Nick: {better.nick}, CPF: {better.cpf}, Funds: {better.wallet}')
-            print('===========================================')
-        input('Press any key to return...')
+            self.__better_view.display_message(f'name: {better.name}, nick: {better.nick}, wallet: {better.wallet}, cpf: {better.cpf}')
+        if len(self.__betters) == 0:
+            self.__better_view.display_message('No betters found')
+        self.__better_view.display_message('Press any key to return...')
+        input()
     
     def add_better(self):
-        better_data = get_better_info()
+        better_data = self.__better_view.get_better_info()
         better_name = better_data['name']
         better_nick = better_data['nick']
         better_cpf = better_data['cpf']
         better_funds = better_data['wallet']
-        new_better = Better(better_name, better_nick, better_funds, better_cpf)
-        unique = True
-        for better in self.__betters:
-            if better.cpf == better_cpf:
-                unique = False
-        if unique:
-            self.__betters.append(new_player)
-            print(f'New better create succesfully! ID:{new_better.id}')
+        new_better = Better(self.__id, better_name, better_nick, better_funds, better_cpf)
+        self.id_plus()
+        if new_better not in self.__betters:
+            self.__betters.append(new_better)
+            self.__better_view.display_message(f'New better create succesfully! ID:{new_better.id}')
+            input()
         else:
-            print('Better already in the database! Process failed!')
+            self.__better_view.display_message('Better already in the database! Process failed!')
+            input()
     
     def read_better(self):
         better_id = self.__better_view.get_by_id()
         for better in self.__betters:
-            if better['id'] == better_id:
-                os.system('cls')
-                print(f'ID: {better["id"]}')
-                print(f'Name: {better["name"]}')
-                print(f'Nick: {better["nick"]}')
-                print(f'CPF: {better["cpf"]}')
-                print(f'Funds: {better["wallet"]}')
-                input('Press any key to return')
+            if better.id == better_id:
+                self.__better_view.clear_screen()
+                self.__better_view.display_message(f'ID: {better.id}')
+                self.__better_view.display_message(f'Name: {better.name}')
+                self.__better_view.display_message(f'Nick: {better.nick}')
+                self.__better_view.display_message(f'CPF: {better.cpf}')
+                self.__better_view.display_message(f'Funds: {better.wallet}')
+                input(self.__better_view.display_message('Press any key to return'))
                 return
-        print('Better not found!')
-        input('Press any key to return')
+        self.__better_view.display_message('Better not found!')
+        input(self.__better_view.display_message('Press any key to return'))
     
-    #incompleto assim como o de game
     def update_better(self):
-        player_id = self.__game_view.get_bet_by_id()
-        #for game in self.__games:
-        #    if game['id'] == game_id:
+        better_id = self.__better_view.get_by_id()
+        for better in self.__betters:
+            if better.id == better_id:
+                new_data_better = self.__better_view.get_better_info()
+                better.name = new_data_better["name"]
+                better.nick = new_data_better["nick"]
+                better.cpf = new_data_better["cpf"]
+                better.wallet = new_data_better["wallet"]
+            else:
+                self.__better_view.display_message('better not found!')
 
     def delete_better(self):
         better_id = self.__better_view.get_by_id()
         for better in self.__betters:
-            if better['id'] == better_id:
+            if better.id == better_id:
+                for bet in better.bets:
+                    self.__system_controller.bet_controller.delete_bet_by_id(bet.id)
                 self.__betters.remove(better)
-                input('Better deleted succesfully!')
+                input(self.__better_view.display_message('Better deleted succesfully!'))
                 return
-        print('Better not found!')
-        input('Press any key to return')
+        self.__better_view.display_message('Better not found!')
+        input(self.__better_view.display_message('Press any key to return'))
 
     def backtrack(self):
-        self.__admin_controller.display_screen()
+        self.__system_controller.admin_controller.display_screen()
 
     def display_screen(self):
         option_list = {1: self.add_better, 
         2: self.read_better, 
         3: self.update_better, 
         4: self.delete_better, 
-        5: self.list_better, 
+        5: self.list_betters, 
         6: self.backtrack}
 
         while True:
@@ -96,12 +101,25 @@ class BetterControler():
             selected_function = option_list[option]
             selected_function()
 
-""" 
-
-    def display_screen(self):
-        option_list = {1: self.check_better, 2: self.backtrack}
-
-        while True:
-            option = self.__better_view.display_options()
-            selected_function = option_list[option]
-            selected_function() """
+    def display_balance_and_bets(self):
+        better_id = self.__better_view.get_by_id()
+        better = self.get_better_by_id(better_id)
+        if better == None:
+            self.__better_view.display_message("Better not found!!")    
+            input()
+            return
+        self.__better_view.display_message(f' {better.name}')
+        self.__better_view.display_message("Balance:")
+        self.__better_view.display_message(f" {better.wallet} ")   
+        for bet in better.bets:
+            self.__better_view.display_message(f'Bet ID: {bet.id}')
+            self.__better_view.display_message(f'Bet Game: {bet.game.name}')
+            self.__better_view.display_message(f'Bet Price: {bet.price}')
+            self.__better_view.display_message(f'Bet Outcome: {bet.result.outcome}')
+            if not bet.result.outcome == 'Draw':
+                self.__better_view.display_message(f'Bet Player: {bet.result.player.name}')
+        input()
+        return
+    
+    def id_plus(self):
+        self.__id +=1

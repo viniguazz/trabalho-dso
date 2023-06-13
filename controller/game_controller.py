@@ -1,60 +1,103 @@
 from view.game_view import GameView
 from model.game import Game
+from model.result import Result
 
 class GameController():
 
     def __init__(self, system_controller):
         self.__system_controller = system_controller
-        self.__admin_controller = admin_controller
-        self.__player_controller = player_controller
         self.__game_view = GameView()
-        self.__games = []
+        self.__games = [Game(0, 'final_virjoes', self.__system_controller.player_controller.get_player_by_id(0), self.__system_controller.player_controller.get_player_by_id(1)),
+                        Game(1, 'final_virjonas', self.__system_controller.player_controller.get_player_by_id(2), self.__system_controller.player_controller.get_player_by_id(3))]
+        self.__id = 2
+
+    @property
+    def games(self):
+        return self.__games
 
     def list_games(self):
         for game in self.__games:
-            self.__game_view.display_message(f'id: {game.id}, name: {game.name}, result: {game.result}')
-        input('Press any key to return...')
+            if not game.result == None:
+                if not game.result.outcome == 'Draw':
+                    self.__game_view.display_message(f'id: {game.id}, name: {game.name}, Outcome: {game.result.outcome}, Player: {game.result.player}')
+                else:
+                    self.__game_view.display_message(f'id: {game.id}, name: {game.name}, Outcome: {game.result.outcome}')
+            else:
+                self.__game_view.display_message(f'id: {game.id}, name: {game.name}, Result: {game.result}')
+        if len(self.__games) == 0:
+            self.__game_view.display_message("No games found")
+        self.__game_view.display_message('Press any key to return...')
+        input()
     
     def add_game(self):
-        game_data = get_game_info()
+        game_data = self.__game_view.get_game_info()
         game_name = game_data['name']
-        player1 = self.__player_controller.get_player_by_id(game_data['player1'])
-        player2 = self.__player_controller.get_player_by_id(game_data['player2'])
-        new_game = Game(id, game_name, player1, player2)
-        games.append(new_game)
-        print(f'New game create succesfully! ID:{new_game.id}')
+        player1 = self.__system_controller.player_controller.get_player_by_id(game_data['player1_id'])
+        player2 = self.__system_controller.player_controller.get_player_by_id(game_data['player2_id'])
+        new_game = Game(self.__id, game_name, player1, player2)
+        self.id_plus()
+        if new_game not in self.__games:
+            self.__games.append(new_game)           
+            self.__game_view.display_message(f'New game create succesfully! ID:{new_game.id}')
+            input()
+        else:
+            self.__game_view.display_message("Game already in database")
+            input()
+        
     
     def read_game(self):
-        game_id = self.__game_view.get_bet_by_id()
+        game_id = self.__game_view.get_by_id()
         for game in self.__games:
-            if game['id'] == game_id:
-                os.system('cls')
-                print(f'ID: {game['id']}')
-                print(f'Name: {game['name']}')
-                print(f'Player1: {game['player1']}')
-                print(f'Player2: {game['player2']}')
-                input('Press any key to return')
+            if game.id == game_id:
+                self.__game_view.clear_screen()
+                print(f'ID: {game.id}')
+                print(f'Name: {game.name}')
+                print(f'Player1: {game.player1.name}')
+                print(f'Player2: {game.player2.name}')
+                input(self.__game_view.display_message('Press any key to return...'))
                 return
-        print('Game not found!')
-        input('Press any key to return')
+            else:
+                self.__game_view.display_message('Game not found!')
+        input(self.__game_view.display_message('Press any key to return...'))
     
     def update_game(self):
-        game_id = self.__game_view.get_bet_by_id()
+        game_id = self.__game_view.get_by_id()
+        player = None
         for game in self.__games:
-            if game['id'] == game_id:
+            if game.id == game_id:
+                if game.result == None:
+                    result_data = self.__game_view.get_result_info()
+                    if result_data["player"] == 'player1':
+                        player = game.player1
+                    elif result_data["player"] == 'player2':
+                        player = game.player2
+                    game.result = Result(result_data["outcome"], player)
+                    self.__game_view.display_message(f'Game {game_id} Ended!')
+                    input()
+                    return
+                else:
+                    self.__game_view.display_message('Game already ended!')
+                    input()
+                    return
+        else:
+            self.__game_view.display_message('Game not found!')
+            input()
+            return
 
     def delete_game(self):
-        game_id = self.__game_view.get_bet_by_id()
+        game_id = self.__game_view.get_by_id()
         for game in self.__games:
-            if game['id'] == game_id:
+            if game.id == game_id:
+                for bet in game.bets:
+                    self.__system_controller.bet_controller.delete_bet_by_id(bet.id)
                 self.__games.remove(game)
-                input('Game deleted succesfully!')
+                input(self.__game_view.display_message('Game deleted succesfully!'))
                 return
-        print('Game not found!')
-        input('Press any key to return')
+        self.__game_view.display_message('Game not found!')
+        input(self.__game_view.display_message('Press any key to return'))
 
     def backtrack(self):
-        self.__admin_controller.display_screen()
+        self.__system_controller.admin_controller.display_screen()
 
 
     def list_display(self):
@@ -73,3 +116,15 @@ class GameController():
             option = self.__game_view.display_options()
             selected_function = option_list[option]
             selected_function()
+
+    def get_by_id(self, id):
+        for game in self.__games:
+            if game.id == id:
+                return game
+        self.__game_view.display_message("Game not Found")
+        return None
+    
+    def id_plus(self):
+        self.__id +=1
+
+    

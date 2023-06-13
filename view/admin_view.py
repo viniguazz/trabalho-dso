@@ -7,14 +7,23 @@ class AdminView():
         password = input('Please insert the master PASSWORD:')
         return password
     
-    def show_options(self):
-        os.system('cls')
+    def display_options(self):
+        self.clear_screen()
         print("============ ADMIN OPTIONS ============")
-        print('1) CRUD Players')
-        print('2) CRUD Betters')
-        print('3) CRUD Games')
+        print('1) Crud Games')
+        print('2) CRUD Players')
+        print('3) CRUD Betters')
         print('4) CRUD Bets')
         print('5) Return')
-
-        option = input('>>> ')
-        return option
+        while True:
+            try:
+                option = int(input('>>> '))
+                if option in (1,2,3,4,5):
+                    return option
+                else: 
+                    print("Let's Try again, shall we?")
+            except:
+                    print("Please insert a number!")
+        
+    def clear_screen(self):
+        os.system('cls')
