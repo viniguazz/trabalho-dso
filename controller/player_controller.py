@@ -1,15 +1,15 @@
 from model.player import Player
 from model.stats import Stats
 from view.player_view import PlayerView
+from repository.player_dao import PlayerDao
 
 class PlayerController():
 
     def __init__(self, system_controller):
         self.__system_controller = system_controller
         self.__player_view = PlayerView()
-        self.__players = [Player(0,'jack',Stats(5,5,5)), Player(1,'josh',Stats(4,3,2)),
-                          Player(2, 'caroline', Stats(2,5,8)), Player(3, 'rapariga', Stats(9,8,2))]
-        self.__id = 4
+        self.__player_dao = PlayerDao()
+        self.__id = 0
 
     @property
     def id(self):
@@ -20,7 +20,7 @@ class PlayerController():
         self.__id = id
 
     def get_player_by_id(self, id):
-        for player in self.__players:
+        for player in self.__player_dao.get_all():
             if id == player.id:
                 return player
         self.__player_view.display_message('Invalid player!')
@@ -50,7 +50,10 @@ class PlayerController():
         else:
             self.__player_view.display_message('Player already in the database! Process failed!')
             input()
-    
+
+    def id_plus(self):
+        self.__id +=1    
+
     def read_player(self):
         player_id = self.__player_view.get_by_id()
         for player in self.__players:
@@ -104,5 +107,3 @@ class PlayerController():
             selected_function = option_list[option]
             selected_function()
 
-    def id_plus(self):
-        self.__id +=1
