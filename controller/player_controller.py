@@ -1,14 +1,14 @@
 from model.player import Player
 from model.stats import Stats
 from view.player_view import PlayerView
-from repository.player_dao import PlayerDao
+from repository.player_dao import PlayerDAO
 
 class PlayerController():
 
     def __init__(self, system_controller):
         self.__system_controller = system_controller
         self.__player_view = PlayerView()
-        self.__player_dao = PlayerDao()
+        self.__player_dao = PlayerDAO()
         self.__id = 0
 
     @property
@@ -78,7 +78,7 @@ class PlayerController():
                 player.stats.victories = new_data_player["victories"]
                 player.stats.losses = new_data_player["losses"]
                 player.stats.draws = new_data_player["draws"]
-                self.__player_dao.update(player, player.id)
+                self.__player_dao.update(player)
             else:
                 self.__player_view.display_message('player not found!')
 
