@@ -1,6 +1,7 @@
 from view.game_view import GameView
 from model.game import Game
 from model.result import Result
+from repository.game_dao import GameDAO
 
 class GameController():
 

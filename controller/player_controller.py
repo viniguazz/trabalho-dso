@@ -79,8 +79,7 @@ class PlayerController():
                 player.stats.losses = new_data_player["losses"]
                 player.stats.draws = new_data_player["draws"]
                 self.__player_dao.update(player)
-            else:
-                self.__player_view.display_message('player not found!')
+        self.__player_view.display_message('player not found!')
 
     def delete_player(self):
         player_id = self.__player_view.get_by_id()
