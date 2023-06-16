@@ -71,15 +71,20 @@ class PlayerController():
     
     def update_player(self):
         player_id = self.__player_view.get_by_id()
+        player_list = []
         for player in self.__player_dao.get_all():
+            player_list.append(player)
+        for player in player_list:
             if player.id == player_id:
-                new_data_player = self.__player_view.get_player_info()
-                player.name = new_data_player["name"]
-                player.stats.victories = new_data_player["victories"]
-                player.stats.losses = new_data_player["losses"]
-                player.stats.draws = new_data_player["draws"]
+                new_player_data = self.__player_view.get_player_info()
+                player.name = new_player_data["name"]
+                player.stats.victories = new_player_data["victories"]
+                player.stats.losses = new_player_data["losses"]
+                player.stats.draws = new_player_data["draws"]
                 self.__player_dao.update(player)
+                return
         self.__player_view.display_message('player not found!')
+        input()
 
     def delete_player(self):
         player_id = self.__player_view.get_by_id()

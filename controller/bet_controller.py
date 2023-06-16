@@ -3,7 +3,7 @@ from model.bet import Bet
 from time import sleep
 from model.result import Result
 from model.player import Player
-from repository.bet_dai import BetDAO
+from repository.bet_dao import BetDAO
 
 class BetController():
     def __init__(self, system_controller):

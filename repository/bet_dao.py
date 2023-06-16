@@ -1,4 +1,4 @@
-from dao import DAO
+from repository.dao import DAO
 from model.bet import Bet
 
 class BetDAO(DAO):
