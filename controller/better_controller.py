@@ -89,9 +89,6 @@ class BetterController():
 
     def backtrack(self):
         self.__system_controller.admin_controller.display_screen()
-    
-    def backtrack(self):
-        self.__system_controller.display_screen()
 
     def display_screen(self):
         option_list = {1: self.add_better, 
