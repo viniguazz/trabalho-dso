@@ -9,7 +9,10 @@ class PlayerController():
         self.__system_controller = system_controller
         self.__player_view = PlayerView()
         self.__player_dao = PlayerDAO()
-        self.__id = 0
+        if len(list(self.__player_dao.get_all())) == 0:
+            self.__id = 0
+        else:
+            self.__id = list(self.__player_dao.get_all())[-1].id + 1
 
     @property
     def id(self):
@@ -64,10 +67,12 @@ class PlayerController():
                 self.__player_view.display_message(f'victories: {player.stats.victories}')
                 self.__player_view.display_message(f'losses: {player.stats.losses}')
                 self.__player_view.display_message(f'draws: {player.stats.draws}')
-                input(self.__player_view.display_message('Press any key to return'))
+                self.__player_view.display_message('Press any key to return')
+                input()
                 return
         self.__player_view.display_message('Player not found!')
-        input(self.__player_view.display_message('Press any key to return'))
+        self.__player_view.display_message('Press any key to return')
+        input()
     
     def update_player(self):
         player_id = self.__player_view.get_by_id()
@@ -91,10 +96,12 @@ class PlayerController():
         for player in self.__player_dao.get_all():
             if player.id == player_id:
                 self.__player_dao.remove(player.id)
-                input(self.__player_view.display_message('Player deleted succesfully!'))
+                self.__player_view.display_message('Player deleted succesfully!')
+                input()
                 return
         self.__player_view.display_message('Player not found!')
-        input(self.__player_view.display_message('Press any key to return'))
+        self.__player_view.display_message('Press any key to return')
+        input()
 
     def backtrack(self):
         self.__system_controller.admin_controller.display_screen()

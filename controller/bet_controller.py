@@ -10,7 +10,10 @@ class BetController():
         self.__system_controller = system_controller
         self.__bet_view = BetView()
         self.__bet_dao = BetDAO()
-        self.__id = 0
+        if len(list(self.__bet_dao.get_all())) == 0:
+            self.__id = 0
+        else:
+            self.__id = list(self.__bet_dao.get_all())[-1].id + 1
 
     def id_plus(self):
         self.__id +=1

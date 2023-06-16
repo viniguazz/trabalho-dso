@@ -7,7 +7,10 @@ class BetterController():
         self.__system_controller = system_controller
         self.__better_view = BetterView()
         self.__better_dao = BetterDAO()
-        self.__id = 0
+        if len(list(self.__better_dao.get_all())) == 0:
+            self.__id = 0
+        else:
+            self.__id = list(self.__better_dao.get_all())[-1].id + 1
     
     @property
     def betters(self):

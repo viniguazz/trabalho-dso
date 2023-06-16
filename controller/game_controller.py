@@ -9,7 +9,10 @@ class GameController():
         self.__system_controller = system_controller
         self.__game_view = GameView()
         self.__game_dao = GameDAO()
-        self.__id = 0
+        if len(list(self.__game_dao.get_all())) == 0:
+            self.__id = 0
+        else:
+            self.__id = list(self.__game_dao.get_all())[-1].id + 1
 
     @property
     def games(self):
@@ -63,11 +66,13 @@ class GameController():
                 print(f'Name: {game.name}')
                 print(f'Player1: {game.player1.name}')
                 print(f'Player2: {game.player2.name}')
-                input(self.__game_view.display_message('Press any key to return...'))
+                self.__game_view.display_message('Press any key to return...')
+                input()
                 return
             else:
                 self.__game_view.display_message('Game not found!')
-        input(self.__game_view.display_message('Press any key to return...'))
+        self.__game_view.display_message('Press any key to return...')
+        input()
     
     def update_game(self):
         game_id = self.__game_view.get_by_id()
@@ -101,7 +106,8 @@ class GameController():
                 for bet in game.bets:
                     self.__system_controller.bet_controller.delete_bet_by_id(bet.id)
                 self.__game_dao.remove(game.id)
-                input(self.__game_view.display_message('Game deleted succesfully!'))
+                self.__game_view.display_message('Game deleted succesfully!')
+                input()
                 return
         self.__game_view.display_message('Game not found!')
         input(self.__game_view.display_message('Press any key to return'))
