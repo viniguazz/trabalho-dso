@@ -28,7 +28,7 @@ class BetterController():
     
     def list_betters(self):
         for better in self.__better_dao.get_all():
-            self.__better_view.display_message(f'name: {better.name}, nick: {better.nick}, wallet: {better.wallet}, cpf: {better.cpf}')
+            self.__better_view.display_message(f'id: {better.id}, name: {better.name}, nick: {better.nick}, wallet: {better.wallet}, cpf: {better.cpf}')
         if len(self.__better_dao.get_all()) == 0:
             self.__better_view.display_message('No betters found')
         self.__better_view.display_message('Press any key to return...')

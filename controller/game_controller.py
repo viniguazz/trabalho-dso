@@ -69,8 +69,7 @@ class GameController():
                 self.__game_view.display_message('Press any key to return...')
                 input()
                 return
-            else:
-                self.__game_view.display_message('Game not found!')
+        self.__game_view.display_message('Game not found!')
         self.__game_view.display_message('Press any key to return...')
         input()
     
