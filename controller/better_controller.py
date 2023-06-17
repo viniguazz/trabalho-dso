@@ -1,31 +1,35 @@
 from view.better_view import BetterView
 from model.better import Better
+from repository.better_dao import BetterDAO
 
 class BetterController():
     def __init__(self, system_controller):
-        self.__betters = [Better(0, 'josh', 'cabramacho', 500.00, '080'), Better(1, 'ricardo', 'boneca', 750.00, '090')]
         self.__system_controller = system_controller
         self.__better_view = BetterView()
-        self.__id = 2
+        self.__better_dao = BetterDAO()
+        if len(list(self.__better_dao.get_all())) == 0:
+            self.__id = 0
+        else:
+            self.__id = list(self.__better_dao.get_all())[-1].id + 1
     
     @property
     def betters(self):
-        return self.__betters
+        return self.__better_dao.get_all()
 
-    def backtrack(self):
-        self.__system_controller.display_screen()
+    def id_plus(self):
+        self.__id +=1
 
     def get_better_by_id(self, id):
-        for better in self.__betters:
+        for better in self.__better_dao.get_all():
             if id == better.id:
                 return better
         self.__better_view.display_message('Invalid Better!')
         return None
     
     def list_betters(self):
-        for better in self.__betters:
-            self.__better_view.display_message(f'name: {better.name}, nick: {better.nick}, wallet: {better.wallet}, cpf: {better.cpf}')
-        if len(self.__betters) == 0:
+        for better in self.__better_dao.get_all():
+            self.__better_view.display_message(f'id: {better.id}, name: {better.name}, nick: {better.nick}, wallet: {better.wallet}, cpf: {better.cpf}')
+        if len(self.__better_dao.get_all()) == 0:
             self.__better_view.display_message('No betters found')
         self.__better_view.display_message('Press any key to return...')
         input()
@@ -38,8 +42,8 @@ class BetterController():
         better_funds = better_data['wallet']
         new_better = Better(self.__id, better_name, better_nick, better_funds, better_cpf)
         self.id_plus()
-        if new_better not in self.__betters:
-            self.__betters.append(new_better)
+        if new_better not in self.__better_dao.get_all():
+            self.__better_dao.add(new_better)
             self.__better_view.display_message(f'New better create succesfully! ID:{new_better.id}')
             input()
         else:
@@ -48,7 +52,7 @@ class BetterController():
     
     def read_better(self):
         better_id = self.__better_view.get_by_id()
-        for better in self.__betters:
+        for better in self.__better_dao.get_all():
             if better.id == better_id:
                 self.__better_view.clear_screen()
                 self.__better_view.display_message(f'ID: {better.id}')
@@ -63,23 +67,24 @@ class BetterController():
     
     def update_better(self):
         better_id = self.__better_view.get_by_id()
-        for better in self.__betters:
+        for better in self.__better_dao.get_all():
             if better.id == better_id:
                 new_data_better = self.__better_view.get_better_info()
                 better.name = new_data_better["name"]
                 better.nick = new_data_better["nick"]
                 better.cpf = new_data_better["cpf"]
                 better.wallet = new_data_better["wallet"]
+                self.__better_dao.update(better)
             else:
                 self.__better_view.display_message('better not found!')
 
     def delete_better(self):
         better_id = self.__better_view.get_by_id()
-        for better in self.__betters:
+        for better in self.__better_dao.get_all():
             if better.id == better_id:
                 for bet in better.bets:
                     self.__system_controller.bet_controller.delete_bet_by_id(bet.id)
-                self.__betters.remove(better)
+                self.__better_dao.remove(better.id)
                 input(self.__better_view.display_message('Better deleted succesfully!'))
                 return
         self.__better_view.display_message('Better not found!')
@@ -121,5 +126,3 @@ class BetterController():
         input()
         return
     
-    def id_plus(self):
-        self.__id +=1

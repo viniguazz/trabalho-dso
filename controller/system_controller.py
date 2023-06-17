@@ -34,7 +34,6 @@ class SystemController:
     @property
     def player_controller(self):
         return self.__player_controller
-    
 
     def initialize_system(self):
         self.display_screen()
