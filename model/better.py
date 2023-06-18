@@ -1,6 +1,7 @@
 from model.person import Person
 from exception.tipo_errado_exception import TipoErradoException
-
+from model.bet import Bet
+        
 class Better(Person):
 
     def __init__(self, id: int , name : str, nick : 
@@ -14,7 +15,6 @@ class Better(Person):
         if not isinstance(wallet, float):
             raise TipoErradoException
         super().__init__(name)        
-        self.__bets = []
         self.__id = id
         self.__wallet = wallet
         self.__nick = nick
@@ -61,21 +61,3 @@ class Better(Person):
     
     def remove_money(self, remove):
         self.__wallet -= remove
-
-    def add_bet(self, bet):
-        from model.bet import Bet
-        if not isinstance(bet, Bet):
-            raise TipoErradoException
-        if bet not in self.__bets:
-            self.__bets.append(bet)
-        else:
-            print("Bet já presente")
-            
-    def remove_bet(self, bet):
-        from model.bet import Bet
-        if not isinstance(bet, Bet):
-            raise TipoErradoException
-        if bet in self.__bets:
-            self.__bets.remove(bet)
-        else:
-            print("Bet não existe")

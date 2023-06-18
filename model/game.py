@@ -1,9 +1,12 @@
 from model.player import Player
 from model.result import Result
+from model.bet import Bet
+from model.bet import Bet
 from exception.tipo_errado_exception import TipoErradoException
+from exception.closed_game_exception import ClosedGameException
 
 class Game():
-    def __init__(self,id : int, name : str, player1 : Player, player2 : Player):
+    def __init__(self,id: int, name: str, player1: Player, player2: Player):
 
         if not isinstance(name, str):
             raise TipoErradoException
@@ -24,7 +27,6 @@ class Game():
     @property
     def id(self):
         return self.__id
-        
 
     @property
     def bets(self):
@@ -63,21 +65,29 @@ class Game():
         if not (isinstance(result, Result)):
             raise TipoErradoException
         self.__result = result
-        self.encerrar_jogo()
-        
-    def add_bet(self, bet):
-        from model.bet import Bet
-        if not (isinstance(bet, Bet)):
-            raise TipoErradoException
-        self.__bets.append(bet)
+        self.end_game()
 
-    def remove_bet(self,bet):
-        from model.bet import Bet
-        if not (isinstance(bet,Bet)):
-            raise TipoErradoException
+    def add_bet(self, bet_id: int, price: float, better: Better, result: Result, odds: int):
+        try:
+            if self.__result != None:
+                raise ClosedGameException(self.__name, self.__id)
+        except ClosedGameException as e:
+                return e
+        else:
+            new_bet = Bet(bet_id, price, self, better, result, odds)
+            self.__bets.append(new_bet)
+            return new_bet
+    
+    def get_bet_by_id(self, id: int):
+        for bet in self.__bets:
+            if bet.id == id:
+                return bet
+
+    def remove_bet(self, id: int):
+        bet = get_bet_by_id(id)
         self.__bets.remove(bet)
 
-    def encerrar_jogo(self):             
+    def end_game(self):             
         for bet in self.__bets:
             if bet.status == True:
                 bet.status = False

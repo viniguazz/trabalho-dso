@@ -7,17 +7,10 @@ class BetterController():
         self.__system_controller = system_controller
         self.__better_view = BetterView()
         self.__better_dao = BetterDAO()
-        if len(list(self.__better_dao.get_all())) == 0:
-            self.__id = 0
-        else:
-            self.__id = list(self.__better_dao.get_all())[-1].id + 1
     
     @property
     def betters(self):
         return self.__better_dao.get_all()
-
-    def id_plus(self):
-        self.__id +=1
 
     def get_better_by_id(self, id):
         for better in self.__better_dao.get_all():
@@ -40,8 +33,8 @@ class BetterController():
         better_nick = better_data['nick']
         better_cpf = better_data['cpf']
         better_funds = better_data['wallet']
-        new_better = Better(self.__id, better_name, better_nick, better_funds, better_cpf)
-        self.id_plus()
+        current_base_id = self.__better_dao.get_current_id()
+        new_better = Better(current_base_id, better_name, better_nick, better_funds, better_cpf)
         if new_better not in self.__better_dao.get_all():
             self.__better_dao.add(new_better)
             self.__better_view.display_message(f'New better create succesfully! ID:{new_better.id}')
@@ -77,6 +70,9 @@ class BetterController():
                 self.__better_dao.update(better)
             else:
                 self.__better_view.display_message('better not found!')
+
+    def save_better(self, better):
+        self.__game_dao.update(better)
 
     def delete_better(self):
         better_id = self.__better_view.get_by_id()

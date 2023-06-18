@@ -9,10 +9,6 @@ class GameController():
         self.__system_controller = system_controller
         self.__game_view = GameView()
         self.__game_dao = GameDAO()
-        if len(list(self.__game_dao.get_all())) == 0:
-            self.__id = 0
-        else:
-            self.__id = list(self.__game_dao.get_all())[-1].id + 1
 
     @property
     def games(self):
@@ -44,8 +40,8 @@ class GameController():
         game_name = game_data['name']
         player1 = self.__system_controller.player_controller.get_player_by_id(game_data['player1_id'])
         player2 = self.__system_controller.player_controller.get_player_by_id(game_data['player2_id'])
-        new_game = Game(self.__id, game_name, player1, player2)
-        self.id_plus()
+        current_base_id = self.__game_dao.get_current_id()
+        new_game = Game(current_base_id, game_name, player1, player2)
         if new_game not in self.__game_dao.get_all():
             self.__game_dao.add(new_game)           
             self.__game_view.display_message(f'New game create succesfully! ID:{new_game.id}')
@@ -53,9 +49,6 @@ class GameController():
         else:
             self.__game_view.display_message("Game already in database")
             input()
-
-    def id_plus(self):
-        self.__id +=1
     
     def read_game(self):
         game_id = self.__game_view.get_by_id()
@@ -98,11 +91,17 @@ class GameController():
             input()
             return
 
+    def save_game(self, game):
+        self.__game_dao.update(game)
+    
     def delete_game(self):
         game_id = self.__game_view.get_by_id()
         for game in self.__game_dao.get_all():
             if game.id == game_id:
                 for bet in game.bets:
+                    if game.result == None:
+                        bet.better.add_money(bet.price)
+                        self.__system_controller.better_controller.save_better(bet.better)
                     self.__system_controller.bet_controller.delete_bet_by_id(bet.id)
                 self.__game_dao.remove(game.id)
                 self.__game_view.display_message('Game deleted succesfully!')

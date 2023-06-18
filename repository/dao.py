@@ -11,6 +11,7 @@ class DAO(ABC):
             self.__load()
         except FileNotFoundError:
             self.__dump()
+            self.__cache = {'id':0}
 
     def __dump(self):
         pickle.dump(self.__cache, open(self.__datasource, 'wb'))
@@ -20,6 +21,7 @@ class DAO(ABC):
 
     def add(self, key, obj):
         self.__cache[key] = obj
+        self.__cache['id'] += 1
         self.__dump()
     
     def get(self, key):
@@ -36,4 +38,4 @@ class DAO(ABC):
             pass
 
     def get_all(self):
-        return self.__cache.values()
+        return list(self.__cache.values())

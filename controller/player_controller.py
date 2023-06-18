@@ -9,10 +9,6 @@ class PlayerController():
         self.__system_controller = system_controller
         self.__player_view = PlayerView()
         self.__player_dao = PlayerDAO()
-        if len(list(self.__player_dao.get_all())) == 0:
-            self.__id = 0
-        else:
-            self.__id = list(self.__player_dao.get_all())[-1].id + 1
 
     @property
     def id(self):
@@ -44,8 +40,8 @@ class PlayerController():
         losses = player_data['losses']
         draws = player_data['draws']
         stats = Stats(victories, losses, draws)
-        new_player = Player(self.__id,player_name, stats)
-        self.id_plus()
+        current_base_id = self.__player_dao.get_current_id()
+        new_player = Player(current_base_id,player_name, stats)
         if new_player not in self.__player_dao.get_all():
             self.__player_dao.add(new_player)
             self.__player_view.display_message(f'New player create succesfully! ID:{new_player.id}')

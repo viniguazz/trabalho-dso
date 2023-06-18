@@ -22,3 +22,6 @@ class GameDAO(DAO):
     def remove(self, key: int):
         if isinstance(key, int):
             return super().remove(key)
+
+    def get_current_id(self):
+        return super().__cache['id']

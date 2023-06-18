@@ -2,7 +2,7 @@ from model.player import Player
 from exception.tipo_errado_exception import TipoErradoException
 
 class Result():
-    def __init__(self, outcome : str, player : Player = None):
+    def __init__(self, outcome: str, player: str = None):
         if not isinstance(outcome, str):
             raise TipoErradoException
         self.__outcome = outcome
@@ -27,6 +27,6 @@ class Result():
     
     @player.setter
     def player(self, player):
-        if not isinstance(player, Player):
+        if not isinstance(player, str):
             raise TipoErradoException
         self.__player = player

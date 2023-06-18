@@ -4,7 +4,7 @@ from model.better import Better
 from exception.tipo_errado_exception import TipoErradoException
 
 class Bet():   
-    def __init__(self, id : int, price: float, game: Game, better: Better, result: Result, odd : int):
+    def __init__(self, id: int, price: float, game: Game, better: Better, result: Result, odd : int):
         if not isinstance(price, float):
             raise TipoErradoException
         if not isinstance(game, Game):
@@ -51,12 +51,6 @@ class Bet():
     def result(self):
         return self.__result
 
-    @id.setter
-    def id(self, id):
-        if not isinstance(id, int):
-            raise TipoErradoException
-
-        self.__id = id
 
     @status.setter
     def status(self, status):
