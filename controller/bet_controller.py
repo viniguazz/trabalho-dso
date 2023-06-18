@@ -32,6 +32,7 @@ class BetController():
         new_bet = bet.game.add_bet(bet_id, bet_price, bet_better, bet_result, bet_odds)
         self.__bet_dao.add(new_bet)
         self.___system_controller.game_controller.save_game(bet_game)
+        
 
     def read_bet(self):
         bet_id = self.__bet_view.get_by_id()
