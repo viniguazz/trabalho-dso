@@ -23,6 +23,7 @@ class GameController():
 
     def list_games(self):
         for game in self.__game_dao.get_all():
+            print(f'BLABLA: {game}')
             if not game.result == None:
                 if not game.result.outcome == 'Draw':
                     self.__game_view.display_message(f'id: {game.id}, name: {game.name}, Outcome: {game.result.outcome}, Player: {game.result.player}')

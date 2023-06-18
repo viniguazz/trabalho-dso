@@ -1,20 +1,23 @@
 from model.game import Game
 from model.result import Result
 from model.better import Better
-from exception.tipo_errado_exception import TipoErradoException
+from exception import InvalidNativeTypeException, InvalidGameException, InvalidBetterException, InvalidResultException
 
 class Bet():   
+
     def __init__(self, id: int, price: float, game: Game, better: Better, result: Result, odd : int):
+
         if not isinstance(price, float):
-            raise TipoErradoException
+            raise InvalidNativeTypeException
         if not isinstance(game, Game):
-            raise TipoErradoException
+            raise InvalidGameException
         if not isinstance(better, Better):
-            raise TipoErradoException
+            raise InvalidBetterException
         if not isinstance(result, Result):
-            raise TipoErradoException
+            raise InvalidResultException
         if not isinstance(odd, int):
-            raise TipoErradoException
+            raise InvalidNativeTypeException
+
         self.__better = better
         self.__game = game
         self.__result = result

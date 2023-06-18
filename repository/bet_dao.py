@@ -1,6 +1,7 @@
 from repository.dao import DAO
 from model.bet import Bet
 
+
 class BetDAO(DAO):
 
     def __init__(self):

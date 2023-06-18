@@ -1,7 +1,5 @@
 from model.player import Player
 from model.result import Result
-from model.bet import Bet
-from model.bet import Bet
 from exception.tipo_errado_exception import TipoErradoException
 from exception.closed_game_exception import ClosedGameException
 
@@ -11,10 +9,10 @@ class Game():
         if not isinstance(name, str):
             raise TipoErradoException
 
-        if not isinstance(player1 , Player):
+        if not isinstance(player1, Player):
             raise TipoErradoException
 
-        if not isinstance(player2 , Player):
+        if not isinstance(player2, Player):
             raise TipoErradoException
         
         self.__id = id
@@ -23,6 +21,10 @@ class Game():
         self.__result = None
         self.__bets = []
         self.__name = name
+
+
+
+
 
     @property
     def id(self):
@@ -67,7 +69,13 @@ class Game():
         self.__result = result
         self.end_game()
 
-    def add_bet(self, bet_id: int, price: float, better: Better, result: Result, odds: int):
+    def generate_odds(self):
+        pass
+    
+    
+    def add_bet(self, bet_id, price, better, result, odds):
+        from model.better import Better
+        from model.bet import Bet
         try:
             if self.__result != None:
                 raise ClosedGameException(self.__name, self.__id)
@@ -93,3 +101,6 @@ class Game():
                 bet.status = False
                 if (bet.result.outcome == self.__result.outcome) and (bet.result.player == self.__result.player):
                     bet.better.add_money((bet.price + bet.price*bet.odd))
+
+
+

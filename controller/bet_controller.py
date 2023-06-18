@@ -26,13 +26,16 @@ class BetController():
         bet_game = self.__system_controller.game_controller.get_by_id(int(bet_data["game_id"]))
         bet_price = bet_data["price"]
         bet_better = self.__system_controller.better_controller.get_better_by_id(bet_data["better_id"])
-        bet_result = Result(bet_data["result"]["outcome"], player)
-        bet_odds = bet_data['odd']
-        bet_id = self.__bet_dao.get_current_id() + 1
-        new_bet = bet.game.add_bet(bet_id, bet_price, bet_better, bet_result, bet_odds)
-        self.__bet_dao.add(new_bet)
-        self.___system_controller.game_controller.save_game(bet_game)
-        
+        try:
+            bet_better.remove_money(bet_price)
+            bet_result = Result(bet_data["result"]["outcome"], player)
+            bet_odds = bet_data['odd']
+            bet_id = self.__bet_dao.get_current_id() + 1
+            new_bet = bet.game.add_bet(bet_id, bet_price, bet_better, bet_result, bet_odds)
+            self.__bet_dao.add(new_bet)
+            self.___system_controller.game_controller.save_game(bet_game)
+        except AttributeError:
+            return
 
     def read_bet(self):
         bet_id = self.__bet_view.get_by_id()
@@ -86,7 +89,7 @@ class BetController():
     def display_place_bet(self):
         option = self.__bet_view.display_add_bet()
         if option == 2:
-            self.backtrack_system()
+            self.__system_controller.display_screen()
         elif option == 1:
             self.add_bet()
 

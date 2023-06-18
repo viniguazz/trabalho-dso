@@ -38,4 +38,4 @@ class DAO(ABC):
             pass
 
     def get_all(self):
-        return list(self.__cache.values())
+        return [v for k, v in self.__cache.items() if k != "id"]

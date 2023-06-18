@@ -1,6 +1,6 @@
 from model.person import Person
 from exception.tipo_errado_exception import TipoErradoException
-from model.bet import Bet
+
         
 class Better(Person):
 
