@@ -1,5 +1,6 @@
-from view.admin_view import AdminView
 import os
+from view import AdminView
+
 
 class AdminController():
     

@@ -1,20 +1,26 @@
-from model.person import Person
-from exception.tipo_errado_exception import TipoErradoException
+from model import Person
+from exception import InvalidNativeTypeException, InvalidPlayerException
 
         
 class Better(Person):
 
     def __init__(self, id: int , name : str, nick : 
                 str, wallet : float, cpf: str):
+
         if not isinstance(nick, str):
-            raise TipoErradoException
+            raise InvalidNativeTypeException(nick, "str")
+
         if not isinstance(wallet,float):
-            raise TipoErradoException
+            raise InvalidNativeTypeException(wallet, "float")
+
         if not isinstance(cpf, str):
-            raise TipoErradoException
+            raise InvalidNativeTypeException(cpf, "str")
+
         if not isinstance(wallet, float):
-            raise TipoErradoException
-        super().__init__(name)        
+            raise InvalidNativeTypeException(wallet, "float")
+
+        super().__init__(name)
+
         self.__id = id
         self.__wallet = wallet
         self.__nick = nick

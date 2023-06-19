@@ -1,5 +1,6 @@
 import os
 
+
 class GameView():
 
     def display_options(self):

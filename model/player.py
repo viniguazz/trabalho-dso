@@ -1,13 +1,13 @@
-from model.person import Person
-from model.stats import Stats
-from exception.tipo_errado_exception import TipoErradoException
+from model import Person, Stats
+from exception import InvalidNativeTypeException, InvalidStatsException
+
 
 class Player(Person):
 
     def __init__(self, id : int, name : str, stats : Stats):
         super().__init__(name)
         if not isinstance(stats, Stats):
-            raise TipoErradoException
+            raise InvalidStatsException(stats)
         self.__stats = stats
         self.__id = id
     

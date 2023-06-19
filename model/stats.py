@@ -1,13 +1,16 @@
-from exception.tipo_errado_exception import TipoErradoException
+from exception import InvalidNativeTypeException
+
 
 class Stats():
+
     def __init__(self, victories : int, losses : int, draws : int):
+        
         if not isinstance(victories, int):
-            raise TipoErradoException
+            raise InvalidNativeTypeException(victories, "int")
         if not isinstance(losses, int):
-            raise TipoErradoException
+            raise InvalidNativeTypeException(losser, "int")
         if not isinstance(draws, int):
-            raise TipoErradoException
+            raise InvalidNativeTypeException(draws, "int")
         self.__losses = losses
         self.__draws = draws
         self.__victories = victories

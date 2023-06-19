@@ -1,7 +1,8 @@
-from view.game_view import GameView
-from model.game import Game
-from model.result import Result
-from repository.game_dao import GameDAO
+from model import Game, Result
+from view import GameView
+from repository import GameDAO
+from exception import InvalidGameException
+
 
 class GameController():
 
@@ -18,8 +19,8 @@ class GameController():
         for game in self.__game_dao.get_all():
             if game.id == id:
                 return game
-        self.__game_view.display_message("Game not Found")
-        return None
+        raise InvalidGameException(id)
+        return
 
     def list_games(self):
         for game in self.__game_dao.get_all():

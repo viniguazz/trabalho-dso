@@ -1,22 +1,21 @@
-from model.game import Game
-from model.result import Result
-from model.better import Better
+from model import Game, Result, Better
 from exception import InvalidNativeTypeException, InvalidGameException, InvalidBetterException, InvalidResultException
 
-class Bet():   
+
+class Bet():
 
     def __init__(self, id: int, price: float, game: Game, better: Better, result: Result, odd : int):
 
         if not isinstance(price, float):
-            raise InvalidNativeTypeException
+            raise InvalidNativeTypeException(price, "float")
         if not isinstance(game, Game):
-            raise InvalidGameException
+            raise InvalidGameException(game)
         if not isinstance(better, Better):
-            raise InvalidBetterException
+            raise InvalidBetterException(better)
         if not isinstance(result, Result):
-            raise InvalidResultException
+            raise InvalidResultException(result)
         if not isinstance(odd, int):
-            raise InvalidNativeTypeException
+            raise InvalidNativeTypeException(odd, "int")
 
         self.__better = better
         self.__game = game
@@ -53,7 +52,6 @@ class Bet():
     @property
     def result(self):
         return self.__result
-
 
     @status.setter
     def status(self, status):

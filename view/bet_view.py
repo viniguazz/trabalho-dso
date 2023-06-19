@@ -1,5 +1,6 @@
 import os
 
+
 class BetView():
 
     def display_message(self, message):

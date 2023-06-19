@@ -1,5 +1,5 @@
-from repository.dao import DAO
-from model.player import Player
+from repository import DAO
+from model import Player
 
 
 class PlayerDAO(DAO):
@@ -22,6 +22,6 @@ class PlayerDAO(DAO):
     def remove(self, key: int):
         if isinstance(key, int):
             return super().remove(key)
-
-
     
+    def get_current_id(self):
+        return super().get('id')

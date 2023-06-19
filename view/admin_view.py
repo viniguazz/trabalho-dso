@@ -1,5 +1,6 @@
 import os
 
+
 class AdminView():
 
     def login(self):

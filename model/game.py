@@ -1,19 +1,19 @@
-from model.player import Player
-from model.result import Result
-from exception.tipo_errado_exception import TipoErradoException
-from exception.closed_game_exception import ClosedGameException
+from model import Player, Result
+from exception import InvalidNativeTypeException, InvalidPlayerException, ClosedGameException
+
 
 class Game():
+
     def __init__(self,id: int, name: str, player1: Player, player2: Player):
 
         if not isinstance(name, str):
-            raise TipoErradoException
+            raise InvalidNativeTypeException(name, "str")
 
         if not isinstance(player1, Player):
-            raise TipoErradoException
+            raise InvalidPlayerException(player1)
 
         if not isinstance(player2, Player):
-            raise TipoErradoException
+            raise InvalidPlayerException(player2)
         
         self.__id = id
         self.__player1 = player1
@@ -21,10 +21,6 @@ class Game():
         self.__result = None
         self.__bets = []
         self.__name = name
-
-
-
-
 
     @property
     def id(self):
@@ -71,20 +67,15 @@ class Game():
 
     def generate_odds(self):
         pass
-    
-    
+
     def add_bet(self, bet_id, price, better, result, odds):
         from model.better import Better
         from model.bet import Bet
-        try:
-            if self.__result != None:
-                raise ClosedGameException(self.__name, self.__id)
-        except ClosedGameException as e:
-                return e
-        else:
-            new_bet = Bet(bet_id, price, self, better, result, odds)
-            self.__bets.append(new_bet)
-            return new_bet
+        if self.__result != None:
+            raise ClosedGameException(self.__name, self.__id)
+        new_bet = Bet(bet_id, price, self, better, result, odds)
+        self.__bets.append(new_bet)
+        return new_bet
     
     def get_bet_by_id(self, id: int):
         for bet in self.__bets:

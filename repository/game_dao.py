@@ -1,5 +1,5 @@
-from repository.dao import DAO
-from model.game import Game
+from repository import DAO
+from model import Game
 
 
 class GameDAO(DAO):
@@ -24,4 +24,4 @@ class GameDAO(DAO):
             return super().remove(key)
 
     def get_current_id(self):
-        return super().__cache['id']
+        return super().get('id')

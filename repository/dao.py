@@ -10,8 +10,8 @@ class DAO(ABC):
         try:
             self.__load()
         except FileNotFoundError:
-            self.__dump()
             self.__cache = {'id':0}
+            self.__dump()
 
     def __dump(self):
         pickle.dump(self.__cache, open(self.__datasource, 'wb'))
@@ -27,8 +27,8 @@ class DAO(ABC):
     def get(self, key):
         try:
             return self.__cache[key]
-        except KeyError:
-            pass
+        except KeyError as e:
+            print("Key not found in CACHE")
 
     def remove(self, key):
         try:

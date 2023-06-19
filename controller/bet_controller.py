@@ -1,9 +1,9 @@
-from view.bet_view import BetView
-from model.bet import Bet
 from time import sleep
-from model.result import Result
-from model.player import Player
-from repository.bet_dao import BetDAO
+from model import Bet, Result, Player
+from view import BetView
+from repository import BetDAO
+from exception import InvalidNativeTypeException, InvalidGameException, InvalidBetterException, InvalidResultException, ClosedGameException
+
 
 class BetController():
     def __init__(self, system_controller):
@@ -22,21 +22,24 @@ class BetController():
         input(self.__bet_view.display_message('Press any key to return...'))
 
     def add_bet(self):
-        bet_data = self.__bet_view.get_bet_info()
-        bet_game = self.__system_controller.game_controller.get_by_id(int(bet_data["game_id"]))
-        bet_price = bet_data["price"]
-        bet_better = self.__system_controller.better_controller.get_better_by_id(bet_data["better_id"])
         try:
-            bet_better.remove_money(bet_price)
-            bet_result = Result(bet_data["result"]["outcome"], player)
+            bet_data = self.__bet_view.get_bet_info()
+            bet_game = self.__system_controller.game_controller.get_by_id(int(bet_data["game_id"]))
+            bet_price = bet_data["price"]
+            bet_better = self.__system_controller.better_controller.get_better_by_id(bet_data["better_id"])
+            bet_result = Result(bet_data["result"]["outcome"], bet_data["result"]["player"])
             bet_odds = bet_data['odd']
             bet_id = self.__bet_dao.get_current_id() + 1
-            new_bet = bet.game.add_bet(bet_id, bet_price, bet_better, bet_result, bet_odds)
+            new_bet = bet_game.add_bet(bet_id, bet_price, bet_better, bet_result, bet_odds)
+            bet_better.remove_money(bet_price)
             self.__bet_dao.add(new_bet)
             self.___system_controller.game_controller.save_game(bet_game)
-        except AttributeError:
+        
+        except (InvalidNativeTypeException, InvalidGameException, InvalidBetterException, InvalidResultException, ClosedGameException) as e:
+            self.__bet_view.display_message(e)
+            input()
             return
-
+        
     def read_bet(self):
         bet_id = self.__bet_view.get_by_id()
         for bet in self.__bet_dao.get_all():

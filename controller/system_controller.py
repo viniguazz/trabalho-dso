@@ -1,9 +1,6 @@
-from view.system_view import SystemView
-from controller.admin_controller import AdminController
-from controller.player_controller import PlayerController
-from controller.better_controller import BetterController
-from controller.game_controller import GameController
-from controller.bet_controller import BetController
+from view import SystemView
+from controller import AdminController, PlayerController, BetterController, GameController, BetController
+
 
 class SystemController:
 

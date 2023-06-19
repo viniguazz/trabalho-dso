@@ -1,7 +1,7 @@
-from model.player import Player
-from model.stats import Stats
-from view.player_view import PlayerView
-from repository.player_dao import PlayerDAO
+from model import Player, Stats
+from view import PlayerView
+from repository import PlayerDAO
+
 
 class PlayerController():
 

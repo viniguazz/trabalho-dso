@@ -1,10 +1,11 @@
-from model.player import Player
-from exception.tipo_errado_exception import TipoErradoException
+from exception import InvalidNativeTypeException
+
 
 class Result():
+
     def __init__(self, outcome: str, player: str = None):
         if not isinstance(outcome, str):
-            raise TipoErradoException
+            raise InvalidNativeTypeException(outcome, "str")
         self.__outcome = outcome
         if player == None and outcome == "Draw":
             self.__player = None

@@ -1,5 +1,6 @@
 import os
 
+
 class BetterView:
 
     def display_options(self):

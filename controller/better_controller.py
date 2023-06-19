@@ -1,6 +1,8 @@
-from view.better_view import BetterView
-from model.better import Better
-from repository.better_dao import BetterDAO
+from model import Better
+from view import BetterView
+from repository import BetterDAO
+from exception import InvalidBetterException
+
 
 class BetterController():
     def __init__(self, system_controller):
@@ -16,8 +18,8 @@ class BetterController():
         for better in self.__better_dao.get_all():
             if id == better.id:
                 return better
-        self.__better_view.display_message('Invalid Better!')
-        return None
+        raise InvalidBetterException(id)
+        return 
     
     def list_betters(self):
         for better in self.__better_dao.get_all():
@@ -104,9 +106,10 @@ class BetterController():
 
     def display_balance_and_bets(self):
         better_id = self.__better_view.get_by_id()
-        better = self.get_better_by_id(better_id)
-        if better == None:
-            self.__better_view.display_message("Better not found!!")    
+        try:
+            better = self.get_better_by_id(better_id)
+        except InvalidBetterException as e:
+            self.__better_view.display_message(e)    
             input()
             return
         self.__better_view.display_message(f' {better.name}')

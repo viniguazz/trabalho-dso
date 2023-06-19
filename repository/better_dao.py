@@ -1,5 +1,5 @@
-from repository.dao import DAO
-from model.better import Better
+from repository import DAO
+from model import Better
 
 
 class BetterDAO(DAO):
@@ -22,3 +22,6 @@ class BetterDAO(DAO):
     def remove(self, key: int):
         if isinstance(key, int):
             return super().remove(key)
+
+    def get_current_id(self):
+        return super().get('id')
