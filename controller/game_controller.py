@@ -1,7 +1,7 @@
 from model import Game, Result
 from view import GameView
 from repository import GameDAO
-from exception import InvalidGameException
+from exception import InvalidNativeTypeException, InvalidPlayerException, InvalidGameException
 
 
 class GameController():
@@ -24,7 +24,6 @@ class GameController():
 
     def list_games(self):
         for game in self.__game_dao.get_all():
-            print(f'BLABLA: {game}')
             if not game.result == None:
                 if not game.result.outcome == 'Draw':
                     self.__game_view.display_message(f'id: {game.id}, name: {game.name}, Outcome: {game.result.outcome}, Player: {game.result.player}')
@@ -43,7 +42,12 @@ class GameController():
         player1 = self.__system_controller.player_controller.get_player_by_id(game_data['player1_id'])
         player2 = self.__system_controller.player_controller.get_player_by_id(game_data['player2_id'])
         current_base_id = self.__game_dao.get_current_id()
-        new_game = Game(current_base_id, game_name, player1, player2)
+        try:
+            new_game = Game(current_base_id, game_name, player1, player2)
+        except (InvalidNativeTypeException, InvalidPlayerException) as e:
+            self.__game_view.display_message(e)
+            input()
+            return
         if new_game not in self.__game_dao.get_all():
             self.__game_dao.add(new_game)           
             self.__game_view.display_message(f'New game create succesfully! ID:{new_game.id}')

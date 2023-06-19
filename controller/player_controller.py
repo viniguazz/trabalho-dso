@@ -22,8 +22,8 @@ class PlayerController():
         for player in self.__player_dao.get_all():
             if id == player.id:
                 return player
-        self.__player_view.display_message('Invalid player!')
-        return None
+        #self.__player_view.display_message('Invalid player!')
+        return
     
     def list_players(self):
         for player in self.__player_dao.get_all():
@@ -83,6 +83,7 @@ class PlayerController():
                 player.stats.losses = new_player_data["losses"]
                 player.stats.draws = new_player_data["draws"]
                 self.__player_dao.update(player)
+                input()
                 return
         self.__player_view.display_message('player not found!')
         input()
