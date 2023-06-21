@@ -1,29 +1,51 @@
-import os
+from view.abstract_view import AbstractView
+import PySimpleGUI as sg
 
-class AdminView():
+class AdminView(AbstractView):
+    def __init__(self):
+        super().__init__()
+
+    def display_options(self):
+        self.init_components()
+        button, values = self.__window.Read()
+        opcao = 0
+        if values['1']:
+            opcao = 1
+        if values['2']:
+            opcao = 2
+        if values['3']:
+            opcao = 3
+        if values['4']:
+            opcao = 4
+        if values['5'] or button in (None,'Cancelar'):
+            opcao = 5
+        self.close()
+        return opcao
 
     def login(self):
-        os.system('cls')
-        password = input('Please insert the master PASSWORD:')
-        return password
+        layout =[[sg.Text('Please insert the master PASSWORD:'), sg.InputText('', key = 'password')],
+                 [sg.Button('Confirmar'), sg.Cancel('Cancelar')]]
+        self.__window = sg.Window('getlogin').Layout(layout)
+
+        button,values = self.open()
+        self.close()
+        return values['password']
     
-    def display_options(self):
-        self.clear_screen()
-        print("============ ADMIN OPTIONS ============")
-        print('1) Crud Games')
-        print('2) CRUD Players')
-        print('3) CRUD Betters')
-        print('4) CRUD Bets')
-        print('5) Return')
-        while True:
-            try:
-                option = int(input('>>> '))
-                if option in (1,2,3,4,5):
-                    return option
-                else: 
-                    print("Let's Try again, shall we?")
-            except:
-                    print("Please insert a number!")
+    def init_components(self):
+        layout = [
+            [sg.Text('============ ADMIN OPTIONS ============')],
+            [sg.Radio('Games', "RD1", key = '1')],
+            [sg.Radio('Players', "RD1", key='2')],
+            [sg.Radio('Betters', "RD1", key = '3')],
+            [sg.Radio('Bets', "RD1", key = '4')],
+            [sg.Radio('Return', "RD1", key = '5')],
+            [sg.Button('Submit'), sg.Cancel('Cancel')]
+        ]
+        self.__window = sg.Window('adminview').Layout(layout)
         
-    def clear_screen(self):
-        os.system('cls')
+    def close(self):
+        self.__window.Close()
+    
+    def open(self):
+        button, values = self.__window.Read()
+        return button, values

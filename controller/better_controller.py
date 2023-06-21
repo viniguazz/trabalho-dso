@@ -27,12 +27,12 @@ class BetterController():
         return None
     
     def list_betters(self):
-        for better in self.__better_dao.get_all():
-            self.__better_view.display_message(f'id: {better.id}, name: {better.name}, nick: {better.nick}, wallet: {better.wallet}, cpf: {better.cpf}')
-        if len(self.__better_dao.get_all()) == 0:
-            self.__better_view.display_message('No betters found')
-        self.__better_view.display_message('Press any key to return...')
-        input()
+        # for better in self.__better_dao.get_all():
+        #     self.__better_view.display_message(f'id: {better.id}, name: {better.name}, nick: {better.nick}, wallet: {better.wallet}, cpf: {better.cpf}')
+        # if len(self.__better_dao.get_all()) == 0:
+        #     self.__better_view.display_message('No betters found')
+        # self.__better_view.display_message('Press any key to return...')
+        self.__better_view.list_better(self.__better_dao.get_all())
     
     def add_better(self):
         better_data = self.__better_view.get_better_info()
@@ -45,10 +45,8 @@ class BetterController():
         if new_better not in self.__better_dao.get_all():
             self.__better_dao.add(new_better)
             self.__better_view.display_message(f'New better create succesfully! ID:{new_better.id}')
-            input()
         else:
             self.__better_view.display_message('Better already in the database! Process failed!')
-            input()
     
     def read_better(self):
         better_id = self.__better_view.get_by_id()
@@ -60,10 +58,8 @@ class BetterController():
                 self.__better_view.display_message(f'Nick: {better.nick}')
                 self.__better_view.display_message(f'CPF: {better.cpf}')
                 self.__better_view.display_message(f'Funds: {better.wallet}')
-                input(self.__better_view.display_message('Press any key to return'))
                 return
         self.__better_view.display_message('Better not found!')
-        input(self.__better_view.display_message('Press any key to return'))
     
     def update_better(self):
         better_id = self.__better_view.get_by_id()
@@ -111,18 +107,17 @@ class BetterController():
         better = self.get_better_by_id(better_id)
         if better == None:
             self.__better_view.display_message("Better not found!!")    
-            input()
             return
-        self.__better_view.display_message(f' {better.name}')
-        self.__better_view.display_message("Balance:")
-        self.__better_view.display_message(f" {better.wallet} ")   
-        for bet in better.bets:
-            self.__better_view.display_message(f'Bet ID: {bet.id}')
-            self.__better_view.display_message(f'Bet Game: {bet.game.name}')
-            self.__better_view.display_message(f'Bet Price: {bet.price}')
-            self.__better_view.display_message(f'Bet Outcome: {bet.result.outcome}')
-            if not bet.result.outcome == 'Draw':
-                self.__better_view.display_message(f'Bet Player: {bet.result.player.name}')
-        input()
+        # self.__better_view.display_message(f' {better.name}')
+        # self.__better_view.display_message("Balance:")
+        # self.__better_view.display_message(f" {better.wallet} ")   
+        # for bet in better.bets:
+        #     self.__better_view.display_message(f'Bet ID: {bet.id}')
+        #     self.__better_view.display_message(f'Bet Game: {bet.game.name}')
+        #     self.__better_view.display_message(f'Bet Price: {bet.price}')
+        #     self.__better_view.display_message(f'Bet Outcome: {bet.result.outcome}')
+        #     if not bet.result.outcome == 'Draw':
+        #         self.__better_view.display_message(f'Bet Player: {bet.result.player.name}')
+        self.__better_view.display_better_data(better)
         return
     

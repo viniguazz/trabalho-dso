@@ -19,14 +19,15 @@ class BetController():
         self.__id +=1
 
     def list_bets(self):
-        for bet in self.__bet_dao.get_all():
-            if not bet.result.outcome == 'Draw':
-                self.__bet_view.display_message(f'id: {bet.id}, game: {bet.game.name}, Outcome: {bet.result.outcome}, Player: {bet.result.player.name}')
-            else:
-                self.__bet_view.display_message(f'id: {bet.id}, game: {bet.game.name}, Outcome: {bet.result.outcome}')
-        if len(self.__bet_dao.get_all()) == 0:
-            self.__bet_view.display_message("No bets Found")
-        input(self.__bet_view.display_message('Press any key to return...'))
+        # for bet in self.__bet_dao.get_all():
+        #     if not bet.result.outcome == 'Draw':
+        #         self.__bet_view.display_message(f'id: {bet.id}, game: {bet.game.name}, Outcome: {bet.result.outcome}, Player: {bet.result.player.name}')
+        #     else:
+        #         self.__bet_view.display_message(f'id: {bet.id}, game: {bet.game.name}, Outcome: {bet.result.outcome}')
+        # if len(self.__bet_dao.get_all()) == 0:
+        #     self.__bet_view.display_message("No bets Found")
+        # input(self.__bet_view.display_message('Press any key to return...'))
+        self.__bet_view.list_bets(self.__bet_dao.get_all())
 
     def add_bet(self):
         bet_data = self.__bet_view.get_bet_info()

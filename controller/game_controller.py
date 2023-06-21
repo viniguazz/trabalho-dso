@@ -26,18 +26,19 @@ class GameController():
         return None
 
     def list_games(self):
-        for game in self.__game_dao.get_all():
-            if not game.result == None:
-                if not game.result.outcome == 'Draw':
-                    self.__game_view.display_message(f'id: {game.id}, name: {game.name}, Outcome: {game.result.outcome}, Player: {game.result.player}')
-                else:
-                    self.__game_view.display_message(f'id: {game.id}, name: {game.name}, Outcome: {game.result.outcome}')
-            else:
-                self.__game_view.display_message(f'id: {game.id}, name: {game.name}, Result: {game.result}')
-        if len(self.__game_dao.get_all()) == 0:
-            self.__game_view.display_message("No games found")
-        self.__game_view.display_message('Press any key to return...')
-        input()
+        # for game in self.__game_dao.get_all():
+        #     if not game.result == None:
+        #         if not game.result.outcome == 'Draw':
+        #             self.__game_view.display_message(f'id: {game.id}, name: {game.name}, Outcome: {game.result.outcome}, Player: {game.result.player}')
+        #         else:
+        #             self.__game_view.display_message(f'id: {game.id}, name: {game.name}, Outcome: {game.result.outcome}')
+        #     else:
+        #         self.__game_view.display_message(f'id: {game.id}, name: {game.name}, Result: {game.result}')
+        # if len(self.__game_dao.get_all()) == 0:
+        #     self.__game_view.display_message("No games found")
+        # self.__game_view.display_message('Press any key to return...')
+        # input()
+        self.__game_view.list_games(self.__game_dao.get_all())
     
     def add_game(self):
         game_data = self.__game_view.get_game_info()

@@ -30,12 +30,13 @@ class PlayerController():
         return None
     
     def list_players(self):
-        for player in self.__player_dao.get_all():
-            self.__player_view.display_message(f'ID: {player.id}, Name: {player.name}, Victories: {player.stats.victories}, Losses: {player.stats.losses}, Draws: {player.stats.draws}')
-        if len(self.__player_dao.get_all()) == 0:
-            self.__player_view.display_message('No players found')
-        self.__player_view.display_message('Press any key to return...')
-        input()
+        # for player in self.__player_dao.get_all():
+        #     self.__player_view.display_message(f'ID: {player.id}, Name: {player.name}, Victories: {player.stats.victories}, Losses: {player.stats.losses}, Draws: {player.stats.draws}')
+        # if len(self.__player_dao.get_all()) == 0:
+        #     self.__player_view.display_message('No players found')
+        # self.__player_view.display_message('Press any key to return...')
+        # input()
+        self.__player_view.list_players(self.__player_dao.get_all())
     
     def add_player(self):
         player_data = self.__player_view.get_player_info()

@@ -30,20 +30,10 @@ class AdminController():
         if (not self.__god_mode_enabled):
             if (self.__admin_view.login() == self.__password):
                 self.__god_mode_enabled = True
-                os.system('cls')
-                print()
-                print('**********************************************')
-                print('GOD MODE ENABLED! Press any key to rule\'em all...')
-                print('**********************************************')
-                print()
-                input()
+                self.__admin_view.display_message('GOD MODE ENABLED! Press any key to rule\'em all...')
             else:
-                print()
-                print('******************************************************')
-                input('Wrong password! PRO TIP: He\'ll never give you up...')
-                print('******************************************************')
-                print()
-                input()
+                self.__admin_view.display_message('Wrong password! PRO TIP: He\'ll never give you up...')
+                self.__admin_view.close()
                 self.backtrack()
         
         while True:
