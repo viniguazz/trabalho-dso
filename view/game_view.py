@@ -21,7 +21,7 @@ class GameView(AbstractView):
             opcao = 4
         if values['5']:
             opcao = 5
-        if values['6'] or button in (None,'Cancelar'):
+        if values['6'] or button in (None, 'Cancelar'):
             opcao = 6
         self.close()
         return opcao
@@ -35,14 +35,19 @@ class GameView(AbstractView):
             [sg.Button('Confirmar') , sg.Cancel('Cancelar')]
         ]
         self.__window = sg.Window('getgameinfo').Layout(layout)
+        try:
+            button, values = self.open()
+            name = values['name']
+            player1_id = int(values['player1_id'])
+            player2_id = int(values['player2_id'])
+            self.close()
+            return {'name': name, 'player1_id': player1_id, 'player2_id': player2_id}
+        except:
+            self.close()
+            self.display_message("Please insert valid types")
+            self.get_bet_info()
 
-        button, values = self.open()
-        name = values['name']
-        player1_id = int(values['player1_id'])
-        player2_id = int(values['player2_id'])
-
-        self.close()
-        return {'name': name, 'player1_id': player1_id, 'player2_id': player2_id}
+        
         
     def list_games(self, games):
         string_all_games = ""
@@ -73,11 +78,15 @@ class GameView(AbstractView):
         ]
         self.__window = sg.Window('getgameid').Layout(layout)
 
-        button, values = self.open()
-        id = values['id']
-        self.close()
-        return int(id)
-    
+        try:
+            button, values = self.open()
+            id = values['id']
+            self.close()
+            return int(id)
+        except:
+            self.close()
+            self.display_message("Please insert valid types")
+            self.get_by_id()
 
     def init_components(self):
         layout = [
@@ -123,49 +132,3 @@ class GameView(AbstractView):
     def open(self):
         button, values = self.__window.Read()
         return button, values
-        
-
-    # def get_result_info(self):
-    #     self.clear_screen()
-    #     print()
-    #     print('Inform the Result data:')
-    #     outcome = self.get_outcome()
-    #     if outcome == 'Draw':
-    #         player = None
-    #         return {'outcome' : outcome, 'player' : player}
-    #     player = self.get_player()
-    #     return {'outcome' : outcome, 'player' : player}
-
-    # def get_outcome(self):
-    #     self.clear_screen()
-    #     print ("1) Draw")
-    #     print ("2) Victory")
-    #     outcome = int(input())
-
-    #     while outcome not in (1,2):
-    #         self.clear_screen()
-    #         print("Follow the instructions!")
-    #         print ("1) Draw")
-    #         print ("2) Victory")
-    #         outcome = int(input())
-    #     if outcome == 1:
-    #         return 'Draw'
-    #     else:
-    #         return 'Victory'
-    
-    # def get_player(self):
-    #     self.clear_screen()
-    #     print ("1) Player1")
-    #     print ("2) Player2")
-    #     player = int(input())
-
-    #     while player not in (1,2):
-    #         self.clear_screen()
-    #         print("Follow the instructions!")
-    #         print ("1) Player1")
-    #         print ("2) Player2")
-    #         player = int(input())
-    #     if player == 1:
-    #         return 'player1'
-    #     else:
-    #         return 'player2'

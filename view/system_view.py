@@ -20,8 +20,7 @@ class SystemView(AbstractView):
             opcao = 3
         if values['4']:
             opcao = 4
-        # cobre os casos de voltar, não clicar em nada e fechar janela, ou clicar cancelar
-        if values['5'] or button in (None,'Cancelar'):
+        if values['5'] or button in (None, 'Cancelar'):
             opcao = 5
         self.close()
         return opcao
@@ -39,6 +38,6 @@ class SystemView(AbstractView):
             [sg.Radio('Check Bets and Balance', "RD1", key = '3')],
             [sg.Radio('Admin', "RD1", key = '4')],
             [sg.Radio('Exit', "RD1", key='5')],
-            [sg.Button('Submit'), sg.Cancel('Cancel')]
+            [sg.Button('Submit'), sg.Cancel('Cancelar')]
         ]
         self.__window = sg.Window('systemview').Layout(layout)

@@ -19,7 +19,7 @@ class BetterView(AbstractView):
             opcao = 4
         if values['5']:
             opcao = 5
-        if values['6'] or button in (None,'Cancelar'):
+        if values['6'] or button in (None, 'Cancelar'):
             opcao = 6
         self.close()
         return opcao
@@ -32,16 +32,20 @@ class BetterView(AbstractView):
             [sg.Text('Funds:'), sg.InputText('', key = 'funds')],
             [sg.Text('CPF:'), sg.InputText('', key = 'cpf')],
         ]
-        self.__window = sg.Window('getbetterinfo').Layout(layout)
+        self.__window = sg.Window('getbetterinfo').Layout(layout)   
+        try:
+            button, values = self.open()
+            name = values['name']
+            nick = values['nick']
+            wallet = float(values['funds'])
+            cpf = values['cpf']
 
-        button, values = self.open()
-        name = values['name']
-        nick = values['nick']
-        wallet = float(values['funds'])
-        cpf = values['cpf']
-
-        self.close()
-        return {'name': name, 'nick': nick, 'wallet': wallet, 'cpf': cpf}
+            self.close()
+            return {'name': name, 'nick': nick, 'wallet': wallet, 'cpf': cpf}
+        except:
+            self.close()
+            self.display_message("Please insert valid types")
+            self.get_better_info()
     
     def get_by_id(self):
         layout = [
@@ -50,11 +54,15 @@ class BetterView(AbstractView):
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
         ]
         self.__window = sg.Window('getbetterid').Layout(layout)
-
-        button, values = self.open()
-        id = values['id']
-        self.close()
-        return int(id)
+        try:
+            button, values = self.open()
+            id = values['id']
+            self.close()
+            return int(id)
+        except:
+            self.close()
+            self.display_message("Please insert valid types")
+            self.get_by_id()
     
     def init_components(self):
         layout = [
@@ -92,14 +100,15 @@ class BetterView(AbstractView):
     def display_better_data(self, better):
         string_bets = ""
         string_bets = string_bets + "Better Name: " + better.name +'\n'
-        for bet in better["bets"]:
+        print(better.bets)
+        for bet in better.bets:
             string_bets = string_bets + "Bet Id: " + str(bet.id) +'\n'
             string_bets = string_bets + "Price: " + str(bet.price) +'\n'
             string_bets = string_bets + "Game: " + str(bet.game.name) +'\n'
-        if bet.result.outcome == 'Draw':
-            string_bets = string_bets + "Outcome: " + str(bet.result.outcome) +'\n'
-        else:
-            string_bets = string_bets + "Outcome: " + str(bet.result.outcome) +'\n'
-            string_bets = string_bets + "Player: " + str(bet.result.player.name) +'\n'    
-        string_bets = string_bets + 'Balance' + str(better["wallet"])
+            if bet.result.outcome == 'Draw':
+                string_bets = string_bets + "Outcome: " + str(bet.result.outcome) +'\n'
+            else:
+                string_bets = string_bets + "Outcome: " + str(bet.result.outcome) +'\n'
+                string_bets = string_bets + "Player: " + str(bet.result.player.name) +'\n'    
+        string_bets = string_bets + 'Balance' + str(better.wallet)
         sg.Popup('============ LIST BETS OF BETTER ============', string_bets)

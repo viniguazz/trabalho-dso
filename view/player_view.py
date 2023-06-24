@@ -19,7 +19,7 @@ class PlayerView(AbstractView):
             opcao = 4
         if values['5']:
             opcao = 5
-        if values['6'] or button in (None,'Cancelar'):
+        if values['6'] or button in (None, 'Cancelar'):
             opcao = 6
         self.close()
         return opcao
@@ -34,15 +34,19 @@ class PlayerView(AbstractView):
             [sg.Button('Confirmar') , sg.Cancel('Cancelar')]
         ]
         self.__window = sg.Window('getplayerinfo').Layout(layout)
-
-        button, values = self.open()
-        name = values['name']
-        victories = int(values['victories'])
-        losses = int(values['losses'])
-        draws = int(values['draws'])
-
-        self.close()
-        return {'name': name, 'victories': victories, 'losses': losses, 'draws': draws}
+        try:
+            button, values = self.open()
+            name = values['name']
+            victories = int(values['victories'])
+            losses = int(values['losses'])
+            draws = int(values['draws'])
+        
+            self.close()
+            return {'name': name, 'victories': victories, 'losses': losses, 'draws': draws}
+        except:
+            self.close()
+            self.display_message("Please insert valid types")
+            self.get_player_info()
         
     def list_players(self, players):
         string_all_players = ""
@@ -62,10 +66,15 @@ class PlayerView(AbstractView):
         ]
         self.__window = sg.Window('getplayerid').Layout(layout)
 
-        button, values = self.open()
-        id = values['id']
-        self.close()
-        return int(id)
+        try:
+            button, values = self.open()
+            id = values['id']
+            self.close()
+            return int(id)
+        except:
+            self.close()
+            self.display_message("Please insert valid types")
+            self.get_by_id()
 
     def init_components(self):
         layout = [

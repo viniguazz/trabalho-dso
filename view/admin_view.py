@@ -17,7 +17,7 @@ class AdminView(AbstractView):
             opcao = 3
         if values['4']:
             opcao = 4
-        if values['5'] or button in (None,'Cancelar'):
+        if values['5'] or button in (None, 'Cancelar'):
             opcao = 5
         self.close()
         return opcao

@@ -4,6 +4,7 @@ from time import sleep
 from model.result import Result
 from model.player import Player
 from repository.bet_dao import BetDAO
+import inspect
 
 class BetController():
     def __init__(self, system_controller):
@@ -19,18 +20,20 @@ class BetController():
         self.__id +=1
 
     def list_bets(self):
-        # for bet in self.__bet_dao.get_all():
-        #     if not bet.result.outcome == 'Draw':
-        #         self.__bet_view.display_message(f'id: {bet.id}, game: {bet.game.name}, Outcome: {bet.result.outcome}, Player: {bet.result.player.name}')
-        #     else:
-        #         self.__bet_view.display_message(f'id: {bet.id}, game: {bet.game.name}, Outcome: {bet.result.outcome}')
-        # if len(self.__bet_dao.get_all()) == 0:
-        #     self.__bet_view.display_message("No bets Found")
-        # input(self.__bet_view.display_message('Press any key to return...'))
+        print(self.__bet_dao.get_all())
         self.__bet_view.list_bets(self.__bet_dao.get_all())
 
     def add_bet(self):
+        caller_frame = inspect.currentframe().f_back
+        caller_name = inspect.getframeinfo(caller_frame).function
         bet_data = self.__bet_view.get_bet_info()
+        if bet_data == None:
+            self.__bet_view.close()
+            if caller_name == self.display_screen:
+                self.backtrack()
+            else:
+                self.backtrack_system                        
+            return
         player = None
         for game in self.__system_controller.game_controller.games:
             if game.result == None:
@@ -48,35 +51,45 @@ class BetController():
                             better.add_bet(bet)
                             game.add_bet(bet)
                             self.__bet_dao.add(bet)
+                            self.__system_controller.better_controller.bet_dao.add(bet)
+                            self.__system_controller.game.bet_dao.add(bet)
                             self.id_plus()
                             self.__bet_view.display_message("Bet Created!")
-                            input()
+                            if caller_name == self.display_screen:
+                                self.backtrack()
+                            else:
+                                self.backtrack_system
                             return
                     else:
                         self.__bet_view.display_message("Better not found")
-                        input()
+                        if caller_name == self.display_screen:
+                            self.backtrack()
+                        else:
+                            self.backtrack_system                        
                         return
             else:
                 self.__bet_view.display_message("Game already ended!")
-                input()
+                if caller_name == self.display_screen:
+                    self.backtrack()
+                else:
+                    self.backtrack_system
+                return
         else:
             self.__bet_view.display_message("Game not found")
-            input()
+            if caller_name == self.display_screen:
+                self.backtrack()
+            else:
+                self.backtrack_system            
             return
 
     def read_bet(self):
         bet_id = self.__bet_view.get_by_id()
         for bet in self.__bet_dao.get_all():
-            if bet['id'] == bet_id:
-                self.__bet_view.clear_screen()
-                self.__bet_view.display_message(f'ID: {bet.id()}')
-                self.__bet_view.display_message(f'Name: {bet.name()}')
-                self.__bet_view.display_message(f'Player1: {bet.player1()}')
-                self.__bet_view.display_message(f'Player2: {bet.player2()}')
-                input('Press any key to return')
+            if bet.id == bet_id:
+                message = f'ID: {bet.id}\nGame: {bet.game.name}\nPrice: {bet.price}\nOutcome: {bet.result.outcome}\nPlayer: {bet.result.player}\nOdd: {bet.odd}'
+                self.__bet_view.display_message(message)
                 return
-        print('bet not found!')
-        input('Press any key to return')
+        self.__bet_view.display_message('bet not found!')
     
 
     def delete_bet(self):
@@ -90,10 +103,8 @@ class BetController():
                             bet.better.remove_bet(bet)
                             self.__bet_dao.remove(bet.id)
                             self.__bet_view.display_message("Bet Deleted!")
-                            input('Press any key to return')
                             return
         self.__bet_view.display_message('bet not found!')
-        input('Press any key to return')
         return
     
     def delete_bet_by_id(self, id):
@@ -106,10 +117,8 @@ class BetController():
                             bet.better.remove_bet(bet)
                             self.__bet_dao.remove(bet.id)
                             self.__bet_view.display_message("Bet Deleted!")
-                            input('Press any key to return')
                             return
         self.__bet_view.display_message('bet not found!')
-        input('Press any key to return')
         return
 
     def backtrack(self):
@@ -128,9 +137,11 @@ class BetController():
             self.backtrack_system()
         elif option == 1:
             self.add_bet()
+        self.backtrack_system()
 
     def display_screen(self):
-        option_list = {1: self.add_bet, 
+        option_list = {0: self.backtrack,
+        1: self.add_bet, 
         2: self.read_bet, 
         3: self.delete_bet, 
         4: self.list_bets, 

@@ -54,7 +54,8 @@ class SystemController:
         exit(0)
 
     def display_screen(self):
-        option_list = {1: self.list_games, 
+        option_list = {0: self.display_screen,
+        1: self.list_games, 
         2: self.place_bet, 
         3: self.better_status, 
         4: self.admin_menu, 

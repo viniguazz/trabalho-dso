@@ -26,18 +26,6 @@ class GameController():
         return None
 
     def list_games(self):
-        # for game in self.__game_dao.get_all():
-        #     if not game.result == None:
-        #         if not game.result.outcome == 'Draw':
-        #             self.__game_view.display_message(f'id: {game.id}, name: {game.name}, Outcome: {game.result.outcome}, Player: {game.result.player}')
-        #         else:
-        #             self.__game_view.display_message(f'id: {game.id}, name: {game.name}, Outcome: {game.result.outcome}')
-        #     else:
-        #         self.__game_view.display_message(f'id: {game.id}, name: {game.name}, Result: {game.result}')
-        # if len(self.__game_dao.get_all()) == 0:
-        #     self.__game_view.display_message("No games found")
-        # self.__game_view.display_message('Press any key to return...')
-        # input()
         self.__game_view.list_games(self.__game_dao.get_all())
     
     def add_game(self):
@@ -50,10 +38,11 @@ class GameController():
         if new_game not in self.__game_dao.get_all():
             self.__game_dao.add(new_game)           
             self.__game_view.display_message(f'New game create succesfully! ID:{new_game.id}')
-            input()
+            return
         else:
             self.__game_view.display_message("Game already in database")
-            input()
+            return
+             
 
     def id_plus(self):
         self.__id +=1
@@ -68,11 +57,10 @@ class GameController():
                 print(f'Player1: {game.player1.name}')
                 print(f'Player2: {game.player2.name}')
                 self.__game_view.display_message('Press any key to return...')
-                input()
                 return
         self.__game_view.display_message('Game not found!')
         self.__game_view.display_message('Press any key to return...')
-        input()
+         
     
     def update_game(self):
         game_id = self.__game_view.get_by_id()
@@ -88,15 +76,12 @@ class GameController():
                     game.result = Result(result_data["outcome"], player)
                     self.__game_dao.update(game)
                     self.__game_view.display_message(f'Game {game_id} Ended!')
-                    input()
                     return
                 else:
                     self.__game_view.display_message('Game already ended!')
-                    input()
                     return
         else:
-            self.__game_view.display_message('Game not found!')
-            input()
+            self.__game_view.display_message('Game not found!')  
             return
 
     def delete_game(self):
@@ -107,10 +92,10 @@ class GameController():
                     self.__system_controller.bet_controller.delete_bet_by_id(bet.id)
                 self.__game_dao.remove(game.id)
                 self.__game_view.display_message('Game deleted succesfully!')
-                input()
                 return
         self.__game_view.display_message('Game not found!')
-        input(self.__game_view.display_message('Press any key to return'))
+        self.__game_view.display_message('Press any key to return')
+        return
 
     def backtrack(self):
         self.__system_controller.admin_controller.display_screen()
@@ -120,7 +105,8 @@ class GameController():
         self.__system_controller.display_screen()
 
     def display_screen(self):
-        option_list = {1: self.add_game, 
+        option_list = {0:self.backtrack,
+        1: self.add_game, 
         2: self.read_game, 
         3: self.update_game, 
         4: self.delete_game, 

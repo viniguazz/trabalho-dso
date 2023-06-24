@@ -27,11 +27,6 @@ class BetterController():
         return None
     
     def list_betters(self):
-        # for better in self.__better_dao.get_all():
-        #     self.__better_view.display_message(f'id: {better.id}, name: {better.name}, nick: {better.nick}, wallet: {better.wallet}, cpf: {better.cpf}')
-        # if len(self.__better_dao.get_all()) == 0:
-        #     self.__better_view.display_message('No betters found')
-        # self.__better_view.display_message('Press any key to return...')
         self.__better_view.list_better(self.__better_dao.get_all())
     
     def add_better(self):
@@ -81,16 +76,18 @@ class BetterController():
                 for bet in better.bets:
                     self.__system_controller.bet_controller.delete_bet_by_id(bet.id)
                 self.__better_dao.remove(better.id)
-                input(self.__better_view.display_message('Better deleted succesfully!'))
+                self.__better_view.display_message('Better deleted succesfully!')
+                self.backtrack()
                 return
         self.__better_view.display_message('Better not found!')
-        input(self.__better_view.display_message('Press any key to return'))
+        self.backtrack()
 
     def backtrack(self):
         self.__system_controller.admin_controller.display_screen()
 
     def display_screen(self):
-        option_list = {1: self.add_better, 
+        option_list = {0:self.backtrack,
+        1: self.add_better, 
         2: self.read_better, 
         3: self.update_better, 
         4: self.delete_better, 
@@ -108,16 +105,6 @@ class BetterController():
         if better == None:
             self.__better_view.display_message("Better not found!!")    
             return
-        # self.__better_view.display_message(f' {better.name}')
-        # self.__better_view.display_message("Balance:")
-        # self.__better_view.display_message(f" {better.wallet} ")   
-        # for bet in better.bets:
-        #     self.__better_view.display_message(f'Bet ID: {bet.id}')
-        #     self.__better_view.display_message(f'Bet Game: {bet.game.name}')
-        #     self.__better_view.display_message(f'Bet Price: {bet.price}')
-        #     self.__better_view.display_message(f'Bet Outcome: {bet.result.outcome}')
-        #     if not bet.result.outcome == 'Draw':
-        #         self.__better_view.display_message(f'Bet Player: {bet.result.player.name}')
         self.__better_view.display_better_data(better)
         return
     

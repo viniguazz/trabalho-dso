@@ -24,10 +24,8 @@ class BetView(AbstractView):
             opcao = 3
         if values['4']:
             opcao = 4
-        if values['5']:
+        if values['5']  or button in (None, 'Cancelar'):
             opcao = 5
-        if values['6'] or button in (None,'Cancelar'):
-            opcao = 6
         self.close()
         return opcao
 
@@ -81,20 +79,28 @@ class BetView(AbstractView):
         ]
         self.__window = sg.Window('getbetinfo').Layout(layout)
 
-        button, values = self.open()
-        game_id = int(values['game_id'])
-        price = float(values['Price'])
-        if values['2']:
-            result = {'outcome:' : 'Draw', 'player' : None}
-        else:
-            if values['3']:
-                player = 'Player1'
-            if values['4']:
-                player = 'Player2'
-            result = {'outcome' : 'Victory', 'player' : player}
-        better_id = int(values['betterid'])
-        odd = int(values['odd'])
-        return {'game_id': game_id, 'price': price, 'result': result, 'better_id': better_id, 'odd' : odd}
+        try:
+            button, values = self.open()
+            if button in (None, 'Cancelar'):
+                return
+            game_id = int(values['game_id'])
+            price = float(values['price'])
+            if values['2']:
+                result = {'outcome:' : 'Draw', 'player' : None}
+            else:
+                if values['3']:
+                    player = 'Player1'
+                if values['4']:
+                    player = 'Player2'
+                result = {'outcome' : 'Victory', 'player' : player}
+            better_id = int(values['betterid'])
+            odd = int(values['odd'])
+            self.close()
+            return {'game_id': game_id, 'price': price, 'result': result, 'better_id': better_id, 'odd' : odd}
+        except:
+            self.close()
+            self.display_message("Please insert valid types")
+            self.get_bet_info()
 
 
     def get_by_id(self):
@@ -104,11 +110,15 @@ class BetView(AbstractView):
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
         ]
         self.__window = sg.Window('getbyid').Layout(layout)
-
-        button, values = self.open()
-        id = values['id']
-        self.close()
-        return int(id)
+        try:
+            button, values = self.open()
+            id = values['id']
+            self.close()
+            return int(id)
+        except:
+            self.close()
+            self.display_message("Please insert valid types")
+            self.get_by_id()
 
     def list_bets(self, bets):
         string_bets = ""
@@ -116,27 +126,26 @@ class BetView(AbstractView):
             if bet.result.outcome == 'Draw':
                 string_bets = string_bets + "BetterId" + str(bet.better.name) +'\n'
                 string_bets = string_bets + "Price: " + str(bet.price) +'\n'
-                string_bets = string_bets + "Game: " + str(bet.Game.name) +'\n'
+                string_bets = string_bets + "Game: " + str(bet.game.name) +'\n'
                 string_bets = string_bets + "Result: " + str(bet.result.outcome) +'\n'
                 string_bets = string_bets + "Odd: " + str(bet.odd) +'\n'
             else:
                 string_bets = string_bets + "BetterId" + str(bet.better.name) +'\n'
                 string_bets = string_bets + "Price: " + str(bet.price) +'\n'
-                string_bets = string_bets + "Game: " + str(bet.Game.name) +'\n'
+                string_bets = string_bets + "Game: " + str(bet.game.name) +'\n'
                 string_bets = string_bets + "Result: " + str(bet.result.outcome) +'\n'
                 string_bets = string_bets + "Player " + str(bet.result.player) + '\n'
                 string_bets = string_bets + "Odd: " + str(bet.odd) +'\n'
-        sg.Popup('============ LIST BETTER ============', string_bets)
+        sg.popup('============ LIST BET ============', string_bets)
 
     def init_components(self):
         layout = [
             [sg.Text('"============ CRUD BET ============')],
             [sg.Radio('Create', "RD1", key = '1')],
             [sg.Radio('Read', "RD1", key='2')],
-            [sg.Radio('Update', "RD1", key = '3')],
-            [sg.Radio('Delete', "RD1", key = '4')],
-            [sg.Radio('List', "RD1", key='5')],
-            [sg.Radio('Return', "RD1", key = '6')],
+            [sg.Radio('Delete', "RD1", key = '3')],
+            [sg.Radio('List', "RD1", key='4')],
+            [sg.Radio('Return', "RD1", key = '5')],
             [sg.Button('Submit'), sg.Cancel('Cancel')]
         ]
         self.__window = sg.Window('playerview').Layout(layout)
