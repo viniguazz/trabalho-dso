@@ -83,10 +83,10 @@ class Game():
                 return bet
 
     def remove_bet(self, id: int):
-        bet = get_bet_by_id(id)
+        bet = self.get_bet_by_id(id)
         self.__bets.remove(bet)
 
-    def end_game(self):             
+    def end_game(self):           
         for bet in self.__bets:
             if bet.status == True:
                 bet.status = False

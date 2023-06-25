@@ -8,12 +8,16 @@ class Bet():
 
         if not isinstance(price, float):
             raise InvalidNativeTypeException(price, "float")
+
         if not isinstance(game, Game):
             raise InvalidGameException(game)
+
         if not isinstance(better, Better):
             raise InvalidBetterException(better)
+
         if not isinstance(result, Result):
             raise InvalidResultException(result)
+
         if not isinstance(odd, int):
             raise InvalidNativeTypeException(odd, "int")
 
@@ -56,31 +60,31 @@ class Bet():
     @status.setter
     def status(self, status):
         if not isinstance(status, bool):
-            raise TipoErradoException
+            raise InvalidNativeTypeException(status, "bool")
         self.__status = status
 
     @price.setter
     def price(self, price):
-        if not isinstance(price, int):
-            raise TipoErradoException
+        if not isinstance(price, float):
+            raise InvalidNativeTypeException(price, "float")
         self.__price = price
 
     @game.setter
     def game(self, game):
         if not isinstance(game, Game):
-            raise TipoErradoException
+            raise InvalidGameException(game)
         self.__game = game
 
     @better.setter
     def better(self, better):
         if not isinstance(better, Better):
-            raise TipoErradoException
+            raise InvalidBetterException(better)
         self.__better = better
 
     @result.setter
     def result(self, result):
         if not isinstance(result, Result):
-            raise TipoErradoException
+            raise InvalidResultException(result)
         self.__result = result
 
     @odd.setter

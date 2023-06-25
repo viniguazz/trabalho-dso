@@ -26,7 +26,7 @@ class GameController():
         for game in self.__game_dao.get_all():
             if not game.result == None:
                 if not game.result.outcome == 'Draw':
-                    self.__game_view.display_message(f'id: {game.id}, name: {game.name}, Outcome: {game.result.outcome}, Player: {game.result.player}')
+                    self.__game_view.display_message(f'id: {game.id}, name: {game.name}, Outcome: {game.result.outcome}, Player: {game.result.player.name}')
                 else:
                     self.__game_view.display_message(f'id: {game.id}, name: {game.name}, Outcome: {game.result.outcome}')
             else:
@@ -85,6 +85,8 @@ class GameController():
                         player = game.player2
                     game.result = Result(result_data["outcome"], player)
                     self.__game_dao.update(game)
+                    for bet in game.bets: 
+                        self.__system_controller.better_controller.save_better(bet.better)
                     self.__game_view.display_message(f'Game {game_id} Ended!')
                     input()
                     return

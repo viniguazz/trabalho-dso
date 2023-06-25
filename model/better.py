@@ -1,5 +1,5 @@
 from model import Person
-from exception import InvalidNativeTypeException, InvalidPlayerException
+from exception import InvalidNativeTypeException, InvalidPlayerException, InvalidBetException
 
         
 class Better(Person):
@@ -25,6 +25,7 @@ class Better(Person):
         self.__wallet = wallet
         self.__nick = nick
         self.__cpf = cpf
+        self.__bets = []
     
     @property
     def nick(self):
@@ -33,6 +34,22 @@ class Better(Person):
     @property
     def id(self):
         return self.__id
+
+    @property
+    def bets(self):
+        return self.__bets
+
+    @property
+    def wallet(self):
+        return self.__wallet
+
+    @property
+    def bets(self):
+        return self.__bets
+    
+    @property
+    def cpf(self):
+        return self.__cpf
     
     @id.setter
     def id(self, id):
@@ -42,25 +59,19 @@ class Better(Person):
     def nick(self, nick):
         self.__nick =nick
     
-    @property
-    def wallet(self):
-        return self.__wallet
-    
     @wallet.setter
     def wallet(self, wallet):
         self.__wallet = wallet
     
-    @property
-    def bets(self):
-        return self.__bets
-    
-    @property
-    def cpf(self):
-        return self.__cpf
-    
     @cpf.setter
     def cpf(self, cpf):
         self.__cpf = cpf
+
+    def add_bet(self, bet):
+        if isinstance(bet, Bet):
+            self.__bets.append(bet)
+            return bet
+        raise InvalidBetException(bet)
         
     def add_money(self, add):
         self.__wallet += add

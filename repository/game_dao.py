@@ -16,7 +16,7 @@ class GameDAO(DAO):
 
     def update(self, game: Game):
         self.remove(game.id)
-        self.add(game)
+        super().update(game.id, game)
         return super().get(game.id)
     
     def remove(self, key: int):

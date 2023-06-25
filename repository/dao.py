@@ -23,6 +23,10 @@ class DAO(ABC):
         self.__cache[key] = obj
         self.__cache['id'] += 1
         self.__dump()
+
+    def update(self, key, obj):
+        self.__cache[key] = obj
+        self.__dump()
     
     def get(self, key):
         try:

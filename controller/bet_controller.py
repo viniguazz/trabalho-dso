@@ -14,12 +14,13 @@ class BetController():
     def list_bets(self):
         for bet in self.__bet_dao.get_all():
             if not bet.result.outcome == 'Draw':
-                self.__bet_view.display_message(f'id: {bet.id}, game: {bet.game.name}, Outcome: {bet.result.outcome}, Player: {bet.result.player.name}')
+                self.__bet_view.display_message(f'id: {bet.id}, game: {bet.game.name}, Outcome: {bet.result.outcome}, Player: {bet.result.player}, Status: {bet.status}')
             else:
-                self.__bet_view.display_message(f'id: {bet.id}, game: {bet.game.name}, Outcome: {bet.result.outcome}')
+                self.__bet_view.display_message(f'id: {bet.id}, game: {bet.game.name}, Outcome: {bet.result.outcome}, Status: {bet.status}')
         if len(self.__bet_dao.get_all()) == 0:
             self.__bet_view.display_message("No bets Found")
-        input(self.__bet_view.display_message('Press any key to return...'))
+        self.__bet_view.display_message('Press any key to return...')
+        input()
 
     def add_bet(self):
         try:
@@ -29,26 +30,27 @@ class BetController():
             bet_better = self.__system_controller.better_controller.get_better_by_id(bet_data["better_id"])
             bet_result = Result(bet_data["result"]["outcome"], bet_data["result"]["player"])
             bet_odds = bet_data['odd']
-            bet_id = self.__bet_dao.get_current_id() + 1
+            bet_id = self.__bet_dao.get_current_id()
             new_bet = bet_game.add_bet(bet_id, bet_price, bet_better, bet_result, bet_odds)
             bet_better.remove_money(bet_price)
             self.__bet_dao.add(new_bet)
-            self.___system_controller.game_controller.save_game(bet_game)
-        
+            self.__system_controller.game_controller.save_game(bet_game)
         except (InvalidNativeTypeException, InvalidGameException, InvalidBetterException, InvalidResultException, ClosedGameException) as e:
             self.__bet_view.display_message(e)
             input()
             return
-        
+
     def read_bet(self):
         bet_id = self.__bet_view.get_by_id()
         for bet in self.__bet_dao.get_all():
             if bet.id == bet_id:
                 self.__bet_view.clear_screen()
-                self.__bet_view.display_message(f'ID: {bet.id()}')
-                self.__bet_view.display_message(f'Name: {bet.name()}')
-                self.__bet_view.display_message(f'Player1: {bet.player1()}')
-                self.__bet_view.display_message(f'Player2: {bet.player2()}')
+                self.__bet_view.display_message(f'ID: {bet.id}')
+                self.__bet_view.display_message(f'Price: {bet.price}')
+                self.__bet_view.display_message(f'Game: {bet.game.name}')
+                self.__bet_view.display_message(f'Better: {bet.better.name}')
+                self.__bet_view.display_message(f'Outcome: {bet.result.outcome}')
+                self.__bet_view.display_message(f'Odds: {bet.odd}')
                 input('Press any key to return')
                 return
         print('bet not found!')
@@ -58,8 +60,10 @@ class BetController():
         bet_id = self.__bet_view.get_by_id()
         for bet in self.__bet_dao.get_all():
             if bet.id == bet_id:
+                if bet.status == True:
+                    bet.better.add_money(bet.price)
                 bet.game.remove_bet(bet.id)
-                self.___system_controller.game_controller.save_game(bet.game)
+                self.__system_controller.game_controller.save_game(bet.game)
                 self.__bet_dao.remove(bet.id)
                 self.__bet_view.display_message("Bet Deleted!")
                 input('Press any key to return')
@@ -73,7 +77,7 @@ class BetController():
         for bet in self.__bet_dao.get_all():
             if bet.id == id:
                 bet.game.remove_bet(bet.id)
-                self.___system_controller.game_controller.save_game(bet.game)
+                self.__system_controller.game_controller.save_game(bet.game)
                 self.__bet_dao.remove(bet.id)
                 self.__bet_view.display_message("Bet Deleted!")
                 input('Press any key to return')

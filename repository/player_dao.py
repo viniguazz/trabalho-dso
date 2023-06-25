@@ -16,7 +16,7 @@ class PlayerDAO(DAO):
 
     def update(self, player: Player):
         self.remove(player.id)
-        self.add(player)
+        super().update(player.id, player)
         return super().get(player.id)
     
     def remove(self, key: int):

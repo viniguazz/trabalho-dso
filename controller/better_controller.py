@@ -74,7 +74,7 @@ class BetterController():
                 self.__better_view.display_message('better not found!')
 
     def save_better(self, better):
-        self.__game_dao.update(better)
+        self.__better_dao.update(better)
 
     def delete_better(self):
         better_id = self.__better_view.get_by_id()
@@ -86,7 +86,8 @@ class BetterController():
                 input(self.__better_view.display_message('Better deleted succesfully!'))
                 return
         self.__better_view.display_message('Better not found!')
-        input(self.__better_view.display_message('Press any key to return'))
+        self.__better_view.display_message('Press any key to return')
+        input()
 
     def backtrack(self):
         self.__system_controller.admin_controller.display_screen()

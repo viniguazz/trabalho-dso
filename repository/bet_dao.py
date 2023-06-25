@@ -16,7 +16,7 @@ class BetDAO(DAO):
 
     def update(self, bet: Bet):
         self.remove(bet.id)
-        self.add(bet)
+        super().update(bet.id, bet)
         return super().get(bet.id)
     
     def remove(self, key: int):

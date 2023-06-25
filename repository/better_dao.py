@@ -16,7 +16,7 @@ class BetterDAO(DAO):
 
     def update(self, better: Better):
         self.remove(better.id)
-        self.add(better)
+        super().update(better.id, better)
         return super().get(better.id)
     
     def remove(self, key: int):
