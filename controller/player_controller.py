@@ -22,7 +22,6 @@ class PlayerController():
         for player in self.__player_dao.get_all():
             if id == player.id:
                 return player
-        #self.__player_view.display_message('Invalid player!')
         return
     
     def list_players(self):

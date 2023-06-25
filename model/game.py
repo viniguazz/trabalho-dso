@@ -77,19 +77,25 @@ class Game():
         self.__bets.append(new_bet)
         return new_bet
     
-    def get_bet_by_id(self, id: int):
+    def get_bet_by_id(self, bet_id: int):
         for bet in self.__bets:
-            if bet.id == id:
+            if bet.id == bet_id:
                 return bet
 
-    def remove_bet(self, id: int):
-        bet = self.get_bet_by_id(id)
+    def remove_bet(self, bet_id: int):
+        bet = self.get_bet_by_id(bet_id)
         self.__bets.remove(bet)
 
     def end_game(self):           
         for bet in self.__bets:
+            #####
+            print(f'bets: {self.__bets}')
+            input('enter')
             if bet.status == True:
                 bet.status = False
+                ####
+                print(f'altered: {bet.id} - status: {bet.status}')
+                input('enter...')
                 if (bet.result.outcome == self.__result.outcome) and (bet.result.player == self.__result.player):
                     bet.better.add_money((bet.price + bet.price*bet.odd))
 

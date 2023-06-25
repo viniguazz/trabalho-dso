@@ -35,6 +35,8 @@ class BetController():
             bet_better.remove_money(bet_price)
             self.__bet_dao.add(new_bet)
             self.__system_controller.game_controller.save_game(bet_game)
+            self.__system_controller.better_controller.save_better(bet_better) 
+            return
         except (InvalidNativeTypeException, InvalidGameException, InvalidBetterException, InvalidResultException, ClosedGameException) as e:
             self.__bet_view.display_message(e)
             input()
@@ -55,7 +57,10 @@ class BetController():
                 return
         print('bet not found!')
         input('Press any key to return')
-    
+
+    def save_bet(self, bet):
+        self.__bet_dao.update(bet)
+
     def delete_bet(self):
         bet_id = self.__bet_view.get_by_id()
         for bet in self.__bet_dao.get_all():
@@ -80,7 +85,7 @@ class BetController():
                 self.__system_controller.game_controller.save_game(bet.game)
                 self.__bet_dao.remove(bet.id)
                 self.__bet_view.display_message("Bet Deleted!")
-                input('Press any key to return')
+                input()
                 return
         self.__bet_view.display_message('bet not found!')
         input('Press any key to return')

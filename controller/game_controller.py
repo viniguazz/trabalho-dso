@@ -87,6 +87,7 @@ class GameController():
                     self.__game_dao.update(game)
                     for bet in game.bets: 
                         self.__system_controller.better_controller.save_better(bet.better)
+                        self.__system_controller.bet_controller.save_bet(bet)
                     self.__game_view.display_message(f'Game {game_id} Ended!')
                     input()
                     return
@@ -106,7 +107,7 @@ class GameController():
         game_id = self.__game_view.get_by_id()
         for game in self.__game_dao.get_all():
             if game.id == game_id:
-                for bet in game.bets:
+                for bet in game.bets.copy():
                     if game.result == None:
                         bet.better.add_money(bet.price)
                         self.__system_controller.better_controller.save_better(bet.better)
