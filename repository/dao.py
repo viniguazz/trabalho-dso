@@ -42,4 +42,5 @@ class DAO(ABC):
             pass
 
     def get_all(self):
-        return [v for k, v in self.__cache.items() if k != "id"]
+        return [self.__cache[key] for key in sorted((k for k in self.__cache if k != 'id'), key=int)]
+        #return [v for k, v in self.__cache.items() if k != "id"]
