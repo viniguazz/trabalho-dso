@@ -18,7 +18,7 @@ class Player(Person):
     @stats.setter
     def stats(self, stats):
         if not isinstance(stats, Stats):
-            raise TipoErradoException
+            raise InvalidStatsException(stats)
         self.__stats = Stats
 
     @property
@@ -28,7 +28,7 @@ class Player(Person):
     @id.setter
     def id(self, id):
         if not isinstance(id, int):
-            raise TipoErradoException
+            raise InvalidNativeTypeException(id, 'int')
         self.__id = id
     
     

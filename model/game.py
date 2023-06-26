@@ -1,5 +1,5 @@
 from model import Player, Result
-from exception import InvalidNativeTypeException, InvalidPlayerException, ClosedGameException
+from exception import InvalidNativeTypeException, InvalidPlayerException, ClosedGameException, InvalidResultException
 
 
 class Game():
@@ -61,7 +61,7 @@ class Game():
     @result.setter
     def result(self, result):
         if not (isinstance(result, Result)):
-            raise TipoErradoException
+            raise InvalidResultException(result)
         self.__result = result
         self.end_game()
 
@@ -88,14 +88,8 @@ class Game():
 
     def end_game(self):           
         for bet in self.__bets:
-            #####
-            print(f'bets: {self.__bets}')
-            input('enter')
             if bet.status == True:
                 bet.status = False
-                ####
-                print(f'altered: {bet.id} - status: {bet.status}')
-                input('enter...')
                 if (bet.result.outcome == self.__result.outcome) and (bet.result.player == self.__result.player):
                     bet.better.add_money((bet.price + bet.price*bet.odd))
 

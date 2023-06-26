@@ -1,3 +1,4 @@
+from .abstract_view import AbstractView
 from .admin_view import AdminView
 from .bet_view import BetView
 from .better_view import BetterView

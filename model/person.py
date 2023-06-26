@@ -16,5 +16,5 @@ class Person(ABC):
     @name.setter
     def name(self, name):
         if not isinstance(name, str):
-            raise TipoErradoException
+            raise InvalidNativeTypeException(name, "str")
         self.__name = name    

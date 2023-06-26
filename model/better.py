@@ -68,7 +68,7 @@ class Better(Person):
         self.__cpf = cpf
 
     def add_bet(self, bet):
-        if isinstance(bet, Bet):
+        if isinstance(bet, bet):
             self.__bets.append(bet)
             return bet
         raise InvalidBetException(bet)

@@ -19,7 +19,7 @@ class Result():
     @outcome.setter
     def outcome(self, outcome):
         if not isinstance(outcome, str):
-            raise TipoErradoException    
+            raise InvalidNativeTypeException(outcome, "str")    
         self.__outcome = outcome
     
     @property
@@ -29,5 +29,5 @@ class Result():
     @player.setter
     def player(self, player):
         if not isinstance(player, str):
-            raise TipoErradoException
+            raise InvalidNativeTypeException(player, "str")
         self.__player = player

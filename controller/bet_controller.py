@@ -2,7 +2,7 @@ from time import sleep
 from model import Bet, Result, Player
 from view import BetView
 from repository import BetDAO
-from exception import InvalidNativeTypeException, InvalidGameException, InvalidBetterException, InvalidResultException, ClosedGameException
+from exception import InvalidNativeTypeException, InvalidGameException, InvalidBetterException, InvalidResultException, ClosedGameException, CancelOperationException, NoMenuSelected
 
 
 class BetController():
@@ -12,19 +12,15 @@ class BetController():
         self.__bet_dao = BetDAO()
 
     def list_bets(self):
-        for bet in self.__bet_dao.get_all():
-            if not bet.result.outcome == 'Draw':
-                self.__bet_view.display_message(f'id: {bet.id}, game: {bet.game.name}, Outcome: {bet.result.outcome}, Player: {bet.result.player}, Status: {bet.status}')
-            else:
-                self.__bet_view.display_message(f'id: {bet.id}, game: {bet.game.name}, Outcome: {bet.result.outcome}, Status: {bet.status}')
-        if len(self.__bet_dao.get_all()) == 0:
-            self.__bet_view.display_message("No bets Found")
-        self.__bet_view.display_message('Press any key to return...')
-        input()
+        self.__bet_view.list_bets(self.__bet_dao.get_all())
+        self.display_screen()
 
+    #revisar a questão do inspect
     def add_bet(self):
         try:
             bet_data = self.__bet_view.get_bet_info()
+            if bet_data == None:
+                raise CancelOperationException
             bet_game = self.__system_controller.game_controller.get_by_id(int(bet_data["game_id"]))
             bet_price = bet_data["price"]
             bet_better = self.__system_controller.better_controller.get_better_by_id(bet_data["better_id"])
@@ -36,60 +32,71 @@ class BetController():
             self.__bet_dao.add(new_bet)
             self.__system_controller.game_controller.save_game(bet_game)
             self.__system_controller.better_controller.save_better(bet_better) 
+            self.__bet_view.display_message(f'Bet Created! ID: {bet_id}')
             return
         except (InvalidNativeTypeException, InvalidGameException, InvalidBetterException, InvalidResultException, ClosedGameException) as e:
             self.__bet_view.display_message(e)
-            input()
+            return
+        except CancelOperationException:
             return
 
+
+    #Usar como base
     def read_bet(self):
         bet_id = self.__bet_view.get_by_id()
-        for bet in self.__bet_dao.get_all():
-            if bet.id == bet_id:
-                self.__bet_view.clear_screen()
-                self.__bet_view.display_message(f'ID: {bet.id}')
-                self.__bet_view.display_message(f'Price: {bet.price}')
-                self.__bet_view.display_message(f'Game: {bet.game.name}')
-                self.__bet_view.display_message(f'Better: {bet.better.name}')
-                self.__bet_view.display_message(f'Outcome: {bet.result.outcome}')
-                self.__bet_view.display_message(f'Odds: {bet.odd}')
-                input('Press any key to return')
-                return
-        print('bet not found!')
-        input('Press any key to return')
+        try:
+            if bet_id == None:
+                raise CancelOperationException
+            for bet in self.__bet_dao.get_all():
+                if bet.id == bet_id:
+                    message = f'ID: {bet.id}\nGame: {bet.game.name}\nPrice: {bet.price}\nOutcome: {bet.result.outcome}\nPlayer: {bet.result.player}\nOdd: {bet.odd}'
+                    self.__bet_view.display_message(message)
+                    return
+            self.__bet_view.display_message('bet not found!')
+        except (CancelOperationException):
+            return
+
 
     def save_bet(self, bet):
         self.__bet_dao.update(bet)
 
     def delete_bet(self):
         bet_id = self.__bet_view.get_by_id()
-        for bet in self.__bet_dao.get_all():
-            if bet.id == bet_id:
-                if bet.status == True:
-                    bet.better.add_money(bet.price)
-                bet.game.remove_bet(bet.id)
-                self.__system_controller.game_controller.save_game(bet.game)
-                self.__bet_dao.remove(bet.id)
-                self.__bet_view.display_message("Bet Deleted!")
-                input('Press any key to return')
-                return
-        self.__bet_view.display_message('bet not found!')
-        input('Press any key to return')
-        return
+        try:
+            if bet_id == None:
+                raise CancelOperationException
+            for bet in self.__bet_dao.get_all():
+                if bet.id == bet_id:
+                    if bet.status == True:
+                        bet.better.add_money(bet.price)
+                    bet.game.remove_bet(bet.id)
+                    self.__system_controller.game_controller.save_game(bet.game)
+                    self.__bet_dao.remove(bet.id)
+                    self.__bet_view.display_message("Bet Deleted!")
+                    return
+            self.__bet_view.display_message('bet not found!')
+            return
+        except(CancelOperationException):
+            return
+
     
     def delete_bet_by_id(self, id):
         bet_id = id
-        for bet in self.__bet_dao.get_all():
-            if bet.id == id:
-                bet.game.remove_bet(bet.id)
-                self.__system_controller.game_controller.save_game(bet.game)
-                self.__bet_dao.remove(bet.id)
-                self.__bet_view.display_message("Bet Deleted!")
-                input()
-                return
-        self.__bet_view.display_message('bet not found!')
-        input('Press any key to return')
-        return
+        try:
+            if bet_id == None:
+                raise CancelOperationException
+            for bet in self.__bet_dao.get_all():
+                if bet.id == id:
+                    bet.game.remove_bet(bet.id)
+                    self.__system_controller.game_controller.save_game(bet.game)
+                    self.__bet_dao.remove(bet.id)
+                    self.__bet_view.display_message("Bet Deleted!")
+                    return
+            self.__bet_view.display_message('bet not found!')
+            return
+        except(CancelOperationException):
+            return
+
 
     def backtrack(self):
         self.__system_controller.admin_controller.display_screen()
@@ -98,22 +105,31 @@ class BetController():
         self.list_bets()
         self.__system_controller.display_screen()
 
-    def display_place_bet(self):
-        option = self.__bet_view.display_add_bet()
-        if option == 2:
-            self.__system_controller.display_screen()
-        elif option == 1:
-            self.add_bet()
+    #Verificar Retirada
+    # def display_place_bet(self):
+    #     option = self.__bet_view.display_add_bet()
+    #     if option == 2:
+    #         self.__system_controller.display_screen()
+    #     elif option == 1:
+    #         self.add_bet()
 
     def display_screen(self):
-        option_list = {1: self.add_bet, 
-        2: self.read_bet, 
-        3: self.delete_bet, 
-        4: self.list_bets, 
-        5: self.backtrack}
+        try:
+            option_list = {0 : self.backtrack,
+            1: self.add_bet, 
+            2: self.read_bet, 
+            3: self.delete_bet, 
+            4: self.list_bets, 
+            5: self.backtrack}
 
-        while True:
-            option = self.__bet_view.display_options()
-            selected_function = option_list[option]
-            selected_function()
+            while True:
+                option = self.__bet_view.display_options()
+                selected_function = option_list[option]
+                selected_function()
+        except(NoMenuSelected) as e:
+            self.__bet_view.display_message(e)
+            self.display_screen()
+
+    def all_bets(self):
+        return self.__bet_dao.get_all()
 

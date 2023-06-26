@@ -1,6 +1,7 @@
 from model import Player, Stats
 from view import PlayerView
 from repository import PlayerDAO
+from exception import NoMenuSelected, CancelOperationException
 
 
 class PlayerController():
@@ -22,97 +23,112 @@ class PlayerController():
         for player in self.__player_dao.get_all():
             if id == player.id:
                 return player
+        self.__player_view.display_message('Invalid player!')
         return
     
     def list_players(self):
-        for player in self.__player_dao.get_all():
-            self.__player_view.display_message(f'ID: {player.id}, Name: {player.name}, Victories: {player.stats.victories}, Losses: {player.stats.losses}, Draws: {player.stats.draws}')
-        if len(self.__player_dao.get_all()) == 0:
-            self.__player_view.display_message('No players found')
-        self.__player_view.display_message('Press any key to return...')
-        input()
+        self.__player_view.list_players(self.__player_dao.get_all())
+        self.display_screen()
     
     def add_player(self):
         player_data = self.__player_view.get_player_info()
-        player_name = player_data['name']
-        victories = player_data['victories']
-        losses = player_data['losses']
-        draws = player_data['draws']
-        stats = Stats(victories, losses, draws)
-        current_base_id = self.__player_dao.get_current_id()
-        new_player = Player(current_base_id,player_name, stats)
-        if new_player not in self.__player_dao.get_all():
-            self.__player_dao.add(new_player)
-            self.__player_view.display_message(f'New player create succesfully! ID:{new_player.id}')
-            input()
-        else:
-            self.__player_view.display_message('Player already in the database! Process failed!')
-            input()
+        try:
+            if player_data == None:
+                raise CancelOperationException
+            player_name = player_data['name']
+            victories = player_data['victories']
+            losses = player_data['losses']
+            draws = player_data['draws']
+            stats = Stats(victories, losses, draws)
+            current_base_id = self.__player_dao.get_current_id()
+            new_player = Player(current_base_id,player_name, stats)
+            if new_player not in self.__player_dao.get_all():
+                self.__player_dao.add(new_player)
+                self.__player_view.display_message(f'New player create succesfully! ID:{new_player.id}')
+                return
+            else:
+                self.__player_view.display_message('Player already in the database! Process failed!')
+                return
+        except (CancelOperationException):
+            return
 
     def id_plus(self):
         self.__id +=1    
 
+    #Read player deixar para o view igual list players
+  
     def read_player(self):
         player_id = self.__player_view.get_by_id()
-        for player in self.__player_dao.get_all():
-            if player.id == player_id:
-                self.__player_view.clear_screen()
-                self.__player_view.display_message(f'ID: {player.id}')
-                self.__player_view.display_message(f'Name: {player.name}')
-                self.__player_view.display_message(f'victories: {player.stats.victories}')
-                self.__player_view.display_message(f'losses: {player.stats.losses}')
-                self.__player_view.display_message(f'draws: {player.stats.draws}')
-                self.__player_view.display_message('Press any key to return')
-                input()
-                return
-        self.__player_view.display_message('Player not found!')
-        self.__player_view.display_message('Press any key to return')
-        input()
+        try:
+            if player_id== None:
+                raise CancelOperationException
+            for player in self.__player_dao.get_all():
+                if player.id == player_id:
+                    message = f'ID: {player.id}\nName: {player.name}\nVictories: {player.stats.victories}\nLosses: {player.stats.losses}\nDraws: {player.stats.draws}'
+                    self.__player_view.display_message(message)
+                    return
+            self.__player_view.display_message('Player not found!')
+        except CancelOperationException:
+            return
     
     def update_player(self):
         player_id = self.__player_view.get_by_id()
-        player_list = []
-        for player in self.__player_dao.get_all():
-            player_list.append(player)
-        for player in player_list:
-            if player.id == player_id:
-                new_player_data = self.__player_view.get_player_info()
-                player.name = new_player_data["name"]
-                player.stats.victories = new_player_data["victories"]
-                player.stats.losses = new_player_data["losses"]
-                player.stats.draws = new_player_data["draws"]
-                self.__player_dao.update(player)
-                self.__player_view.display_message('Player updated!')
-                input()
-                return
-        self.__player_view.display_message('player not found!')
-        input()
+        try:
+            if player_id == None:
+                raise CancelOperationException
+            player_list = []
+            for player in self.__player_dao.get_all():
+                player_list.append(player)
+            for player in player_list:
+                if player.id == player_id:
+                    new_player_data = self.__player_view.get_player_info()
+                    if new_player_data == None:
+                        raise CancelOperationException
+                    player.name = new_player_data["name"]
+                    player.stats.victories = new_player_data["victories"]
+                    player.stats.losses = new_player_data["losses"]
+                    player.stats.draws = new_player_data["draws"]
+                    self.__player_dao.update(player)
+                    self.__player_view.display_message('Player updated!')
+                    return
+            self.__player_view.display_message('player not found!')
+            return
+        except CancelOperationException:
+            return
 
     def delete_player(self):
         player_id = self.__player_view.get_by_id()
-        for player in self.__player_dao.get_all():
-            if player.id == player_id:
-                self.__player_dao.remove(player.id)
-                self.__player_view.display_message('Player deleted succesfully!')
-                input()
-                return
-        self.__player_view.display_message('Player not found!')
-        self.__player_view.display_message('Press any key to return')
-        input()
+        try:
+            if player_id == None:
+                raise CancelOperationException
+            for player in self.__player_dao.get_all():
+                if player.id == player_id:
+                    self.__player_dao.remove(player.id)
+                    self.__player_view.display_message('Player deleted succesfully!')
+                    return
+            self.__player_view.display_message('Player not found!')
+            return
+        except CancelOperationException:
+            return
 
     def backtrack(self):
         self.__system_controller.admin_controller.display_screen()
 
     def display_screen(self):
-        option_list = {1: self.add_player, 
-        2: self.read_player, 
-        3: self.update_player, 
-        4: self.delete_player, 
-        5: self.list_players, 
-        6: self.backtrack}
+        try:
+            option_list = {0: self.backtrack,
+            1: self.add_player, 
+            2: self.read_player, 
+            3: self.update_player, 
+            4: self.delete_player, 
+            5: self.list_players, 
+            6: self.backtrack}
 
-        while True:
-            option = self.__player_view.display_options()
-            selected_function = option_list[option]
-            selected_function()
+            while True:
+                option = self.__player_view.display_options()
+                selected_function = option_list[option]
+                selected_function()
+        except(NoMenuSelected) as e:
+            self.__player_view.display_message(e)
+            self.display_screen()
 

@@ -8,7 +8,7 @@ class Stats():
         if not isinstance(victories, int):
             raise InvalidNativeTypeException(victories, "int")
         if not isinstance(losses, int):
-            raise InvalidNativeTypeException(losser, "int")
+            raise InvalidNativeTypeException(losses, "int")
         if not isinstance(draws, int):
             raise InvalidNativeTypeException(draws, "int")
         self.__losses = losses

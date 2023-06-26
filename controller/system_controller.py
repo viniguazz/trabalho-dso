@@ -1,11 +1,11 @@
 from view import SystemView
 from controller import AdminController, PlayerController, BetterController, GameController, BetController
-
+from exception import NoMenuSelected
 
 class SystemController:
 
     def __init__(self):
-        self.__system_view = SystemView
+        self.__system_view = SystemView()
         self.__admin_controller = AdminController(self)
         self.__player_controller = PlayerController(self)
         self.__better_controller = BetterController(self)
@@ -39,7 +39,7 @@ class SystemController:
         self.__game_controller.list_games()
 
     def place_bet(self):
-        self.__bet_controller.display_place_bet()
+        self.__bet_controller.add_bet()
 
     def better_status(self):
         self.__better_controller.display_balance_and_bets()
@@ -51,13 +51,18 @@ class SystemController:
         exit(0)
 
     def display_screen(self):
-        option_list = {1: self.list_games, 
-        2: self.place_bet, 
-        3: self.better_status, 
-        4: self.admin_menu, 
-        5: self.kill_system}
+        try:
+            option_list = {0: self.kill_system,
+            1: self.list_games, 
+            2: self.place_bet, 
+            3: self.better_status, 
+            4: self.admin_menu, 
+            5: self.kill_system}
 
-        while True:
-            option = self.__system_view.display_options()
-            selected_function = option_list[option]
-            selected_function()
+            while True:
+                option = self.__system_view.display_options()
+                selected_function = option_list[option]
+                selected_function()
+        except(NoMenuSelected) as e:
+            self.__system_view.display_message(e)
+            self.display_screen()

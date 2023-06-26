@@ -1,160 +1,148 @@
-import os
+import PySimpleGUI as sg
+from view import AbstractView
+from exception import CancelOperationException, NoMenuSelected, EmptyInputException
 
+class BetView(AbstractView):
+    def __init__(self):
+        self.__window = None
+        self.init_components()
 
-class BetView():
+    def close(self):
+        self.__window.Close()
 
-    def display_message(self, message):
-        print(message)
+    def open(self):
+        button, values = self.__window.Read()
+        return button, values
 
-    def clear_screen(self):
-        os.system('cls')
-
-    def display_add_bet(self):
-        self.clear_screen()
-        print("============ TIME TO LOSE MONEY! ============")
-        print()
-        print("1) Place bet")
-        print("2) Return")
-        while True:
-            try :
-                option = int(input('>>>'))
-                if option in (1,2):
-                    return option
-                else: 
-                    print("Let's Try again, shall we?")
-            except:
-                print("Please insert a number!")
-
-    def display_stats(self):
-        print("============ STATS ============")
-        print("1) Check bets and Funds")
-        print("2) Return")
-        while True:
-            try :
-                option = int(input('>>>'))
-                if option in (1,2):
-                    return option
-                else: 
-                    print("Let's Try again, shall we?")
-            except:
-                print("Please insert a number!")
+    def display_options(self):
+        self.init_components()
+        button, values = self.__window.Read()
+        opcao = 0
+        if values['1'] and button in ('Confirmar', None):
+            opcao = 1
+        elif values['2'] and button in ('Confirmar', None):
+            opcao = 2
+        elif values['3'] and button in ('Confirmar', None):
+            opcao = 3
+        elif values['4'] and button in ('Confirmar', None):
+            opcao = 4
+        elif values['5'] and button in (None, 'Cancelar'):
+            opcao = 5
+        elif button in ('Confirmar', None):
+             raise NoMenuSelected
+        self.close()
+        return opcao
     
     def get_bet_info(self):
-        os.system('cls')
-        print()
-        print('Inform the bet data:')
-        game_id = int(input('Game ID:'))
-        price = float(input('Price: '))
-        result = self.get_result_info()
-        better_id = int(input('Better Id: '))
-        odd = int(input('Odds: '))
-        return {'game_id': game_id, 'price': price, 'result': result, 'better_id': better_id, 'odd' : odd}
+        layout = [
+            [sg.Text('Inform the BET data:')],
+            [sg.Text('Game ID:'), sg.InputText('', key = 'game_id')],
+            [sg.Text('Price:'), sg.InputText('', key = 'price')],
+            [sg.Text('Outcome:')],
+            [sg.Radio('Victory', "RD2", key = '1')],
+            [sg.Radio('Draw', "RD2", key = '2')],
+            [sg.Radio('Player1',"RD1", key = '3')],
+            [sg.Radio('Player2', "RD1", key = '4')],
+            [sg.Text('Better ID:'), sg.InputText('', key='betterid')],
+            [sg.Text('Odds:'), sg.InputText('', key='odd')],
+            [sg.Button('Confirmar') , sg.Cancel('Cancelar')]
+        ]
+        self.__window = sg.Window('getbetinfo').Layout(layout)
 
-    
-    def get_better(self):
-        os.system('cls')
-        print()
-        better_id = int(input('Inform the better\'s ID:'))
-        return better_id
-    
-
-
-    def display_better_data(self, better):
-        os.system('cls')
-        print()
-        print('Bets')
-        print()
-        for bet in better["bets"]:
-            print(f'| Price: {bet["price"]}   | Game: {bet["game"]}  | result: {bet["result"]}       ')
-        print()
-        print('Balance:')
-        print()
-        print(better['wallet'])
-        print()
-        input('Press any key to ')
-
-    
-    def get_by_id(self):
-        while True:
-            try:
-                print('Inform the ID:')
-                id = int(input(">>>"))
-                return id
-            except:
-                print("Please insert a number!")
-    
-    def get_game_info(self):
-        os.system('cls')
-        print()
-        print('Inform the game data:')
-        name = input('Name:')
-        player1_id = int(input('Player 1\'s ID:'))
-        player2_id = int(input('Player 2\'s ID:'))
-        return {'name': name, 'player1_id': player1_id, 'player2_id': player2_id}
-    
-    def get_result_info(self):
-        self.clear_screen()
-        print()
-        print('Inform the Result data:')
-        outcome = self.get_outcome()
-        if outcome == 'Draw':
-            player = None
-            return {'outcome' : outcome, 'player' : player}
-        player = self.get_player()
-        return {'outcome' : outcome, 'player' : player}
-
-
-    def get_outcome(self):
-        self.clear_screen()
-        print ("1) Draw")
-        print ("2) Victory")
-        outcome = int(input())
-
-        while outcome not in (1,2):
-            self.clear_screen()
-            print("Follow the instructions!")
-            print ("1) Draw")
-            print ("2) Victory")
-            outcome = int(input())
-
-        if outcome == 1:
-            return 'Draw'
-        else:
-            return 'Victory'
-    
-    def get_player(self):
-        self.clear_screen()
-        print ("1) Player1")
-        print ("2) Player2")
-        player = int(input())
-
-        while player not in (1,2):
-            self.clear_screen()
-            print("Follow the instructions!")
-            print ("1) Player1")
-            print ("2) Player2")
-            player = int(input())
-
-        if player == 1:
-            return 'player1'
-        else:
-            return 'player2'
+        try:
+            button, values = self.open()
+            
+            if button in (None, 'Cancelar'):
+                raise CancelOperationException
+            if any in values is None:
+                raise EmptyInputException
+            game_id = int(values['game_id'])
+            price = float(values['price'])
+            if values['2']:
+                result = {'outcome' : 'Draw', 'player' : None}
+            else:
+                if values['3']:
+                    player = 'Player1'
+                if values['4']:
+                    player = 'Player2'
+                result = {'outcome' : 'Victory', 'player' : player}
+            better_id = int(values['betterid'])
+            odd = int(values['odd'])
+            self.close()
+            return {'game_id': game_id, 'price': price, 'result': result, 'better_id': better_id, 'odd' : odd}
+        except (CancelOperationException) as e:
+            self.display_message(e)
+            self.close()
+            return None
+        except (EmptyInputException) as e:
+            self.display_message(e)
+            self.close()
+            return self.get_bet_info()
+        except:
+            self.close()
+            self.display_message("Please insert valid types")
+            return self.get_bet_info()
         
-    def display_options(self):
-        os.system('cls')
-        print("============ CRD BET ============")
-        print('1) CREATE')
-        print('2) READ')
-        print('3) DELETE')
-        print('4) LIST')
-        print('5) Return')
-    
-        while True:
-            try:
-                option = int(input('>>> '))
-                if option in (1,2,3,4,5):
-                    return option
-                else: 
-                    print("Let's Try again, shall we?")
-            except:
-                print("Please insert a number!")
+
+
+    def get_by_id(self):
+        layout = [
+            [sg.Text('Inform the ID:')],
+            [sg.Text('ID:'), sg.InputText('', key ='id')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.__window = sg.Window('getbyid').Layout(layout)
+        try:
+            button, values = self.open()
+        
+            if button in (None, 'Cancelar'):
+                raise CancelOperationException
+            if any in values is None:
+                raise EmptyInputException
+            id = values['id']
+            self.close()
+            return int(id)
+        except (CancelOperationException) as e:
+            self.display_message(e)
+            self.close()
+            return None
+        except (EmptyInputException) as e:
+            self.display_message(e)
+            self.close()
+            return self.get_by_id()
+        except:
+            self.close()
+            self.display_message("Please insert valid types")
+            return self.get_by_id()
+
+    def list_bets(self, bets):
+        string_bets = ""
+        for bet in bets:
+            if bet.result.outcome == 'Draw':
+                string_bets = string_bets + "Bet Id: " + str(bet.id) +'\n'
+                string_bets = string_bets + "Better Name: " + str(bet.better.name) +'\n'
+                string_bets = string_bets + "Price: " + str(bet.price) +'\n'
+                string_bets = string_bets + "Game: " + str(bet.game.name) +'\n'
+                string_bets = string_bets + "Result: " + str(bet.result.outcome) +'\n'
+                string_bets = string_bets + "Odd: " + str(bet.odd) +'\n'
+            else:
+                string_bets = string_bets + "Bet Id: " + str(bet.id) +'\n'
+                string_bets = string_bets + "Better Name: " + str(bet.better.name) +'\n'
+                string_bets = string_bets + "Price: " + str(bet.price) +'\n'
+                string_bets = string_bets + "Game: " + str(bet.game.name) +'\n'
+                string_bets = string_bets + "Result: " + str(bet.result.outcome) +'\n'
+                string_bets = string_bets + "Player " + str(bet.result.player) + '\n'
+                string_bets = string_bets + "Odd: " + str(bet.odd) +'\n'
+        sg.popup('============ LIST BET ============', string_bets)
+
+    def init_components(self):
+        layout = [
+            [sg.Text('"============ CRUD BET ============')],
+            [sg.Radio('Create', "RD1", key = '1')],
+            [sg.Radio('Read', "RD1", key='2')],
+            [sg.Radio('Delete', "RD1", key = '3')],
+            [sg.Radio('List', "RD1", key='4')],
+            [sg.Radio('Return', "RD1", key = '5')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancel')]
+        ]
+        self.__window = sg.Window('playerview').Layout(layout)
