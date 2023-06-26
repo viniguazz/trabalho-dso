@@ -26,7 +26,7 @@ class BetView(AbstractView):
             opcao = 3
         elif values['4'] and button in ('Confirmar', None):
             opcao = 4
-        elif values['5'] and button in (None, 'Cancelar'):
+        elif values['5'] or button in (None, 'Cancelar'):
             opcao = 5
         elif button in ('Confirmar', None):
              raise NoMenuSelected

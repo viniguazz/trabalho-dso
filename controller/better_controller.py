@@ -52,7 +52,7 @@ class BetterController():
                 raise CancelOperationException
             for better in self.__better_dao.get_all():
                 if better.id == better_id:
-                    message = f'ID: {better.id}\nName: {better.name}\nNick: {better.nick}\nCPF: {better.cpf}\nFunds: {better.cpf}\n'
+                    message = f'ID: {better.id}\nName: {better.name}\nNick: {better.nick}\nCPF: {better.cpf}\nFunds: {better.wallet}\n'
                     self.__better_view.display_message(message)
                     return
             self.__better_view.display_message('better not found!')
@@ -74,6 +74,7 @@ class BetterController():
                     better.cpf = new_data_better["cpf"]
                     better.wallet = new_data_better["wallet"]
                     self.__better_dao.update(better)
+                    return
             self.__better_view.display_message('better not found!')
         except(CancelOperationException):
             return

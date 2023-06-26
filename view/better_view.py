@@ -118,7 +118,6 @@ class BetterView(AbstractView):
     def list_better(self, betters):
         string_betters = ""
         for better in betters:
-
             string_betters = string_betters + "Id" + str(better.id) +'\n'
             string_betters = string_betters + "Name: " + str(better.name) +'\n'
             string_betters = string_betters + "Nick: " + str(better.nick) +'\n'
