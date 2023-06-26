@@ -30,28 +30,27 @@ class AdminView(AbstractView):
         layout =[[sg.Text('Please insert the master PASSWORD:'), sg.InputText('', key = 'password')],
                  [sg.Button('Confirmar'), sg.Cancel('Cancelar')]]
         self.__window = sg.Window('getlogin').Layout(layout)
-
         try:
-            if button in (None, 'Cancelar'):
-                raise CancelOperationException
-            if any in values is None:
-                raise EmptyInputException
             button,values = self.open()
+            if button == (None, 'Cancelar'):
+                raise CancelOperationException
+            if values['password'] == None:
+                raise EmptyInputException
             self.close()
+            if values['password'] != 'rickastley':
+                self.display_message('Wrong password! PRO TIP: He\'ll never give you up...')
             return values['password']
-        except (CancelOperationException) as e:
-            self.display_message(e)
+        except CancelOperationException:
             self.close()
-            return None
-        except (EmptyInputException) as e:
-            self.display_message(e)
+            return
+        except EmptyInputException:
             self.close()
             return self.login()
         except:
             self.close()
-            self.display_message("Please insert valid types")
             return self.login()
-    
+
+        
     def init_components(self):
         layout = [
             [sg.Text('============ ADMIN OPTIONS ============')],

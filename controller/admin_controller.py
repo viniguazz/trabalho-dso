@@ -35,7 +35,6 @@ class AdminController():
                 self.__god_mode_enabled = True
                 self.__admin_view.display_message('GOD MODE ENABLED!')
             else:
-                self.__admin_view.display_message('Wrong password! PRO TIP: He\'ll never give you up...')
                 self.__admin_view.close()
                 self.backtrack()
         
