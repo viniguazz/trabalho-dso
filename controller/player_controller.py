@@ -55,8 +55,7 @@ class PlayerController():
     def id_plus(self):
         self.__id +=1    
 
-    #Read player deixar para o view igual list players
-  
+ 
     def read_player(self):
         player_id = self.__player_view.get_by_id()
         try:

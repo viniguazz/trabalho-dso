@@ -9,7 +9,7 @@ class AdminController():
         self.__system_controller = system_controller
         self.__admin_view = AdminView()
         self.__password = 'rickastley'
-        self.__god_mode_enabled = True
+        self.__god_mode_enabled = False
     
     def crud_players(self):
         self.__system_controller.player_controller.display_screen()

@@ -1,6 +1,6 @@
 from view.abstract_view import AbstractView
 import PySimpleGUI as sg
-from exception import NoMenuSelected
+from exception import NoMenuSelected, CancelOperationException, EmptyInputException
 
 class AdminView(AbstractView):
     def __init__(self):
@@ -31,9 +31,26 @@ class AdminView(AbstractView):
                  [sg.Button('Confirmar'), sg.Cancel('Cancelar')]]
         self.__window = sg.Window('getlogin').Layout(layout)
 
-        button,values = self.open()
-        self.close()
-        return values['password']
+        try:
+            if button in (None, 'Cancelar'):
+                raise CancelOperationException
+            if any in values is None:
+                raise EmptyInputException
+            button,values = self.open()
+            self.close()
+            return values['password']
+        except (CancelOperationException) as e:
+            self.display_message(e)
+            self.close()
+            return None
+        except (EmptyInputException) as e:
+            self.display_message(e)
+            self.close()
+            return self.login()
+        except:
+            self.close()
+            self.display_message("Please insert valid types")
+            return self.login()
     
     def init_components(self):
         layout = [
